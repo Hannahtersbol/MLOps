@@ -1,4 +1,5 @@
 import torch
+import typer
 from data import load_data
 from model import Model
 
@@ -11,7 +12,7 @@ def evaluate(model_checkpoint: str) -> None:
     print(model_checkpoint)
 
     model = Model().to(DEVICE)
-    model.load_state_dict(torch.load(model_checkpoint, weights_only=True))
+    model.load_state_dict(torch.load("models/"+model_checkpoint+".pth", weights_only=True))
 
     _, test_set = load_data()
     test_dataloader = torch.utils.data.DataLoader(test_set, batch_size=32)
@@ -26,4 +27,4 @@ def evaluate(model_checkpoint: str) -> None:
     print(f"Test accuracy: {correct / total}")
     
 if __name__ == "__main__":
-    evaluate("models/model.pth")
+    typer.run(evaluate)

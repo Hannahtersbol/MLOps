@@ -7,11 +7,11 @@ from omegaconf import OmegaConf
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
-def train(configName) -> None:
+def train(config_name: str) -> None:
     """Train a model on MNIST."""
     print("Training day and night")
     
-    config = OmegaConf.load('configs/' + configName + '.yaml')
+    config = OmegaConf.load(f"configs/{config_name}.yaml")
     lr = config.hyperparameters.learning_rate
     batch_size = config.hyperparameters.batch_size 
     epochs = config.hyperparameters.epochs
@@ -43,7 +43,7 @@ def train(configName) -> None:
                 print(f"Epoch {epoch}, iter {i}, loss: {loss.item()}")
 
     print("Training complete")
-    torch.save(model.state_dict(), "models/model.pth")
+    torch.save(model.state_dict(), f"models/M_{config_name}.pth")
     print("Model saved")
     # fig, axs = plt.subplots(1, 2, figsize=(15, 5))
     # axs[0].plot(statistics["train_loss"])
@@ -53,4 +53,4 @@ def train(configName) -> None:
     # fig.savefig("reports/figures/training_statistics.png")
 
 if __name__ == "__main__":
-    train("Exp1")
+    typer.run(train)
