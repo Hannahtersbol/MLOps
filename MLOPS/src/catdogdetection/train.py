@@ -25,7 +25,9 @@ def train(configName) -> None:
 
     model = Model().to(DEVICE)
     train_set, _ = load_data()
-    train_dataloader = torch.utils.data.DataLoader(train_set, batch_size=batch_size)
+    train_dataloader = torch.utils.data.DataLoader(
+        train_set, batch_size=batch_size, num_workers=4, pin_memory=True
+    )
 
     loss_fn = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
@@ -36,22 +38,42 @@ def train(configName) -> None:
     with TorchProfiler(log_dir="./log", use_cuda=torch.cuda.is_available()):
         for epoch in range(epochs):
             model.train()
+
+            epoch_loss = 0.0
+            correct_predictions = 0
+            total_samples = 0
+
             for i, (img, target) in enumerate(train_dataloader):
-                img, target = img.to(DEVICE).float(), target.to(DEVICE)  # Convert to float
+                img, target = img.to(DEVICE).float(), target.to(DEVICE)
+
                 optimizer.zero_grad()
                 y_pred = model(img)
+
                 loss = loss_fn(y_pred, target)
                 loss.backward()
                 optimizer.step()
-                statistics["train_loss"].append(loss.item())
 
-                accuracy = (y_pred.argmax(dim=1) == target).float().mean().item()
-                statistics["train_accuracy"].append(accuracy)
+                # Accumulate loss and accuracy in tensors
+                epoch_loss += loss.item() * img.size(0)
+                with torch.no_grad():
+                    correct_predictions += (y_pred.argmax(dim=1) == target).sum().item()
+                total_samples += img.size(0)
 
+                # Log less frequently
                 if i % 100 == 0:
-                    print(f"Epoch {epoch}, iter {i}, loss: {loss.item()}")
+                    print(f"Epoch {epoch}, iter {i}, batch loss: {loss.item():.4f}")
+
+            # Compute average metrics for the epoch
+            average_loss = epoch_loss / total_samples
+            accuracy = correct_predictions / total_samples
+
+            statistics["train_loss"].append(average_loss)
+            statistics["train_accuracy"].append(accuracy)
+
+            print(f"Epoch {epoch} complete. Loss: {average_loss:.4f}, Accuracy: {accuracy:.4f}")
 
     print("Training complete")
+
     # Save the model to the models directory
     MODEL_DIR = os.path.join(os.path.dirname(__file__), "../../models")
     os.makedirs(MODEL_DIR, exist_ok=True)
