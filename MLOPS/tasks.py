@@ -23,7 +23,6 @@ def requirements(ctx: Context) -> None:
     ctx.run("pip install -r requirements.txt", echo=True, pty=not WINDOWS)
     ctx.run("pip install -e .", echo=True, pty=not WINDOWS)
 
-
 @task(requirements)
 def dev_requirements(ctx: Context) -> None:
     """Install development requirements."""
@@ -31,14 +30,14 @@ def dev_requirements(ctx: Context) -> None:
 
 # Project commands
 @task
-def preprocess_data(ctx: Context) -> None:
+def preprocess_data(ctx: Context, s: int = 1000) -> None:
     """Preprocess data."""
-    ctx.run(f"python src/{PROJECT_NAME}/data.py data/raw data/processed", echo=True, pty=not WINDOWS)
+    ctx.run(f"python src/{PROJECT_NAME}/data.py {s}", echo=True, pty=not WINDOWS)
 
 @task
-def train(ctx: Context, x: str = "Exp1") -> None:
+def train(ctx: Context, config_name: str = "Exp1") -> None:
     """Train model."""
-    ctx.run(f"python src/{PROJECT_NAME}/train.py {x}", echo=True, pty=not WINDOWS)
+    ctx.run(f"python src/{PROJECT_NAME}/train.py --config-name={config_name}", echo=True, pty=not WINDOWS)
 
 @task
 def evaluate(ctx: Context, m: str = "model") -> None:
@@ -70,7 +69,6 @@ def docker_build(ctx: Context, progress: str = "plain") -> None:
 def build_docs(ctx: Context) -> None:
     """Build documentation."""
     ctx.run("mkdocs build --config-file docs/mkdocs.yaml --site-dir build", echo=True, pty=not WINDOWS)
-
 
 @task(dev_requirements)
 def serve_docs(ctx: Context) -> None:

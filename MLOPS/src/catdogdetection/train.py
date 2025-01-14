@@ -1,17 +1,19 @@
 import torch
-import typer
 from model import Model
-#import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 from data import load_data
+import hydra
 from omegaconf import OmegaConf
+import os
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
-def train(config_name: str) -> None:
+@hydra.main(config_path="../../configs", version_base=None)
+def train(config) -> None:
     """Train a model on MNIST."""
     print("Training day and night")
     
-    config = OmegaConf.load(f"configs/{config_name}.yaml")
+    # config = OmegaConf.load(f"configs/{config_name}.yaml")
     lr = config.hyperparameters.learning_rate
     batch_size = config.hyperparameters.batch_size 
     epochs = config.hyperparameters.epochs
@@ -43,7 +45,7 @@ def train(config_name: str) -> None:
                 print(f"Epoch {epoch}, iter {i}, loss: {loss.item()}")
 
     print("Training complete")
-    torch.save(model.state_dict(), f"models/M_{config_name}.pth")
+    #torch.save(model.state_dict(), f"models/M_{config_name}.pth")
     print("Model saved")
     # fig, axs = plt.subplots(1, 2, figsize=(15, 5))
     # axs[0].plot(statistics["train_loss"])
@@ -53,4 +55,4 @@ def train(config_name: str) -> None:
     # fig.savefig("reports/figures/training_statistics.png")
 
 if __name__ == "__main__":
-    typer.run(train)
+    train()
