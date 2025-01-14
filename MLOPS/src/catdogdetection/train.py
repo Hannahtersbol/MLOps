@@ -4,6 +4,7 @@ from model import Model
 #import matplotlib.pyplot as plt
 from data import load_data
 from omegaconf import OmegaConf
+from profiling import TorchProfiler
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
@@ -29,12 +30,16 @@ def train() -> None:
     for epoch in range(epochs):
         model.train()
         for i, (img, target) in enumerate(train_dataloader):
-            img, target = img.to(DEVICE), target.to(DEVICE)
-            optimizer.zero_grad()
-            y_pred = model(img)
-            loss = loss_fn(y_pred, target)
-            loss.backward()
-            optimizer.step()
+
+            with TorchProfiler() as profiler:
+                img, target = img.to(DEVICE), target.to(DEVICE)
+                optimizer.zero_grad()
+                y_pred = model(img)
+                loss = loss_fn(y_pred, target)
+                loss.backward()
+                optimizer.step()
+
+            
             statistics["train_loss"].append(loss.item())
 
             accuracy = (y_pred.argmax(dim=1) == target).float().mean().item()
