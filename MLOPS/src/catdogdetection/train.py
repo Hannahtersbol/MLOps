@@ -7,12 +7,11 @@ from omegaconf import OmegaConf
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
-def train() -> None:
+def train(configName) -> None:
     """Train a model on MNIST."""
     print("Training day and night")
     
-   
-    config = OmegaConf.load('configs/configs.yaml')
+    config = OmegaConf.load('configs/' + configName + '.yaml')
     lr = config.hyperparameters.learning_rate
     batch_size = config.hyperparameters.batch_size 
     epochs = config.hyperparameters.epochs
@@ -29,7 +28,7 @@ def train() -> None:
     for epoch in range(epochs):
         model.train()
         for i, (img, target) in enumerate(train_dataloader):
-            img, target = img.to(DEVICE), target.to(DEVICE)
+            img, target = img.to(DEVICE).float(), target.to(DEVICE)  # Convert to float
             optimizer.zero_grad()
             y_pred = model(img)
             loss = loss_fn(y_pred, target)
@@ -45,6 +44,7 @@ def train() -> None:
 
     print("Training complete")
     torch.save(model.state_dict(), "models/model.pth")
+    print("Model saved")
     # fig, axs = plt.subplots(1, 2, figsize=(15, 5))
     # axs[0].plot(statistics["train_loss"])
     # axs[0].set_title("Train loss")
@@ -53,4 +53,4 @@ def train() -> None:
     # fig.savefig("reports/figures/training_statistics.png")
 
 if __name__ == "__main__":
-    train()
+    train("Exp1")
