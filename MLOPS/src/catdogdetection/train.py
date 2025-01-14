@@ -4,7 +4,6 @@ from model import Model
 #import matplotlib.pyplot as plt
 from data import load_data
 from omegaconf import OmegaConf
-from profiling import TorchProfiler
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
 
