@@ -1,11 +1,14 @@
+import os
 import torch
-import typer
 from model import Model
-#import matplotlib.pyplot as plt
 from data import load_data
 from omegaconf import OmegaConf
+from profiling import TorchProfiler
+import typer
 
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
+DEVICE = torch.device(
+    "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
+)
 
 def train(config_name: str) -> None:
     """Train a model on MNIST."""
@@ -13,44 +16,62 @@ def train(config_name: str) -> None:
     
     config = OmegaConf.load(f"configs/{config_name}.yaml")
     lr = config.hyperparameters.learning_rate
-    batch_size = config.hyperparameters.batch_size 
+    batch_size = config.hyperparameters.batch_size
     epochs = config.hyperparameters.epochs
     torch.manual_seed(config.hyperparameters.seed)
+
     model = Model().to(DEVICE)
     train_set, _ = load_data()
-    print(f"{lr=}, {batch_size=}, {epochs=}")
-    train_dataloader = torch.utils.data.DataLoader(train_set, batch_size=batch_size)
+    train_dataloader = torch.utils.data.DataLoader(
+        train_set, batch_size=batch_size, num_workers=4, pin_memory=True
+    )
 
     loss_fn = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
     statistics = {"train_loss": [], "train_accuracy": []}
-    for epoch in range(epochs):
-        model.train()
-        for i, (img, target) in enumerate(train_dataloader):
-            img, target = img.to(DEVICE).float(), target.to(DEVICE)  # Convert to float
-            optimizer.zero_grad()
-            y_pred = model(img)
-            loss = loss_fn(y_pred, target)
-            loss.backward()
-            optimizer.step()
-            statistics["train_loss"].append(loss.item())
 
-            accuracy = (y_pred.argmax(dim=1) == target).float().mean().item()
+    # Start the profiler
+    with TorchProfiler(log_dir="./log", use_cuda=torch.cuda.is_available()):
+        for epoch in range(epochs):
+            model.train()
+
+            epoch_loss = 0.0
+            correct_predictions = 0
+            total_samples = 0
+
+            for i, (img, target) in enumerate(train_dataloader):
+                img, target = img.to(DEVICE).float(), target.to(DEVICE)
+
+                optimizer.zero_grad()
+                y_pred = model(img)
+
+                loss = loss_fn(y_pred, target)
+                loss.backward()
+                optimizer.step()
+
+                # Accumulate loss and accuracy in tensors
+                epoch_loss += loss.item() * img.size(0)
+                with torch.no_grad():
+                    correct_predictions += (y_pred.argmax(dim=1) == target).sum().item()
+                total_samples += img.size(0)
+
+                # Log less frequently
+                if i % 100 == 0:
+                    print(f"Epoch {epoch}, iter {i}, batch loss: {loss.item():.4f}")
+
+            # Compute average metrics for the epoch
+            average_loss = epoch_loss / total_samples
+            accuracy = correct_predictions / total_samples
+
+            statistics["train_loss"].append(average_loss)
             statistics["train_accuracy"].append(accuracy)
 
-            if i % 100 == 0:
-                print(f"Epoch {epoch}, iter {i}, loss: {loss.item()}")
+            print(f"Epoch {epoch} complete. Loss: {average_loss:.4f}, Accuracy: {accuracy:.4f}")
 
     print("Training complete")
     torch.save(model.state_dict(), f"models/M_{config_name}.pth")
     print("Model saved")
-    # fig, axs = plt.subplots(1, 2, figsize=(15, 5))
-    # axs[0].plot(statistics["train_loss"])
-    # axs[0].set_title("Train loss")
-    # axs[1].plot(statistics["train_accuracy"])
-    # axs[1].set_title("Train accuracy")
-    # fig.savefig("reports/figures/training_statistics.png")
 
 if __name__ == "__main__":
     typer.run(train)

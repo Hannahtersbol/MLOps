@@ -1,2 +1,5 @@
+#ignore log folder
+log/
+
 #ignore log
 log/
