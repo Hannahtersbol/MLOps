@@ -36,9 +36,14 @@ def preprocess_data(ctx: Context) -> None:
     ctx.run(f"python src/{PROJECT_NAME}/data.py data/raw data/processed", echo=True, pty=not WINDOWS)
 
 @task
-def train(ctx: Context) -> None:
+def train(ctx: Context, x: str = "Exp1") -> None:
     """Train model."""
-    ctx.run(f"python src/{PROJECT_NAME}/train.py", echo=True, pty=not WINDOWS)
+    ctx.run(f"python src/{PROJECT_NAME}/train.py {x}", echo=True, pty=not WINDOWS)
+
+@task
+def evaluate(ctx: Context, m: str = "model") -> None:
+    """Train model."""
+    ctx.run(f"python src/{PROJECT_NAME}/evaluate.py {m}", echo=True, pty=not WINDOWS)
 
 @task
 def test(ctx: Context) -> None:
