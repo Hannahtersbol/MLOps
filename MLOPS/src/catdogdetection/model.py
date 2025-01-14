@@ -1,7 +1,7 @@
 import timm
 import torch
 from torch import nn
-import typing
+
 
 class Model(nn.Module):
     def __init__(self) -> None:
@@ -11,9 +11,11 @@ class Model(nn.Module):
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.model(x)
-    
+
+
 def count_parameters(model: nn.Module) -> int:
     return sum(p.numel() for p in model.parameters())
+
 
 if __name__ == "__main__":
     model = Model()

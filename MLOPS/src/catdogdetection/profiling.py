@@ -1,5 +1,6 @@
 import torch
 
+
 class TorchProfiler:
     def __init__(self, log_dir="./log", use_cuda=True):
         """
@@ -17,7 +18,7 @@ class TorchProfiler:
             activities=activities,
             on_trace_ready=torch.profiler.tensorboard_trace_handler(log_dir),
             record_shapes=True,
-            with_stack=True
+            with_stack=True,
         )
 
     def __enter__(self):

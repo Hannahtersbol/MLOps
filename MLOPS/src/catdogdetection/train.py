@@ -1,21 +1,18 @@
-import os
+import hydra
 import torch
 from model import Model
-from data import load_data
-import hydra
-from omegaconf import OmegaConf
 from profiling import TorchProfiler
-import typer
 
-DEVICE = torch.device(
-    "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
-)
+from data import load_data
+
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
+
 
 @hydra.main(config_path="../../configs", version_base=None)
 def train(config) -> None:
     """Train a model on MNIST."""
     print("Training day and night")
-    
+
     # config = OmegaConf.load(f"configs/{config_name}.yaml")
     lr = config.hyperparameters.learning_rate
     batch_size = config.hyperparameters.batch_size
@@ -24,9 +21,7 @@ def train(config) -> None:
 
     model = Model().to(DEVICE)
     train_set, _ = load_data()
-    train_dataloader = torch.utils.data.DataLoader(
-        train_set, batch_size=batch_size, num_workers=4, pin_memory=True
-    )
+    train_dataloader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, num_workers=4, pin_memory=True)
 
     loss_fn = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
@@ -72,8 +67,9 @@ def train(config) -> None:
             print(f"Epoch {epoch} complete. Loss: {average_loss:.4f}, Accuracy: {accuracy:.4f}")
 
     print("Training complete")
-    #torch.save(model.state_dict(), f"models/M_{config_name}.pth")
+    # torch.save(model.state_dict(), f"models/M_{config_name}.pth")
     print("Model saved")
+
 
 if __name__ == "__main__":
     train()

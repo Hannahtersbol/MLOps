@@ -6,6 +6,7 @@ WINDOWS = os.name == "nt"
 PROJECT_NAME = "catdogdetection"
 PYTHON_VERSION = "3.12"
 
+
 # Setup commands
 @task
 def create_environment(ctx: Context) -> None:
@@ -16,6 +17,7 @@ def create_environment(ctx: Context) -> None:
         pty=not WINDOWS,
     )
 
+
 @task
 def requirements(ctx: Context) -> None:
     """Install project requirements."""
@@ -23,10 +25,12 @@ def requirements(ctx: Context) -> None:
     ctx.run("pip install -r requirements.txt", echo=True, pty=not WINDOWS)
     ctx.run("pip install -e .", echo=True, pty=not WINDOWS)
 
+
 @task(requirements)
 def dev_requirements(ctx: Context) -> None:
     """Install development requirements."""
     ctx.run('pip install -e .["dev"]', echo=True, pty=not WINDOWS)
+
 
 # Project commands
 @task
@@ -34,15 +38,18 @@ def preprocess_data(ctx: Context, s: int = 1000) -> None:
     """Preprocess data."""
     ctx.run(f"python src/{PROJECT_NAME}/data.py {s}", echo=True, pty=not WINDOWS)
 
+
 @task
 def train(ctx: Context, config_name: str = "Exp1") -> None:
     """Train model."""
     ctx.run(f"python src/{PROJECT_NAME}/train.py --config-name={config_name}", echo=True, pty=not WINDOWS)
 
+
 @task
 def evaluate(ctx: Context, m: str = "model") -> None:
     """Train model."""
     ctx.run(f"python src/{PROJECT_NAME}/evaluate.py {m}", echo=True, pty=not WINDOWS)
+
 
 @task
 def test(ctx: Context) -> None:
@@ -50,13 +57,14 @@ def test(ctx: Context) -> None:
     ctx.run("coverage run -m pytest tests/", echo=True, pty=not WINDOWS)
     ctx.run("coverage report -m", echo=True, pty=not WINDOWS)
 
+
 @task
 def docker_build(ctx: Context, progress: str = "plain") -> None:
     """Build docker images."""
     ctx.run(
         f"docker build -t train:latest . -f dockerfiles/train.dockerfile --progress={progress}",
         echo=True,
-        pty=not WINDOWS
+        pty=not WINDOWS,
     )
     # ctx.run(
     #     f"docker build -t api:latest . -f dockerfiles/api.dockerfile --progress={progress}",
@@ -64,11 +72,13 @@ def docker_build(ctx: Context, progress: str = "plain") -> None:
     #     pty=not WINDOWS
     # )
 
+
 # Documentation commands
 @task(dev_requirements)
 def build_docs(ctx: Context) -> None:
     """Build documentation."""
     ctx.run("mkdocs build --config-file docs/mkdocs.yaml --site-dir build", echo=True, pty=not WINDOWS)
+
 
 @task(dev_requirements)
 def serve_docs(ctx: Context) -> None:
