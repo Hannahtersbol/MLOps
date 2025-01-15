@@ -10,10 +10,11 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.ba
 def evaluate(model_checkpoint: str) -> None:
     """Evaluate a trained model."""
     print("Evaluating like my life depended on it")
+    print(DEVICE)
     print(model_checkpoint)
 
     model = Model().to(DEVICE)
-    model.load_state_dict(torch.load("models/" + model_checkpoint + ".pth", weights_only=True))
+    model.load_state_dict(torch.load("models/" + model_checkpoint + ".pth", weights_only=True, map_location=DEVICE))
 
     _, test_set = load_data()
     test_dataloader = torch.utils.data.DataLoader(test_set, batch_size=32)
