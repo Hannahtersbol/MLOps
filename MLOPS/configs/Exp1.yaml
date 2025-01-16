@@ -1,4 +1,7 @@
 #config.yaml
+info:
+  name: Exp1
+
 hyperparameters:
   batch_size: 64
   learning_rate: 1e-4

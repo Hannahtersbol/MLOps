@@ -1,5 +1,11 @@
 docs/site/
 
+#gnore log folder
+log/
+
+#ignore outputs
+outputs/
+
 # test cache
 manual_test/
 
