@@ -10,7 +10,7 @@ from catdogdetection.model import Model, count_parameters
 
 
 #To run test run pytest src/catdogdetection/tests/test_model.py
-
+ 
 @pytest.fixture
 def model_instance():
     return Model()
