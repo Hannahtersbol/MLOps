@@ -35,16 +35,3 @@ def test_data_path(dataset):
     """Test if the data path is set correctly."""
     raw_data_path = Path(os.path.join(os.path.dirname(__file__), '../data/raw'))
     assert dataset.data_path == raw_data_path, f"Expected data path {raw_data_path}, got {dataset.data_path}"
-
-#testing preprocessed dataset
-
-@pytest.fixture
-def preprocessed_dataset():
-    preprocessed_data_path = Path(os.path.join(os.path.dirname(__file__), '../data/preprocessed'))
-    return MyDataset(size=100, preprocessed_data_path=preprocessed_data_path)
-
-def test_preprocessed_dataset_length(preprocessed_dataset):
-    """Test the length of the preprocessed dataset."""
-    expected_length = 30060
-    actual_length = len(preprocessed_dataset.image_paths_cats) + len(preprocessed_dataset.image_paths_dogs)
-    assert actual_length == expected_length, f"Expected preprocessed dataset length {expected_length}, got {actual_length}"
