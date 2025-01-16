@@ -4,9 +4,6 @@ import torch
 from pathlib import Path
 from src.catdogdetection.data import MyDataset
 
-
-
-
 @pytest.fixture
 
 #testing image dataset
@@ -18,7 +15,7 @@ def dataset():
 def test_dataset_length(dataset):
     """Test the length of the dataset."""
     expected_length = 30060
-    actual_length = len(dataset.image_paths_cats) + len(dataset.image_paths_dogs)
+    actual_length = MyDataset.__len__(dataset)
     assert actual_length == expected_length, f"Expected dataset length {expected_length}, got {actual_length}"
 
 def test_transform_exists(dataset):

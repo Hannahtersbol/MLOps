@@ -23,7 +23,7 @@ class MyDataset:
 
     def __len__(self) -> int:
         """Return the length of the dataset."""
-        return len(self.image_paths)
+        return self.size
 
     def getcat(self, index: int):
         """Return a given sample from the dataset."""
