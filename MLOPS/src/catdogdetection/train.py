@@ -69,7 +69,7 @@ def train(config) -> None:
             print(f"Epoch {epoch} complete. Loss: {average_loss:.4f}, Accuracy: {accuracy:.4f}")
 
     print("Training complete")
-    torch.save(model.state_dict(), f"models/M_{config}.pth")
+    torch.save(model.state_dict(), f"models/M_{config.info.name}.pth")
     print("Model saved")
 
 
