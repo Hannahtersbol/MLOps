@@ -2,7 +2,7 @@ import pytest
 import os
 import torch
 from pathlib import Path
-from catdogdetection.data import MyDataset
+from data.raw import MyDataset
 
 @pytest.fixture
 
