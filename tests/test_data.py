@@ -2,14 +2,18 @@ import pytest
 import os
 import torch
 from pathlib import Path
-from data.raw import MyDataset
+from src.catdogdetection.data import MyDataset
+
+
+
 
 @pytest.fixture
 
 #testing image dataset
 def dataset():
-    raw_data_path = Path(os.path.join(os.path.dirname(__file__), '../data/raw'))
-    return MyDataset(size=100, raw_data_path=raw_data_path)
+    # Load the dataset from my dataset
+    return MyDataset(30060, Path(os.path.join(os.path.dirname(__file__), '../data/raw')))
+                     
 
 def test_dataset_length(dataset):
     """Test the length of the dataset."""
