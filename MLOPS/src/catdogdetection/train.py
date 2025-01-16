@@ -2,6 +2,8 @@ import hydra
 import torch
 from model import Model
 from profiling import TorchProfiler
+
+
 from data import load_data
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
@@ -18,11 +20,13 @@ def train(config) -> None:
     batch_size = config.hyperparameters.batch_size
     epochs = config.hyperparameters.epochs
     torch.manual_seed(config.hyperparameters.seed)
-
+    print("after torch.manual")
     model = Model().to(DEVICE)
+    print("after model.todevice")
     train_set, _ = load_data()
+    print("after load data")
     train_dataloader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, num_workers=4, pin_memory=True)
-
+    print("after datalost")
     loss_fn = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
