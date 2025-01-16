@@ -2,6 +2,8 @@ import hydra
 import torch
 from model import Model
 from profiling import TorchProfiler
+
+
 from data import load_data
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
@@ -67,7 +69,7 @@ def train(config) -> None:
             print(f"Epoch {epoch} complete. Loss: {average_loss:.4f}, Accuracy: {accuracy:.4f}")
 
     print("Training complete")
-    torch.save(model.state_dict(), f"models/M_{config.info.name}.pth")
+    torch.save(model.state_dict(), f"models/M_{config}.pth")
     print("Model saved")
 
 
