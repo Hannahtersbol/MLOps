@@ -1,27 +1,22 @@
 import pytest
-import torch
-import sys
 import os
-
-# Add the src directory to the Python path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../data')))
-
-import cats
-import dogs
+import torch
+from pathlib import Path
+from src.catdogdetection.data import MyDataset
 
 @pytest.fixture
-def dataset():
-    raw_data_path = Path("/path/to/your/data")
-    return MyDataset(size=100, raw_data_path=raw_data_path)
 
-def test_my_dataset_instance(dataset):
-    """Test if MyDataset is an instance of torch.utils.data.Dataset."""
-    assert isinstance(dataset, Dataset), "MyDataset should be an instance of torch.utils.data.Dataset"
+#testing image dataset
+def dataset():
+    # Load the dataset from my dataset
+    return MyDataset(30060, Path(os.path.join(os.path.dirname(__file__), '../data/raw')))
+                     
 
 def test_dataset_length(dataset):
     """Test the length of the dataset."""
-    expected_length = 100
-    assert len(dataset) == expected_length, f"Expected dataset length {expected_length}, got {len(dataset)}"
+    expected_length = 30060
+    actual_length = MyDataset.__len__(dataset)
+    assert actual_length == expected_length, f"Expected dataset length {expected_length}, got {actual_length}"
 
 def test_transform_exists(dataset):
     """Test if the transform attribute is set."""
@@ -39,5 +34,5 @@ def test_getdog_shape(dataset):
 
 def test_data_path(dataset):
     """Test if the data path is set correctly."""
-    raw_data_path = Path("/path/to/your/data")
+    raw_data_path = Path(os.path.join(os.path.dirname(__file__), '../data/raw'))
     assert dataset.data_path == raw_data_path, f"Expected data path {raw_data_path}, got {dataset.data_path}"
