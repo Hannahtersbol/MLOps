@@ -10,7 +10,7 @@ COPY requirements.txt requirements.txt
 COPY requirements_dev.txt requirements_dev.txt
 COPY README.md README.md
 COPY pyproject.toml pyproject.toml
-COPY data/processed data/processed/
+COPY data/processed data/processed
 COPY configs configs/
 
 RUN mkdir models
