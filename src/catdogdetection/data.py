@@ -1,3 +1,4 @@
+import random
 from pathlib import Path
 
 import torch
@@ -12,7 +13,6 @@ class MyDataset:
         self.size = size
         self.image_paths_cats = list(raw_data_path.glob("cats/*.jpg"))
         self.image_paths_dogs = list(raw_data_path.glob("dogs/*.jpg"))
-        # print(f"Found {self.num_images} images in {raw_data_path}")
         self.transform = transforms.Compose(
             [
                 transforms.Resize((150, 150)),
@@ -20,6 +20,7 @@ class MyDataset:
                 transforms.Normalize(mean=[0.5], std=[0.5]),  # Adjusted for single channel
             ]
         )
+        self.getImagesAndTargets()
 
     def __len__(self) -> int:
         """Return the length of the dataset."""
@@ -37,42 +38,37 @@ class MyDataset:
         image = Image.open(image_path).convert("L")
         return self.transform(image)
 
-    def preprocess(self, output_folder: Path) -> None:
-        """Preprocess the raw data and save all images with labels to a single .pt file."""
-        # output_folder.mkdir(parents=True, exist_ok=True)
-        all_images = []
-        all_labels = []
-        test_images = []
-        test_labels = []
-        for idx, image_path in enumerate(self.image_paths_cats):
+    def getImagesAndTargets(self):
+        dataset = []
+        for idx, _ in enumerate(self.image_paths_cats):
             image = self.getcat(idx)
             image = (image * 255).byte()  # Convert to uint8
+            dataset.append((image, 0))
             if idx >= self.size / 2:
-                test_images.append(image)
-                test_labels.append(0)
-            else:
-                all_images.append(image)
-                all_labels.append(0)  # Label for cats
-
-            if idx >= self.size:
                 break
-        for idx, image_path in enumerate(self.image_paths_dogs):
+        for idx, _ in enumerate(self.image_paths_dogs):
             image = self.getdog(idx)
             image = (image * 255).byte()  # Convert to uint8
+            dataset.append((image, 1))
             if idx >= self.size / 2:
-                test_images.append(image)
-                test_labels.append(1)
-            else:
-                all_images.append(image)
-                all_labels.append(1)  # Label for dogs
-
-            if idx >= self.size:
                 break
-        all_images_tensor = torch.stack(all_images)
-        all_labels_tensor = torch.tensor(all_labels)
+
+        random.shuffle(dataset)
+        self.images, self.targets = zip(*dataset)
+
+    def preprocess(self, output_folder: Path) -> None:
+        """Preprocess the raw data and save all images with labels to a single .pt file."""
+
+        train_images = self.images[: self.size // 2]
+        train_targets = self.targets[: self.size // 2]
+        test_images = self.images[self.size // 2 :]
+        test_targets = self.targets[self.size // 2 :]
+
+        all_images_tensor = torch.stack(train_images)
+        all_labels_tensor = torch.tensor(train_targets)
 
         test_images_tensor = torch.stack(test_images)
-        test_labels_tensor = torch.tensor(test_labels)
+        test_labels_tensor = torch.tensor(test_targets)
 
         torch.save(all_images_tensor, output_folder / "train_images.pt")
         torch.save(all_labels_tensor, output_folder / "train_target.pt")
