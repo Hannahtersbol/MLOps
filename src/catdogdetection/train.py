@@ -71,7 +71,7 @@ def train(config) -> None:
 
     print("Training complete")
     torch.save(model.state_dict(), f"models/M_{config.info.name}.pth")
-    print("Model saved")
+    print("Model saved as M_{config.info.name}.pth")
 
 
 if __name__ == "__main__":
