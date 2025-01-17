@@ -24,7 +24,7 @@ def evaluate(model_checkpoint: str) -> None:
     for img, target in test_dataloader:
         img, target = img.to(DEVICE), target.to(DEVICE)
         y_pred = model(img)
-        
+
         correct += (y_pred.argmax(dim=1) == target).float().sum().item()
         total += target.size(0)
     print(model)

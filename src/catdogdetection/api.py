@@ -1,24 +1,27 @@
+import asyncio
+import subprocess
+
 from fastapi import FastAPI
 from invoke import Context
-from tasks import preprocess_data 
-import subprocess
-import asyncio 
+
+from tasks import preprocess_data
 
 app = FastAPI()
 
+
 @app.get("/")
 def example():
-    return{"Hello : " "World"}
+    return {"Hello : " "World"}
+
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int):
     return {"item_id": item_id}
 
+
 @app.get("/getaccuracy")
 def get_accuracy():
-    return{}
-
-
+    return {}
 
 
 @app.get("/preprocess")
@@ -34,8 +37,6 @@ async def preprocess_data_endpoint(s: int = 1000):
         return {"status": "success", "message": f"Data preprocessing started with parameter s={s}"}
     except Exception as e:
         return {"status": "error", "message": str(e)}
-    
-
 
 
 @app.get("/train")
@@ -50,9 +51,9 @@ def train_model(config_name: str = "Exp1"):
             ["invoke", "train", f"--config-name={config_name}"],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            text=True
+            text=True,
         )
-        
+
         # Check if the command succeeded
         if result.returncode == 0:
             return {"status": "success", "output": result.stdout}

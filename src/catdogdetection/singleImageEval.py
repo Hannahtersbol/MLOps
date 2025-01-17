@@ -1,20 +1,22 @@
 import timm
 import torch
-from torch import nn
-from PIL import Image
-from torchvision import transforms
 import typer
 from model import Model
-from io import BytesIO
+from PIL import Image
+from torch import nn
+from torchvision import transforms
+
 
 def preprocess_image(image_path: str) -> torch.Tensor:
     """Preprocess the input image to match the model's requirements."""
-    transform = transforms.Compose([
-        transforms.Resize((28, 28)),  # Resize the image to the size expected by the model
-        transforms.Grayscale(num_output_channels=1),  # Ensure the image has a single channel
-        transforms.ToTensor(),         # Convert the image to a tensor
-        transforms.Normalize(mean=[0.5], std=[0.5])  # Normalize for a single-channel image
-    ])
+    transform = transforms.Compose(
+        [
+            transforms.Resize((28, 28)),  # Resize the image to the size expected by the model
+            transforms.Grayscale(num_output_channels=1),  # Ensure the image has a single channel
+            transforms.ToTensor(),  # Convert the image to a tensor
+            transforms.Normalize(mean=[0.5], std=[0.5]),  # Normalize for a single-channel image
+        ]
+    )
 
     image = Image.open(image_path).convert("L")
     return transform(image).unsqueeze(0)  # Add batch dimension
@@ -30,7 +32,7 @@ def evaluate_single_image(model_checkpoint: str, image_path: str) -> None:
 
     # Load the model
     model = Model().to(DEVICE)
-    model.load_state_dict(torch.load("models/" + model_checkpoint + ".pth", map_location=DEVICE,weights_only=True))
+    model.load_state_dict(torch.load("models/" + model_checkpoint + ".pth", map_location=DEVICE, weights_only=True))
 
     # Preprocess the input image
     image = preprocess_image(image_path).to(DEVICE)
@@ -47,6 +49,7 @@ def evaluate_single_image(model_checkpoint: str, image_path: str) -> None:
 
     print(f"The image is classified as: {result}")
     return result
+
 
 if __name__ == "__main__":
     typer.run(evaluate_single_image)
