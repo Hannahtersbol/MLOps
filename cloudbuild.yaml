@@ -7,7 +7,7 @@ steps:
     'build',
     '.',
     '-t',
-    'europe-west1-docker.pkg.dev/catdogdetection-447911/traning-registry/train-image:tag1',
+    'europe-west1-docker.pkg.dev/catdogdetection-447911/training-registry/train-image:tag1',
     '-f',
     'dockerfiles/train.dockerfile'
   ]
@@ -15,7 +15,7 @@ steps:
   id: 'Push container image'
   args: [
     'push',
-    'europe-west1-docker.pkg.dev/catdogdetection-447911/traning-registry/train-image:tag1'
+    'europe-west1-docker.pkg.dev/catdogdetection-447911/training-registry/train-image:tag1'
   ]
 options:
   logging: CLOUD_LOGGING_ONLY
