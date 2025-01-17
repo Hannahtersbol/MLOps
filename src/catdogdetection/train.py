@@ -3,7 +3,6 @@ import torch
 from model import Model
 from profiling import TorchProfiler
 
-
 from data import load_data
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
@@ -15,7 +14,7 @@ def train(config) -> None:
     print("Training day and night")
     print(config)
 
-    #config = OmegaConf.load(f"configs/{config_name}.yaml")
+    # config = OmegaConf.load(f"configs/{config_name}.yaml")
     lr = config.hyperparameters.learning_rate
     batch_size = config.hyperparameters.batch_size
     epochs = config.hyperparameters.epochs
