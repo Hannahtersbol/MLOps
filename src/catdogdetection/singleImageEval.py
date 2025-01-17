@@ -55,22 +55,21 @@ if __name__ == "__main__":
     typer.run(evaluate_single_image)
 
 
-
-
-
-
 def preprocess_image_from_bytes(image_bytes: bytes) -> torch.Tensor:
     """Preprocess the input image from raw bytes to match the model's requirements."""
-    transform = transforms.Compose([
-        transforms.Resize((28, 28)),  # Resize the image to the size expected by the model
-        transforms.Grayscale(num_output_channels=1),  # Ensure the image has a single channel
-        transforms.ToTensor(),         # Convert the image to a tensor
-        transforms.Normalize(mean=[0.5], std=[0.5])  # Normalize for a single-channel image
-    ])
+    transform = transforms.Compose(
+        [
+            transforms.Resize((28, 28)),  # Resize the image to the size expected by the model
+            transforms.Grayscale(num_output_channels=1),  # Ensure the image has a single channel
+            transforms.ToTensor(),  # Convert the image to a tensor
+            transforms.Normalize(mean=[0.5], std=[0.5]),  # Normalize for a single-channel image
+        ]
+    )
 
     # Open the image from bytes
     image = Image.open(BytesIO(image_bytes)).convert("L")
     return transform(image).unsqueeze(0)  # Add batch dimension
+
 
 def evaluate_single_image_from_bytes(model_checkpoint: str, image_bytes: bytes) -> str:
     """Evaluate a single image (provided as bytes) using the trained model."""
