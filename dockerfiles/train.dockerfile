@@ -10,10 +10,12 @@ COPY requirements.txt requirements.txt
 COPY requirements_dev.txt requirements_dev.txt
 COPY README.md README.md
 COPY pyproject.toml pyproject.toml
-COPY data/processed data/processed
 COPY configs configs/
 
 RUN mkdir models
+RUN mkdir data
+RUN mkdir data/raw
+RUN mkdir data/processed
 RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt
 RUN pip install . --no-deps --no-cache-dir --verbose
 
