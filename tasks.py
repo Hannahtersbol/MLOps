@@ -71,12 +71,13 @@ def docker_build(ctx: Context, progress: str = "plain") -> None:
     #     echo=True,
     #     pty=not WINDOWS
     # )
-    
+
+
 @task
 def docker_build_in_cloud(ctx: Context, b: str) -> None:
     """Build docker image in the vloud."""
     ctx.run(f"gcloud builds submit --config={b}" + ".yaml" + " .", echo=True, pty=not WINDOWS)
-    
+
 
 # Documentation commands
 @task(dev_requirements)
