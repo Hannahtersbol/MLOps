@@ -22,4 +22,6 @@ RUN pip install . --no-deps --no-cache-dir --verbose
 # Expose port 8080
 EXPOSE 8080
 
-ENTRYPOINT ["uvicorn", "src.catdogdetection.api:app", "--host", "0.0.0.0", "--port", "8080"]
+ENV PORT 8080
+
+CMD ["uvicorn", "src.catdogdetection.api:app", "--host", "0.0.0.0", "--port", "8080"]
