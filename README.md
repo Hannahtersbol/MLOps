@@ -43,7 +43,9 @@ The directory structure of the project looks like this:
 │   │   ├── api.py
 │   │   ├── data.py
 │   │   ├── evaluate.py
-│   │   ├── models.py
+│   │   ├── model.py
+│   │   ├── profiling.py
+│   │   ├── singleImageEval.py
 │   │   ├── train.py
 │   │   └── visualize.py
 └── tests/                    # Tests
