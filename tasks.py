@@ -90,7 +90,7 @@ def build_docs(ctx: Context) -> None:
 def serve_docs(ctx: Context) -> None:
     """Serve documentation."""
     ctx.run("mkdocs serve --config-file docs/mkdocs.yaml", echo=True, pty=not WINDOWS)
-    
+
 
 @task
 def count_files(ctx: Context, dir_path: str) -> None:
@@ -99,4 +99,4 @@ def count_files(ctx: Context, dir_path: str) -> None:
         num_files = len([f for f in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, f))])
         print(f"The directory '{dir_path}' contains {num_files} files.")
     except Exception as e:
-        print(f"An error occurred: {e}")   
+        print(f"An error occurred: {e}")
