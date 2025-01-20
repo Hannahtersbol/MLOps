@@ -20,7 +20,7 @@ RUN mkdir data/processed
 RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt
 RUN pip install . --no-deps --no-cache-dir --verbose
 
-
+RUN pip install fastapi uvicorn
 # Expose port 8080
 EXPOSE 8080
 
