@@ -13,7 +13,7 @@ class MyDataset:
         self.size = size
         self.image_paths_cats = list(raw_data_path.glob("cats/*.jpg"))
         self.image_paths_dogs = list(raw_data_path.glob("dogs/*.jpg"))
-        
+
         self.transform = transforms.Compose(
             [
                 transforms.Resize((150, 150)),
