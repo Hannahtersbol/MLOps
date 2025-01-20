@@ -1,5 +1,7 @@
-from google.cloud import storage
 import os
+
+from google.cloud import storage
+
 
 def list_files_in_bucket(bucket_name, prefix):
     """List all files in a bucket with a given prefix."""
@@ -7,6 +9,7 @@ def list_files_in_bucket(bucket_name, prefix):
     bucket = client.bucket(bucket_name)
     blobs = bucket.list_blobs(prefix=prefix)
     return [blob.name for blob in blobs]
+
 
 def download_file(bucket_name, blob_name, local_path):
     """Download a single file from a bucket."""
@@ -18,11 +21,13 @@ def download_file(bucket_name, blob_name, local_path):
     blob.download_to_filename(local_file)
     print(f"Downloaded {blob_name} to {local_file}")
 
+
 def download_files_with_prefix(bucket_name, prefix, local_path):
     """Download all files from a bucket with a given prefix to a local directory."""
     files = list_files_in_bucket(bucket_name, prefix)
     for file in files:
         download_file(bucket_name, file, local_path)
+
 
 if __name__ == "__main__":
     bucket_name = "catdog-data"
