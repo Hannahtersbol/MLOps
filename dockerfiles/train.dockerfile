@@ -19,8 +19,7 @@ RUN mkdir data/raw
 RUN mkdir data/processed
 RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt
 RUN pip install . --no-deps --no-cache-dir --verbose
-RUN invoke dev-requirements
-RUN invoke requirements
+
 
 # Expose port 8080
 EXPOSE 8080
