@@ -6,6 +6,7 @@ import torch
 
 from src.catdogdetection.data import MyDataset
 
+
 @pytest.fixture
 def dataset():
     try:
@@ -45,4 +46,6 @@ def test_getdog_shape(dataset):
 def test_data_path(dataset):
     """Test if the data path is set correctly."""
     raw_data_path = Path(os.path.join(os.path.dirname(__file__), "../data/raw")).resolve()
-    assert dataset.data_path.resolve() == raw_data_path, f"Expected data path {raw_data_path}, got {dataset.data_path.resolve()}"
+    assert (
+        dataset.data_path.resolve() == raw_data_path
+    ), f"Expected data path {raw_data_path}, got {dataset.data_path.resolve()}"
