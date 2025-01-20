@@ -118,7 +118,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 1 fill here ---
+Group 9
 
 ### Question 2
 > **Enter the study number for each member in the group**
@@ -129,7 +129,7 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 2 fill here ---
+s224758,
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -143,7 +143,11 @@ will check the repositories and the code to verify your answers.
 >
 > Answer:
 
---- question 3 fill here ---
+We used the framework called 'Timm: Pytorch Image Models'. Timm is a collection of models, both pretrained and not, that are suited for image classification.
+Therefore it fit well with our project about cat/dog classification. We used their "resnet-18" model that was recommended for this type of task.
+We just had to add an extra layer at the of the model as a new output layer, as we only wanted 2 output nodes: Cat/Dog. This model also enabled you to use
+a variable amount of input channels. As we had decided to use a greyscale 150x150 image-dataset, it was very handy for us that we could reduce the models
+expected input channels from 3 to 1.
 
 ## Coding environment
 
