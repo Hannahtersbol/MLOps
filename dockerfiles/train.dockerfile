@@ -22,9 +22,6 @@ RUN pip install . --no-deps --no-cache-dir --verbose
 
 RUN pip install fastapi uvicorn
 
-# Pull data using DVC
-RUN pip install dvc && dvc pull
-
 # Expose port 8080
 EXPOSE 8080
 
