@@ -6,6 +6,7 @@ import torch
 
 from src.catdogdetection.data import MyDataset
 
+
 @pytest.fixture
 def dataset():
     """Fixture to create a MyDataset instance for testing."""
