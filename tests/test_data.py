@@ -8,27 +8,31 @@ from src.catdogdetection.data import MyDataset
 
 
 @pytest.fixture
-
-# testing image dataset
 def dataset():
-    # Load the dataset from my dataset
-    return MyDataset(30060, Path(os.path.join(os.path.dirname(__file__), "../data/raw")))
+    # Point to data/test instead of data/raw
+    test_data_path = Path(os.path.dirname(__file__), "../data/test").resolve()
+    # Since you only have 2 total images (1 cat + 1 dog), set size=2
+    return MyDataset(2, test_data_path)
 
 
 def test_dataset_length(dataset):
-    """Test the length of the dataset."""
-    expected_length = 30060
+    # Half of 'size=2' means 1 cat and 1 dog
+    max_per_class = dataset.size // 2
+    expected_cats = min(len(dataset.image_paths_cats), max_per_class)
+    expected_dogs = min(len(dataset.image_paths_dogs), max_per_class)
+    expected_length = expected_cats + expected_dogs
+
     actual_length = len(dataset)
     assert actual_length == expected_length, f"Expected dataset length {expected_length}, got {actual_length}"
 
 
 def test_transform_exists(dataset):
-    """Test if the transform attribute is set."""
+    """Test that the dataset has a transform defined."""
     assert dataset.transform is not None, "Transform should not be None"
 
 
 def test_getcat_shape(dataset):
-    """Test the shape of the transformed cat image."""
+    """Test shape of the first cat image after transformation."""
     if not dataset.image_paths_cats:
         pytest.skip("No cat images available for testing.")
     cat_image = dataset.getcat(0)
@@ -36,7 +40,7 @@ def test_getcat_shape(dataset):
 
 
 def test_getdog_shape(dataset):
-    """Test the shape of the transformed dog image."""
+    """Test shape of the first dog image after transformation."""
     if not dataset.image_paths_dogs:
         pytest.skip("No dog images available for testing.")
     dog_image = dataset.getdog(0)
@@ -44,8 +48,8 @@ def test_getdog_shape(dataset):
 
 
 def test_data_path(dataset):
-    """Test if the data path is set correctly."""
-    raw_data_path = Path(os.path.join(os.path.dirname(__file__), "../data/raw")).resolve()
+    """Test that the dataset is reading from the correct folder."""
+    raw_data_path = Path(os.path.dirname(__file__), "../data/test").resolve()
     assert (
         dataset.data_path.resolve() == raw_data_path
     ), f"Expected data path {raw_data_path}, got {dataset.data_path.resolve()}"

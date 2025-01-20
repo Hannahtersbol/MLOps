@@ -33,3 +33,4 @@ select = ["I"]
 
 [tool.coverage.run]
 omit = ["tests/*"]
+source = ["src"]
