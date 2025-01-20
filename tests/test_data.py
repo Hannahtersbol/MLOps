@@ -34,6 +34,7 @@ def test_getcat_shape(dataset):
     cat_image = dataset.getcat(0)
     assert cat_image.shape == (1, 150, 150), f"Expected cat image shape (1, 150, 150), got {cat_image.shape}"
 
+
 def test_getdog_shape(dataset):
     """Test the shape of the transformed dog image."""
     if not dataset.image_paths_dogs:
@@ -45,4 +46,6 @@ def test_getdog_shape(dataset):
 def test_data_path(dataset):
     """Test if the data path is set correctly."""
     raw_data_path = Path(os.path.join(os.path.dirname(__file__), "../data/raw")).resolve()
-    assert dataset.data_path.resolve() == raw_data_path, f"Expected data path {raw_data_path}, got {dataset.data_path.resolve()}"
+    assert (
+        dataset.data_path.resolve() == raw_data_path
+    ), f"Expected data path {raw_data_path}, got {dataset.data_path.resolve()}"
