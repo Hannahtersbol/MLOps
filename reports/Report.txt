@@ -183,7 +183,11 @@ expected input channels from 3 to 1.
 >
 > Answer:
 
---- question 5 fill here ---
+We have used the cookiecutter template but we removed the docs and notebook folder as we didn't use them.
+In our data folder we split it up in a cat and dog folder as our dataset didn't come with explicit labels.
+So instead we used the path of the folder, from which the picture came, to create the labels for them.
+We added an outputs folder that contains the logs from hydra, so we could log each experiment we did,
+so even if we changed an experiment-config-file, we would still have the old experiments stored.
 
 ### Question 6
 
@@ -198,7 +202,12 @@ expected input channels from 3 to 1.
 >
 > Answer:
 
---- question 6 fill here ---
+To keep our code clean and readable, we used Ruff for linting and formatting. This tool is great for teamwork because it makes sure all our code looks the same, which helps us understand each other's work more easily.
+
+We also added type annotations to some of our Python methods. This helps us catch mistakes early,
+especially when using multiple frameworks. By keeping our code consistent,
+we make it more reliable and easier to maintain. This approach also makes debugging simpler,
+as it’s easier to spot and fix issues. Overall, these practices improve our development process and enhance code quality.
 
 ## Version control
 
