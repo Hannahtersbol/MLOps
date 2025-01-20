@@ -9,19 +9,14 @@ from src.catdogdetection.data import MyDataset
 
 @pytest.fixture
 def dataset():
-    """Fixture to create a MyDataset instance for testing."""
-    # Build an absolute path to ../data/raw relative to the current test file
-    raw_data_path = Path(os.path.dirname(__file__), "../data/raw").resolve()
-
-    # Create and return your dataset. If any error occurs, Pytest will show you the traceback.
-    return MyDataset(30032, raw_data_path)
-
+    # Point to data/test instead of data/raw
+    test_data_path = Path(os.path.dirname(__file__), "../data/test").resolve()
+    # Since you only have 2 total images (1 cat + 1 dog), set size=2
+    return MyDataset(2, test_data_path)
 
 def test_dataset_length(dataset):
-    """Test that the dataset length follows the half-cats, half-dogs logic."""
-    # Each folder is capped at size//2
+    # Half of 'size=2' means 1 cat and 1 dog
     max_per_class = dataset.size // 2
-    
     expected_cats = min(len(dataset.image_paths_cats), max_per_class)
     expected_dogs = min(len(dataset.image_paths_dogs), max_per_class)
     expected_length = expected_cats + expected_dogs
@@ -30,7 +25,6 @@ def test_dataset_length(dataset):
     assert actual_length == expected_length, (
         f"Expected dataset length {expected_length}, got {actual_length}"
     )
-
 
 def test_transform_exists(dataset):
     """Test that the dataset has a transform defined."""
@@ -57,6 +51,6 @@ def test_getdog_shape(dataset):
 
 def test_data_path(dataset):
     """Test that the dataset is reading from the correct folder."""
-    raw_data_path = Path(os.path.dirname(__file__), "../data/raw").resolve()
+    raw_data_path = Path(os.path.dirname(__file__), "../data/test").resolve()
     assert dataset.data_path.resolve() == raw_data_path, \
         f"Expected data path {raw_data_path}, got {dataset.data_path.resolve()}"
