@@ -1,9 +1,9 @@
 import asyncio
-import os
 import subprocess
 from io import BytesIO
+import os
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
 from invoke import Context
 
@@ -30,7 +30,7 @@ def read_item(item_id: int):
 
 @app.get("/getaccuracy/{model_checkpoint}")
 def get_accuracy(model_checkpoint: str):
-    result = evaluate(model_checkpoint=model_checkpoint)
+    result = evaluate(model_checkpoint=model_checkpoint)  # Make sure 'evaluate' is a callable or value
     return {"message": f"Accuracy on model is {result}"}
 
 
@@ -75,7 +75,7 @@ def train_model(config_name: str = "Exp1"):
 
 # Define the endpoint
 @app.post("/evaluate-image/")
-async def evaluate_image(model_checkpoint: str = Form(...), file: UploadFile = File(...)):
+async def evaluate_image(model_checkpoint: str, file: UploadFile):
     """
     API endpoint to evaluate an image.
     - model_checkpoint: The model checkpoint file to load.
