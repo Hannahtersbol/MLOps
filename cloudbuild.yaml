@@ -32,5 +32,38 @@ steps:
     '--ingress=all',
     '--allow-unauthenticated'
   ]
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Build eval container image'
+  env:
+    - 'DOCKER_BUILDKIT=1'
+  args: [
+    'build',
+    '.',
+    '-t',
+    'europe-west1-docker.pkg.dev/catdogdetection-447911/training-registry/eval-image:tag1',
+    '-f',
+    'dockerfiles/eval.dockerfile'
+  ]
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Push eval container image'
+  args: [
+    'push',
+    'europe-west1-docker.pkg.dev/catdogdetection-447911/training-registry/eval-image:tag1'
+  ]
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: 'Deploy eval to Cloud Run'
+  args: [
+    'run',
+    'deploy',
+    'eval-image',
+    '--image',
+    'europe-west1-docker.pkg.dev/catdogdetection-447911/training-registry/eval-image:tag1',
+    '--region',
+    'europe-west1',
+    '--platform',
+    'managed',
+    '--ingress=all',
+    '--allow-unauthenticated'
+  ]
 options:
   logging: CLOUD_LOGGING_ONLY
