@@ -29,9 +29,9 @@ ENV DOGS_PATH="data/raw/dogs"
 ENV MODEL_BUCKET="catdog-models"
 ENV MODEL_PATH="models"
 
+RUN python3 src/catdogdetection/download_bucket.py $MODEL_BUCKET $MODEL_PATH $MODEL_PATH
 RUN python3 src/catdogdetection/download_bucket.py $DATA_BUCKET $CATS_PATH $CATS_PATH
 RUN python3 src/catdogdetection/download_bucket.py $DATA_BUCKET $DOGS_PATH $DOGS_PATH
-RUN python3 src/catdogdetection/download_bucket.py $MODEL_BUCKET $MODEL_PATH $MODEL_PATH
 RUN python3 src/catdogdetection/data.py 1000
 
 # Expose port 8080
