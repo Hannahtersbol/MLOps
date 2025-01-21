@@ -241,7 +241,9 @@ as it’s easier to spot and fix issues. Overall, these practices improve our de
 >
 > Answer:
 
---- question 8 fill here ---
+Our total coverage is 19% which is quite low. The reason for attaining a 100% coverage is not to prove that there are no bugs in
+the code. Having a high coverage just increases the the detection rate of bugs. Even with 100% coverage it doesn't mean that there are no bugs, since 100% just means that all lines of code are tested, but two different tests could be run on the same code where one might let something pass and the other test would catch the error. If we have a function: f(a)=a+a and two tests: f(a)=2 and f(a)=2*a, both
+tests work when a=1 but only the second one works in all other cases. Therefore code coverage isn't proof of 100% correctness.
 
 ### Question 9
 
@@ -256,7 +258,7 @@ as it’s easier to spot and fix issues. Overall, these practices improve our de
 >
 > Answer:
 
---- question 9 fill here ---
+In the beginning we didn't use a lot of branches. This was deliberate as all of us were unsure of the project setup. Instead we started with mob-programming, where 1 person is coding while the rest are directing them on what to write. When we had the main functionality of the framework, models and data sorted, we up our work. We used seperate branches when we were working on features that affected already established functionality. This relates mainly to our python code, as many members could be working on that simultainiously. Features like github actions could still be worked on the main branch as only 1 person was assigned to those features.
 
 ### Question 10
 
@@ -307,7 +309,24 @@ We did set up dvc, but did not end up using it too much. It wasn't feasible to h
 >
 > Answer:
 
---- question 12 fill here ---
+We used hydra combined with config.yaml files. To run an experiment we would write:
+invoke train -x Exp1
+invoke evaluate -m M_Exp1
+This would train a model based on the hyperparameters located in configs/Exp1.yaml
+and then evaluate the outputted model found at models/M_Exp1.pth
+Example of config file:
+#config.yaml
+info:
+  name: Exp1
+
+hyperparameters:
+  batch_size: 64
+  learning_rate: 1e-4
+  epochs: 10
+  seed: 42
+
+After the experiment, hydra would then log the experiment, including the hyperparameters, in log/
+So even if we changed a config file, we would still be able to look at old configurations.
 
 ### Question 13
 
@@ -322,7 +341,11 @@ We did set up dvc, but did not end up using it too much. It wasn't feasible to h
 >
 > Answer:
 
---- question 13 fill here ---
+So as stated previously, hydra was used to keep track of every experiment done. We made sure that our randomization seed was also
+a hyperparameter, so that generated random numbers would be the same if you tried to reproduce an experiment. The next problem is that
+two different machines can get two different results. To remedy this we use docker to isolate the dependencies and containerize them.
+With docker we ensure that everything is identical when our experiments if we use the the same docker images. This is crucial to be
+able to analyze real world models and detect their weaknesses, which needs to happen before you can fix and improve them.
 
 ### Question 14
 
