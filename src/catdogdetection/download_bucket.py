@@ -1,7 +1,7 @@
 import os
 
-from google.cloud import storage
 import typer
+from google.cloud import storage
 
 
 def list_files_in_bucket(bucket_name, prefix):
@@ -31,4 +31,6 @@ def download_files_with_prefix(bucket_name, prefix, local_path):
 
 
 if __name__ == "__main__":
-    typer.run(lambda bucket_name, cloud_path, local_path: download_files_with_prefix(bucket_name, cloud_path, local_path))
+    typer.run(
+        lambda bucket_name, cloud_path, local_path: download_files_with_prefix(bucket_name, cloud_path, local_path)
+    )

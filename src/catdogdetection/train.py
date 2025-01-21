@@ -1,11 +1,12 @@
+import time
+from datetime import datetime
+
 import hydra
+import requests
 import torch
+from google.cloud import storage
 from model import Model
 from profiling import TorchProfiler
-from datetime import datetime
-from google.cloud import storage
-import requests
-import time
 
 from data import load_data
 
@@ -82,8 +83,11 @@ def train(config) -> None:
 
     config_filename = f"outputs/{now}/.hydra/config.yaml"
     config_destination = f"{now}/config{now.split('/')[0]}.yaml"
-    upload_to_gcs(bucket_name="catdog-models", source_file_name=config_filename, destination_blob_name=config_destination)
+    upload_to_gcs(
+        bucket_name="catdog-models", source_file_name=config_filename, destination_blob_name=config_destination
+    )
     print(f"Config file uploaded as {config_destination}")
+
 
 def upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
     """Uploads a file to the bucket."""
@@ -98,13 +102,12 @@ def upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
             blob.upload_from_filename(source_file_name)
             print(f"File {source_file_name} uploaded to {destination_blob_name}.")
             break
-        except (requests.exceptions.ConnectionError) as e:
+        except requests.exceptions.ConnectionError as e:
             retries += 1
             print(f"Upload failed: {e}. Retrying {retries}/{max_retries}...")
-            time.sleep(2 ** retries)  # Exponential backoff
+            time.sleep(2**retries)  # Exponential backoff
     else:
         print(f"Failed to upload {source_file_name} after {max_retries} attempts.")
-
 
 
 if __name__ == "__main__":
