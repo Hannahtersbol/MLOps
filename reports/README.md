@@ -129,7 +129,7 @@ Group 9
 >
 > Answer:
 
-s224758, s224775
+s224758, s224775, s224773
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -273,7 +273,7 @@ In the beginning we didn't use a lot of branches. This was deliberate as all of 
 >
 > Answer:
 
---- question 10 fill here ---
+We did set up dvc, but did not end up using it too much. It wasn't feasable to have all the data in our git reposetory and push/pull it evry time, so we set up dvc to push to a remote brnch, which is a publc storage bucket hosted on gcloud storage. In this way it helped us to move vast amounts of data around, but we did not use the version control aspects of it, because we did not change the data or do any cleanup. Data version control becomes very important when you change data, like removing wrong training data or in other ways manipulating it. Without version control it becomes imposible to reproduce the models that were based on previous data.
 
 ### Question 11
 

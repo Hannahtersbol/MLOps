@@ -22,14 +22,15 @@ steps:
   args: [
     'run',
     'deploy',
-    'train-image2',
+    'train-image',
     '--image',
     'europe-west1-docker.pkg.dev/catdogdetection-447911/training-registry/train-image:tag1',
     '--region',
     'europe-west1',
     '--platform',
     'managed',
-    '--allow-unauthenticated',
+    '--ingress=all',
+    '--allow-unauthenticated'
   ]
 options:
   logging: CLOUD_LOGGING_ONLY
