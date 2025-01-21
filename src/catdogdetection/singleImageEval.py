@@ -1,10 +1,11 @@
 import timm
 import torch
 import typer
-from src.catdogdetection.model import Model
 from PIL import Image
 from torch import nn
 from torchvision import transforms
+
+from src.catdogdetection.model import Model
 
 
 def preprocess_image(image_path: str) -> torch.Tensor:

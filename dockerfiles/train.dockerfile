@@ -27,4 +27,4 @@ EXPOSE 8080
 
 ENV PORT 8080
 
-CMD ["sh", "-c", "uvicorn src.catdogdetection.api:app --host 0.0.0.0 --port $PORT"]
+CMD ["sh", "-c", "uvicorn src.catdogdetection.api:app --host 0.0.0.0 --port 8080"]

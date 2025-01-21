@@ -1,7 +1,13 @@
 import asyncio
 import subprocess
+from io import BytesIO
+
+from fastapi import FastAPI, HTTPException, UploadFile
+from fastapi.responses import JSONResponse
 from invoke import Context
 
+from src.catdogdetection.evaluate import evaluate
+from src.catdogdetection.singleImageEval import evaluate_single_image_from_bytes
 from tasks import preprocess_data
 
 from src.catdogdetection.singleImageEval import evaluate_single_image_from_bytes
@@ -16,7 +22,7 @@ app = FastAPI()
 
 @app.get("/")
 def example():
-    return {"Hello": "World \n"}
+    return {"Hello": "World 1"}
 
 
 @app.get("/items/{item_id}")
@@ -69,7 +75,6 @@ def train_model(config_name: str = "Exp1"):
         return {"status": "error", "message": str(e)}
 
 
-
 # Define the endpoint
 @app.post("/evaluate-image/")
 async def evaluate_image(
@@ -84,13 +89,13 @@ async def evaluate_image(
     try:
         # Read the uploaded image file bytes
         image_bytes = await file.read()
-        
+
         # Call the evaluation function
         result = evaluate_single_image_from_bytes(model_checkpoint, image_bytes)
-        
+
         # Return the classification result
         return JSONResponse(content={"classification": result})
-    
+
     except Exception as e:
         # Handle any errors and return a meaningful error message
         raise HTTPException(status_code=500, detail=str(e))
