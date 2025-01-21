@@ -16,8 +16,7 @@ app = FastAPI()
 
 @app.get("/")
 def example():
-    s = Context().run("invoke count-files data/raw/cats")
-    return {"Hello": "World \n" + s.stdout}
+    return {"Hello": "World \n"}
 
 
 @app.get("/items/{item_id}")

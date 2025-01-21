@@ -17,5 +17,20 @@ steps:
     'push',
     'europe-west1-docker.pkg.dev/catdogdetection-447911/training-registry/train-image:tag1'
   ]
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: 'Deploy to Cloud Run'
+  args: [
+    'run',
+    'deploy',
+    'train-image2',
+    '--image',
+    'europe-west1-docker.pkg.dev/catdogdetection-447911/training-registry/train-image:tag1',
+    '--region',
+    'europe-west1',
+    '--platform',
+    'managed',
+    '--ingress=all',
+    '--allow-unauthenticated'
+  ]
 options:
   logging: CLOUD_LOGGING_ONLY
