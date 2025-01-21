@@ -1,10 +1,15 @@
 import asyncio
 import subprocess
-
-from fastapi import FastAPI
 from invoke import Context
 
 from tasks import preprocess_data
+
+from src.catdogdetection.singleImageEval import evaluate_single_image_from_bytes
+from src.catdogdetection.evaluate import evaluate
+from io import BytesIO
+from fastapi import FastAPI, UploadFile,HTTPException
+from invoke import Context
+from fastapi.responses import JSONResponse
 
 app = FastAPI()
 
@@ -20,9 +25,10 @@ def read_item(item_id: int):
     return {"item_id": item_id}
 
 
-@app.get("/getaccuracy")
-def get_accuracy():
-    return {}
+@app.get("/getaccuracy/{model_checkpoint}")
+def get_accuracy(model_checkpoint: str):
+    result = evaluate(model_checkpoint=model_checkpoint)  # Make sure 'evaluate' is a callable or value
+    return {"message": f"Accuracy on model is {result}"}
 
 
 @app.get("/preprocess")
@@ -62,3 +68,27 @@ def train_model(config_name: str = "Exp1"):
             return {"status": "error", "output": result.stderr}
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
+
+
+# Define the endpoint
+@app.post("/evaluate-image/")
+async def evaluate_image(model_checkpoint: str, file: UploadFile):
+    """
+    API endpoint to evaluate an image.
+    - model_checkpoint: The model checkpoint file to load.
+    - file: The uploaded image file.
+    """
+    try:
+        # Read the uploaded image file bytes
+        image_bytes = await file.read()
+        
+        # Call the evaluation function
+        result = evaluate_single_image_from_bytes(model_checkpoint, image_bytes)
+        
+        # Return the classification result
+        return JSONResponse(content={"classification": result})
+    
+    except Exception as e:
+        # Handle any errors and return a meaningful error message
+        raise HTTPException(status_code=500, detail=str(e))
