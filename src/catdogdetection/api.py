@@ -11,7 +11,7 @@ app = FastAPI()
 
 @app.get("/")
 def example():
-    return {"Hello": "World4 \n"}
+    return {"Hello": "World \n"}
 
 
 @app.get("/items/{item_id}")
