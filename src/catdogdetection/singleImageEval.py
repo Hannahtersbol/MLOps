@@ -23,28 +23,28 @@ def preprocess_image(image_path: str) -> torch.Tensor:
 
 
 def evaluate_single_image(model_checkpoint: str, image_path: str) -> None:
-    """Evaluate a single image using the trained model."""
+    #evaluate a single image given a local image path
     DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     print("Evaluating single image")
     print(DEVICE)
     print(model_checkpoint)
 
-    # Load the model
+    # Load the model the same way as done in evaluate
     model = Model().to(DEVICE)
     model.load_state_dict(torch.load("models/" + model_checkpoint + ".pth", map_location=DEVICE, weights_only=True))
 
     # Preprocess the input image
     image = preprocess_image(image_path).to(DEVICE)
 
-    # Perform inference
+    # evaluate the picture using the model
     model.eval()
     with torch.no_grad():
         y_pred = model(image)
-        prediction = y_pred.argmax(dim=1).item()  # Get the predicted class index
+        prediction = y_pred.argmax(dim=1).item()  
 
-    # Map the prediction to the class label
-    class_labels = {0: "cat", 1: "dog"}  # Adjust as per your dataset's class mapping
+    #see if it is a cat or a dog 
+    class_labels = {0: "cat", 1: "dog"}  
     result = class_labels.get(prediction, "Unknown")
 
     print(f"The image is classified as: {result}")
@@ -56,13 +56,13 @@ if __name__ == "__main__":
 
 
 def preprocess_image_from_bytes(image_bytes: bytes) -> torch.Tensor:
-    """Preprocess the input image from raw bytes to match the model's requirements."""
+    #presprocess image even if it is a color(3-dimensional) image
     transform = transforms.Compose(
         [
-            transforms.Resize((28, 28)),  # Resize the image to the size expected by the model
-            transforms.Grayscale(num_output_channels=1),  # Ensure the image has a single channel
-            transforms.ToTensor(),  # Convert the image to a tensor
-            transforms.Normalize(mean=[0.5], std=[0.5]),  # Normalize for a single-channel image
+            transforms.Resize((28, 28)),  
+            transforms.Grayscale(num_output_channels=1), 
+            transforms.ToTensor(),  
+            transforms.Normalize(mean=[0.5], std=[0.5]),  
         ]
     )
 
@@ -72,28 +72,27 @@ def preprocess_image_from_bytes(image_bytes: bytes) -> torch.Tensor:
 
 
 def evaluate_single_image_from_bytes(model_checkpoint: str, image_bytes: bytes) -> str:
-    """Evaluate a single image (provided as bytes) using the trained model."""
+    #evaulates a single image given in bytes
     DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     print("Evaluating single image")
-    print(DEVICE)
-    print(model_checkpoint)
+    
 
-    # Load the model
+    # Load the model the same way as done in evaluate.py
     model = Model().to(DEVICE)
     model.load_state_dict(torch.load("models/" + model_checkpoint + ".pth", map_location=DEVICE, weights_only=True))
 
     # Preprocess the input image
     image = preprocess_image_from_bytes(image_bytes).to(DEVICE)
 
-    # Perform inference
+    # Perform inference by putting it into the model
     model.eval()
     with torch.no_grad():
         y_pred = model(image)
-        prediction = y_pred.argmax(dim=1).item()  # Get the predicted class index
+        prediction = y_pred.argmax(dim=1).item()  
 
-    # Map the prediction to the class label
-    class_labels = {0: "cat", 1: "dog"}  # Adjust as per your dataset's class mapping
+    # Map the prediction to the class label to see if it is a cat or a dog 
+    class_labels = {0: "cat", 1: "dog"}  
     result = class_labels.get(prediction, "Unknown")
 
     print(f"The image is classified as: {result}")

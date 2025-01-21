@@ -7,7 +7,7 @@ from tasks import preprocess_data
 from src.catdogdetection.singleImageEval import evaluate_single_image_from_bytes
 from src.catdogdetection.evaluate import evaluate
 from io import BytesIO
-from fastapi import FastAPI, UploadFile,HTTPException
+from fastapi import FastAPI, UploadFile,HTTPException,File,Form
 from invoke import Context
 from fastapi.responses import JSONResponse
 
@@ -26,11 +26,11 @@ def read_item(item_id: int):
 
 @app.get("/getaccuracy/{model_checkpoint}")
 def get_accuracy(model_checkpoint: str):
-    result = evaluate(model_checkpoint=model_checkpoint)  # Make sure 'evaluate' is a callable or value
+    result = evaluate(model_checkpoint=model_checkpoint)  
     return {"message": f"Accuracy on model is {result}"}
 
 
-@app.get("/preprocess")
+@app.get("/preprocess") 
 async def preprocess_data_endpoint(s: int = 1000):
     """
     API endpoint to preprocess data.
@@ -72,7 +72,10 @@ def train_model(config_name: str = "Exp1"):
 
 # Define the endpoint
 @app.post("/evaluate-image/")
-async def evaluate_image(model_checkpoint: str, file: UploadFile):
+async def evaluate_image(
+    model_checkpoint: str=Form(...), 
+    file: UploadFile = File(...)
+    ):
     """
     API endpoint to evaluate an image.
     - model_checkpoint: The model checkpoint file to load.

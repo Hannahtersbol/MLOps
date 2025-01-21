@@ -6,6 +6,7 @@ invoke==2.2.0
 coverage
 omegaConf
 requests
+httpx
 hydra-core
 timm @ git+https://github.com/huggingface/pytorch-image-models.git
 google-cloud-storage==2.10.0
