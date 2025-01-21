@@ -271,7 +271,7 @@ as it’s easier to spot and fix issues. Overall, these practices improve our de
 >
 > Answer:
 
-We did set up dvc, but did not end up using it too much. It wasn't feasable to have all the data in our git reposetory and push/pull it evry time, so we set up dvc to push to a remote brnch, which is a publc storage bucket hosted on gcloud storage. In this way it helped us to move vast amounts of data around, but we did not use the version control aspects of it, because we did not change the data or do any cleanup. Data version control becomes very important when you change data, like removing wrong training data or in other ways manipulating it. Without version control it becomes imposible to reproduce the models that were based on previous data. 
+We did set up dvc, but did not end up using it too much. It wasn't feasable to have all the data in our git reposetory and push/pull it evry time, so we set up dvc to push to a remote brnch, which is a publc storage bucket hosted on gcloud storage. In this way it helped us to move vast amounts of data around, but we did not use the version control aspects of it, because we did not change the data or do any cleanup. Data version control becomes very important when you change data, like removing wrong training data or in other ways manipulating it. Without version control it becomes imposible to reproduce the models that were based on previous data.
 
 ### Question 11
 
