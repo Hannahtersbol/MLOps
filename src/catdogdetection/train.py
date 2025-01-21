@@ -2,6 +2,10 @@ import hydra
 import torch
 from model import Model
 from profiling import TorchProfiler
+from datetime import datetime
+from google.cloud import storage
+import requests
+import time
 
 from data import load_data
 
@@ -13,6 +17,7 @@ def train(config) -> None:
     """Train a model on MNIST."""
     print("Training day and night")
     print(config)
+    now = datetime.now().strftime("%Y-%m-%d/%H-%M-%S")
 
     # config = OmegaConf.load(f"configs/{config_name}.yaml")
     lr = config.hyperparameters.learning_rate
@@ -70,8 +75,36 @@ def train(config) -> None:
             print(f"Epoch {epoch} complete. Loss: {average_loss:.4f}, Accuracy: {accuracy:.4f}")
 
     print("Training complete")
-    torch.save(model.state_dict(), f"models/M_{config.info.name}.pth")
-    print("Model saved as M_{config.info.name}.pth")
+    model_filename = f"models/Exp-{now.replace('/', '-')}.pth"
+    torch.save(model.state_dict(), model_filename)
+    print(f"Model saved as {model_filename}")
+    upload_to_gcs(bucket_name="catdog-models", source_file_name=model_filename, destination_blob_name=model_filename)
+
+    config_filename = f"outputs/{now}/.hydra/config.yaml"
+    config_destination = f"{now}/config{now.split('/')[0]}.yaml"
+    upload_to_gcs(bucket_name="catdog-models", source_file_name=config_filename, destination_blob_name=config_destination)
+    print(f"Config file uploaded as {config_destination}")
+
+def upload_to_gcs(bucket_name, source_file_name, destination_blob_name):
+    """Uploads a file to the bucket."""
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(destination_blob_name)
+
+    retries = 0
+    max_retries = 5
+    while retries < max_retries:
+        try:
+            blob.upload_from_filename(source_file_name)
+            print(f"File {source_file_name} uploaded to {destination_blob_name}.")
+            break
+        except (requests.exceptions.ConnectionError) as e:
+            retries += 1
+            print(f"Upload failed: {e}. Retrying {retries}/{max_retries}...")
+            time.sleep(2 ** retries)  # Exponential backoff
+    else:
+        print(f"Failed to upload {source_file_name} after {max_retries} attempts.")
+
 
 
 if __name__ == "__main__":

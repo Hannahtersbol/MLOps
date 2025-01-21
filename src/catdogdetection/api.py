@@ -1,5 +1,6 @@
 import asyncio
 import subprocess
+import os
 from io import BytesIO
 
 from fastapi import FastAPI, HTTPException, UploadFile
@@ -15,7 +16,11 @@ app = FastAPI()
 
 @app.get("/")
 def example():
-    return {"Hello": "World 1"}
+    try:
+        files = os.listdir("models")
+        return {"files": files}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/items/{item_id}")

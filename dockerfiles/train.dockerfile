@@ -22,9 +22,21 @@ RUN pip install . --no-deps --no-cache-dir --verbose
 
 RUN pip install fastapi uvicorn
 
+# setup the data
+ENV DATA_BUCKET="catdog-data"
+ENV CATS_PATH="data/raw/cats"
+ENV DOGS_PATH="data/raw/dogs"
+ENV MODEL_BUCKET="catdog-models"
+ENV MODEL_PATH="models"
+
+RUN python3 src/catdogdetection/download_bucket.py $DATA_BUCKET $CATS_PATH $CATS_PATH
+RUN python3 src/catdogdetection/download_bucket.py $DATA_BUCKET $DOGS_PATH $DOGS_PATH
+RUN python3 src/catdogdetection/download_bucket.py $MODEL_BUCKET $MODEL_PATH $MODEL_PATH
+RUN python3 src/catdogdetection/data.py 1000
+
 # Expose port 8080
-EXPOSE 8080
+ENV PORT=8080
 
-ENV PORT 8080
+EXPOSE $PORT
 
-CMD ["sh", "-c", "uvicorn src.catdogdetection.api:app --host 0.0.0.0 --port 8080"]
+CMD ["sh", "-c", "uvicorn src.catdogdetection.api:app --host 0.0.0.0 --port $PORT"]
