@@ -13,6 +13,7 @@ from tasks import preprocess_data
 
 app = FastAPI()
 
+
 @app.on_event("startup")
 async def startup_event():
     """
@@ -24,7 +25,8 @@ async def startup_event():
         # Context().run("python3 src/catdogdetection/download_bucket.py catdog-data data/raw/dogs data/raw/dogs", echo=True)
     except Exception as e:
         print(f"Error during startup: {e}")
-    
+
+
 @app.get("/")
 def example():
     try:
