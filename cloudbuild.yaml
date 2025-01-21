@@ -30,6 +30,7 @@ steps:
     '--platform',
     'managed',
     '--ingress=all',
+    '--allow-unauthenticated'
   ]
 options:
   logging: CLOUD_LOGGING_ONLY
