@@ -172,7 +172,7 @@ We have used pip to manage dependencies in our project. The dependencies have be
 To replicate the environment, a new team member would:
 
 Clone the project repository.
-Activate an environment. 
+Activate an environment.
 Install production dependencies with pip install -r requirements.txt.
 If working on development, install additional packages from requirements_dev.txt with pip install -r requirements_dev.txt.
 
