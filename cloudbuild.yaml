@@ -22,7 +22,7 @@ steps:
   args: [
     'run',
     'deploy',
-    'train-image2', 
+    'train-image2',
     '--image',
     'europe-west1-docker.pkg.dev/catdogdetection-447911/training-registry/train-image:tag1',
     '--region',
