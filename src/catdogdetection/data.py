@@ -81,7 +81,7 @@ class MyDataset:
 
 def preprocess(size, raw_data_path: Path, output_folder: Path) -> None:
     if os.path.exists("/.dockerenv") or os.getenv("container", "") == "docker":
-        raw_data_path = Path(f"/mnt/{raw_data_path}")
+        raw_data_path = Path(f"mnt/{raw_data_path}")
     print("Preprocessing data...")
     dataset = MyDataset(int(size), raw_data_path)
     dataset.preprocess(output_folder)
