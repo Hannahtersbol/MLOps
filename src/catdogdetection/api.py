@@ -39,9 +39,9 @@ def example():
 
 
 @app.get("/getfiles")
-def get_files():
+def get_files(s: str = "mnt"):
     try:
-        files = os.listdir("mnt")
+        files = os.listdir(s)
         return {"files": files}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
