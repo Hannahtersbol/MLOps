@@ -129,7 +129,7 @@ Group 9
 >
 > Answer:
 
-s224758, s224775, s224773
+s224758, s224775, s224762
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -241,9 +241,7 @@ as it’s easier to spot and fix issues. Overall, these practices improve our de
 >
 > Answer:
 
-Our total coverage is 19% which is quite low. The reason for attaining a 100% coverage is not to prove that there are no bugs in
-the code. Having a high coverage just increases the the detection rate of bugs. Even with 100% coverage it doesn't mean that there are no bugs, since 100% just means that all lines of code are tested, but two different tests could be run on the same code where one might let something pass and the other test would catch the error. If we have a function: f(a)=a+a and two tests: f(a)=2 and f(a)=2*a, both
-tests work when a=1 but only the second one works in all other cases. Therefore code coverage isn't proof of 100% correctness.
+--- question 8 fill here ---
 
 ### Question 9
 
@@ -258,7 +256,7 @@ tests work when a=1 but only the second one works in all other cases. Therefore 
 >
 > Answer:
 
-In the beginning we didn't use a lot of branches. This was deliberate as all of us were unsure of the project setup. Instead we started with mob-programming, where 1 person is coding while the rest are directing them on what to write. When we had the main functionality of the framework, models and data sorted, we up our work. We used seperate branches when we were working on features that affected already established functionality. This relates mainly to our python code, as many members could be working on that simultainiously. Features like github actions could still be worked on the main branch as only 1 person was assigned to those features.
+--- question 9 fill here ---
 
 ### Question 10
 
@@ -273,7 +271,7 @@ In the beginning we didn't use a lot of branches. This was deliberate as all of 
 >
 > Answer:
 
-We did set up dvc, but did not end up using it too much. It wasn't feasible to have all the data in our git repository and push/pull it every time, so we set up dvc to push to a remote branch, which is a public storage bucket hosted on gcloud storage. In this way it helped us to move vast amounts of data around, but we did not use the version control aspects of it, because we did not change the data or do any cleanup. Data version control becomes very important when you change data, like removing wrong training data or in other ways manipulating it. Without version control it becomes impossible to reproduce the models that were based on previous data.
+--- question 10 fill here ---
 
 ### Question 11
 
@@ -291,6 +289,8 @@ We did set up dvc, but did not end up using it too much. It wasn't feasible to h
 > Answer:
 
 --- question 11 fill here ---
+We have made pytests in order to ensure that if we were to change anything the test would catch any error during the implementation. We have made tests for the data: testing the length of the datasets, the format and shape of the data, and the path of datasets all to ensure that we are readion the correct data and it is implemented properly. We have also made tests for the model. Testing the output shape, number of parameters and the generel structure of the model to ensure that it also works as intended. We have also made tests for the api to ensure that it evaluates preprocess properly and evaluates an image properly. This is to ensure that there is no mistake before using these api function now that there can be a lot of different mistakes when it comes to passing object or information though the paths and whether it is a post or get api function.  
+We have also done some pre commits that checks syntax and formatting to avoid pushing faulty code to the git 
 
 ## Running code and tracking experiments
 
@@ -309,24 +309,7 @@ We did set up dvc, but did not end up using it too much. It wasn't feasible to h
 >
 > Answer:
 
-We used hydra combined with config.yaml files. To run an experiment we would write:
-invoke train -x Exp1
-invoke evaluate -m M_Exp1
-This would train a model based on the hyperparameters located in configs/Exp1.yaml
-and then evaluate the outputted model found at models/M_Exp1.pth
-Example of config file:
-#config.yaml
-info:
-  name: Exp1
-
-hyperparameters:
-  batch_size: 64
-  learning_rate: 1e-4
-  epochs: 10
-  seed: 42
-
-After the experiment, hydra would then log the experiment, including the hyperparameters, in log/
-So even if we changed a config file, we would still be able to look at old configurations.
+--- question 12 fill here ---
 
 ### Question 13
 
@@ -341,11 +324,7 @@ So even if we changed a config file, we would still be able to look at old confi
 >
 > Answer:
 
-So as stated previously, hydra was used to keep track of every experiment done. We made sure that our randomization seed was also
-a hyperparameter, so that generated random numbers would be the same if you tried to reproduce an experiment. The next problem is that
-two different machines can get two different results. To remedy this we use docker to isolate the dependencies and containerize them.
-With docker we ensure that everything is identical when our experiments if we use the the same docker images. This is crucial to be
-able to analyze real world models and detect their weaknesses, which needs to happen before you can fix and improve them.
+--- question 13 fill here ---
 
 ### Question 14
 
@@ -484,6 +463,7 @@ able to analyze real world models and detect their weaknesses, which needs to ha
 > Answer:
 
 --- question 23 fill here ---
+When writing the API's for our model we considered which method we would need to use. We wanted to be able to train our model in order to make it better. In order to train our model we needed to preprocess pictures in order to have material to train on. lastly we also needed to have an API for sending a picture, preprocess the picture and use the machine to analyze it and return a result whether it was a cat or a dog. To make these API functions we use FastAPI as this seemed like the most intuitive solution. For the preprocess of images and model training we used GET API because we didnt need to send any object now that we have locally put in 30.000 pictures of cats and dogs. For the preprocess we can pass in a number in the url that tells the function how many pictures it needs to preprocess. For the single image evaluation we used a POST function because we need to pass in an image that it needs to evaluate.
 
 ### Question 24
 
@@ -500,6 +480,7 @@ able to analyze real world models and detect their weaknesses, which needs to ha
 > Answer:
 
 --- question 24 fill here ---
+We tried to deploy our API locally using uvicorn to make a local server where we could call the API using the url. The functions would then get called and would return the training data or some kind of response that the API was sucessfull. It worked perfectly locally and produced the results that we were expecting and it preprocessed and trained on the preprocessed images as intended.
 
 ### Question 25
 
@@ -515,6 +496,9 @@ able to analyze real world models and detect their weaknesses, which needs to ha
 > Answer:
 
 --- question 25 fill here ---
+For testing of the API we used pytest in order to test the different functions and testClient from the fast api library to simulate a server. we have tested to preprocess data which passed and therefore we can conclude that it works perfectly. We also tested the API for evaluating a single image and it also passed showing that the function works.
+We use the patch library from unittest.mock because we would like to the the API function not the other functions inside the API. 
+In the API where we evaluate a single image by using a patch we create a "dummy" function for the function used inside the API because we do not test the inside function, only the API. By using this patch we ensure that it is only the api we are testing. we assert that the response code is 200 which means that it worked and we also asserts that the "dummy" function is called at least once with the parameters that we send in to the function. 
 
 ### Question 26
 
