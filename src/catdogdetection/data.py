@@ -1,5 +1,5 @@
-import random
 import os
+import random
 from pathlib import Path
 
 import torch
@@ -78,8 +78,9 @@ class MyDataset:
         torch.save(torch.stack(test_images), output_folder / "test_images.pt")
         torch.save(torch.tensor(test_targets), output_folder / "test_target.pt")
 
+
 def preprocess(size, raw_data_path: Path, output_folder: Path) -> None:
-    if os.path.exists('/.dockerenv') or os.getenv('container', '') == 'docker':
+    if os.path.exists("/.dockerenv") or os.getenv("container", "") == "docker":
         raw_data_path = Path(f"/mnt/{raw_data_path}")
     print("Preprocessing data...")
     dataset = MyDataset(int(size), raw_data_path)
