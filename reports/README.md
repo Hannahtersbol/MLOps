@@ -233,7 +233,11 @@ as it’s easier to spot and fix issues. Overall, these practices improve our de
 >
 > Answer:
 
---- question 7 fill here ---
+We implemented 9 tests across three areas.
+
+- API Tests (2 tests): These validate the /preprocess endpoint to ensure proper handling of query parameters and the /evaluate-image    endpoint for correct classification and integration with the model using mocked functions.
+- Data Tests (5 tests): These confirm dataset integrity, including verifying the dataset length matches expectations, transformations are defined, and the shapes of transformed cat and dog images are consistent. Additionally, we ensure the dataset reads from the correct directory.
+- Model Tests (3 tests): These include checking the forward pass for correct output shape, validating the presence of trainable parameters, and ensuring the model’s structure matches the expected configuration.
 
 ### Question 8
 
@@ -378,7 +382,9 @@ We have also done some pre commits that checks syntax and formatting to avoid pu
 >
 > Answer:
 
---- question 16 fill here ---
+Debugging: While debuuging have varied from person to person, some repeated practises have been to use the error messages from the Terminal when running the code. As well as using ChatGPT and GitHub's copilot to help solve the issues which arose. Furthermore we tried using the python debugging tool showed in the curse. That being said we also occasionally relied on print statements—an old habit which, while not always ideal, still provided some good insights. 
+
+Profiling: We performed profiling on our code, which initially revealed that the training phase spent most of its time moving data rather than executing the training functions. Based on this insight, we made adjustments to optimize the process, ensuring more time was spent running the training function and less on data movement.
 
 ## Working in the cloud
 
