@@ -382,7 +382,7 @@ We have also done some pre commits that checks syntax and formatting to avoid pu
 >
 > Answer:
 
-Debugging: While debuuging have varied from person to person, some repeated practises have been to use the error messages from the Terminal when running the code. As well as using ChatGPT and GitHub's copilot to help solve the issues which arose. Furthermore we tried using the python debugging tool showed in the curse. That being said we also occasionally relied on print statements—an old habit which, while not always ideal, still provided some good insights. 
+Debugging: While debuuging have varied from person to person, some repeated practises have been to use the error messages from the Terminal when running the code. As well as using ChatGPT and GitHub's copilot to help solve the issues which arose. Furthermore we tried using the python debugging tool showed in the curse. That being said we also occasionally relied on print statements—an old habit which, while not always ideal, still provided some good insights.
 
 Profiling: We performed profiling on our code, which initially revealed that the training phase spent most of its time moving data rather than executing the training functions. Based on this insight, we made adjustments to optimize the process, ensuring more time was spent running the training function and less on data movement.
 
