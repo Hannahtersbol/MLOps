@@ -1,4 +1,5 @@
 import asyncio
+import os
 import subprocess
 from io import BytesIO
 
@@ -10,19 +11,33 @@ from src.catdogdetection.evaluate import evaluate
 from src.catdogdetection.singleImageEval import evaluate_single_image_from_bytes
 from tasks import preprocess_data
 
-from src.catdogdetection.singleImageEval import evaluate_single_image_from_bytes
-from src.catdogdetection.evaluate import evaluate
-from io import BytesIO
-from fastapi import FastAPI, UploadFile,HTTPException,File,Form
-from invoke import Context
-from fastapi.responses import JSONResponse
-
 app = FastAPI()
+
+
+@app.on_event("startup")
+async def startup_event():
+    """
+    Function to run before the application starts.
+    """
+    try:
+        Context().run("python3 src/catdogdetection/download_bucket.py catdog-models models models", echo=True)
+        Context().run(
+            "python3 src/catdogdetection/download_bucket.py catdog-data data/raw/cats data/raw/cats", echo=True
+        )
+        Context().run(
+            "python3 src/catdogdetection/download_bucket.py catdog-data data/raw/dogs data/raw/dogs", echo=True
+        )
+    except Exception as e:
+        print(f"Error during startup: {e}")
 
 
 @app.get("/")
 def example():
-    return {"Hello": "World 1"}
+    try:
+        files = os.listdir("models")
+        return {"files": files}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/items/{item_id}")
@@ -32,11 +47,11 @@ def read_item(item_id: int):
 
 @app.get("/getaccuracy/{model_checkpoint}")
 def get_accuracy(model_checkpoint: str):
-    result = evaluate(model_checkpoint=model_checkpoint)  
+    result = evaluate(model_checkpoint=model_checkpoint)  # Make sure 'evaluate' is a callable or value
     return {"message": f"Accuracy on model is {result}"}
 
 
-@app.get("/preprocess") 
+@app.get("/preprocess")
 async def preprocess_data_endpoint(s: int = 1000):
     """
     API endpoint to preprocess data.
@@ -77,10 +92,7 @@ def train_model(config_name: str = "Exp1"):
 
 # Define the endpoint
 @app.post("/evaluate-image/")
-async def evaluate_image(
-    model_checkpoint: str=Form(...), 
-    file: UploadFile = File(...)
-    ):
+async def evaluate_image(model_checkpoint: str, file: UploadFile):
     """
     API endpoint to evaluate an image.
     - model_checkpoint: The model checkpoint file to load.

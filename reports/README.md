@@ -167,7 +167,14 @@ expected input channels from 3 to 1.
 >
 > Answer:
 
---- question 4 fill here ---
+We have used pip to manage dependencies in our project. The dependencies have been listed in the requirements.txt file, while development-specific dependencies were set into requirements_dev.txt. Both files contain the versions or reference, preventing possibe issues tied to different versions of the extentions. The production file includes essential libraries like torch, fastapi, and google-cloud-storage, while the development file adds tools for testing, linting, and documentation, such as pytest and mkdocs.
+
+To replicate the environment, a new team member would:
+
+Clone the project repository.
+Activate an environment.
+Install production dependencies with pip install -r requirements.txt.
+If working on development, install additional packages from requirements_dev.txt with pip install -r requirements_dev.txt.
 
 ### Question 5
 

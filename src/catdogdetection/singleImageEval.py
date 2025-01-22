@@ -24,7 +24,7 @@ def preprocess_image(image_path: str) -> torch.Tensor:
 
 
 def evaluate_single_image(model_checkpoint: str, image_path: str) -> None:
-    #evaluate a single image given a local image path
+    # evaluate a single image given a local image path
     DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     print("Evaluating single image")
@@ -42,10 +42,10 @@ def evaluate_single_image(model_checkpoint: str, image_path: str) -> None:
     model.eval()
     with torch.no_grad():
         y_pred = model(image)
-        prediction = y_pred.argmax(dim=1).item()  
+        prediction = y_pred.argmax(dim=1).item()
 
-    #see if it is a cat or a dog 
-    class_labels = {0: "cat", 1: "dog"}  
+    # see if it is a cat or a dog
+    class_labels = {0: "cat", 1: "dog"}
     result = class_labels.get(prediction, "Unknown")
 
     print(f"The image is classified as: {result}")
@@ -57,13 +57,13 @@ if __name__ == "__main__":
 
 
 def preprocess_image_from_bytes(image_bytes: bytes) -> torch.Tensor:
-    #presprocess image even if it is a color(3-dimensional) image
+    # presprocess image even if it is a color(3-dimensional) image
     transform = transforms.Compose(
         [
-            transforms.Resize((28, 28)),  
-            transforms.Grayscale(num_output_channels=1), 
-            transforms.ToTensor(),  
-            transforms.Normalize(mean=[0.5], std=[0.5]),  
+            transforms.Resize((28, 28)),
+            transforms.Grayscale(num_output_channels=1),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.5], std=[0.5]),
         ]
     )
 
@@ -73,11 +73,10 @@ def preprocess_image_from_bytes(image_bytes: bytes) -> torch.Tensor:
 
 
 def evaluate_single_image_from_bytes(model_checkpoint: str, image_bytes: bytes) -> str:
-    #evaulates a single image given in bytes
+    # evaulates a single image given in bytes
     DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     print("Evaluating single image")
-    
 
     # Load the model the same way as done in evaluate.py
     model = Model().to(DEVICE)
@@ -90,10 +89,10 @@ def evaluate_single_image_from_bytes(model_checkpoint: str, image_bytes: bytes) 
     model.eval()
     with torch.no_grad():
         y_pred = model(image)
-        prediction = y_pred.argmax(dim=1).item()  
+        prediction = y_pred.argmax(dim=1).item()
 
-    # Map the prediction to the class label to see if it is a cat or a dog 
-    class_labels = {0: "cat", 1: "dog"}  
+    # Map the prediction to the class label to see if it is a cat or a dog
+    class_labels = {0: "cat", 1: "dog"}
     result = class_labels.get(prediction, "Unknown")
 
     print(f"The image is classified as: {result}")

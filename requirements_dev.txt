@@ -19,3 +19,6 @@ mkdocstrings-python==1.12.2
 # dvc
 dvc
 dvc-gs
+
+#Statistics
+matplotlib

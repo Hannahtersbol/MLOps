@@ -1,16 +1,11 @@
+from unittest.mock import MagicMock, patch
 
 import pytest
-from unittest.mock import patch, MagicMock
 from fastapi.testclient import TestClient
-from src.catdogdetection.api import app  
-from unittest.mock import patch
+
+from src.catdogdetection.api import app
 
 client = TestClient(app)
-
-
-
-
-
 
 
 def test_preprocess_with_s_20():
@@ -24,18 +19,9 @@ def test_preprocess_with_s_20():
 
         # Assertions
         assert response.status_code == 200
-        assert response.json() == {
-            "status": "success",
-            "message": "Data preprocessing started with parameter s=20"
-        }
+        assert response.json() == {"status": "success", "message": "Data preprocessing started with parameter s=20"}
         # Check that preprocess_data was called with the correct parameters
         mock_preprocess_data.assert_called_once()
-
-
-
-    
-
-
 
 
 def test_evaluate_image():
@@ -47,9 +33,7 @@ def test_evaluate_image():
 
         # Simulate uploading a file
         file_content = b"dummy image content"
-        files = {
-            "file": ("test_image.jpg", file_content, "image/jpeg")
-        }
+        files = {"file": ("test_image.jpg", file_content, "image/jpeg")}
         data = {"model_checkpoint": "M_Exp1"}
 
         # Make the POST request to the /evaluate-image/ endpoint
@@ -61,7 +45,3 @@ def test_evaluate_image():
 
         # Verify the mock was called with the correct arguments
         mock_evaluate.assert_called_once_with("M_Exp1", file_content)
-
-
-        
-
