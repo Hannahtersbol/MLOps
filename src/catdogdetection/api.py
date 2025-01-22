@@ -37,6 +37,13 @@ def example():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/getfiles")
+def get_files():
+    try:
+        files = os.listdir("mnt")
+        return {"files": files}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/getaccuracy/{model_checkpoint}")
 def get_accuracy(model_checkpoint: str):
