@@ -15,7 +15,6 @@ COPY tasks.py tasks.py
 
 RUN mkdir models
 RUN mkdir data
-RUN mkdir data/raw
 RUN mkdir data/processed
 RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt
 RUN pip install . --no-deps --no-cache-dir --verbose

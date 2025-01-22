@@ -23,13 +23,8 @@ async def startup_event():
     try:
         print("Downloading files from GCP bucket...")
         await asyncio.to_thread(download_files_with_prefix, 'catdog-models', 'models', 'models')
-        await asyncio.to_thread(download_files_with_prefix, 'catdog-data', 'data/raw/cats', 'data/raw/cats')
-        # Context().run(
-        #     "python3 src/catdogdetection/download_bucket.py catdog-data data/raw/cats data/raw/cats", echo=True
-        # )
-        # Context().run(
-        #     "python3 src/catdogdetection/download_bucket.py catdog-data data/raw/dogs data/raw/dogs", echo=True
-        # )
+        # await asyncio.to_thread(download_files_with_prefix, 'catdog-data', 'data/raw/cats', 'data/raw/cats')
+        # await asyncio.to_thread(download_files_with_prefix, 'catdog-data', 'data/raw/dogs', 'data/raw/dogs')
     except Exception as e:
         print(f"Error during startup: {e}")
 
@@ -41,11 +36,6 @@ def example():
         return {"files": files}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int):
-    return {"item_id": item_id}
 
 
 @app.get("/getaccuracy/{model_checkpoint}")
