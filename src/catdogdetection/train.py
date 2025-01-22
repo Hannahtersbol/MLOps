@@ -8,6 +8,7 @@ from google.cloud import storage
 from model import Model
 from profiling import TorchProfiler
 
+# import matplotlib.pyplot as plt
 from data import load_data
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
@@ -79,6 +80,13 @@ def train(config) -> None:
     model_filename = f"models/Exp-{now.replace('/', '-')}.pth"
     torch.save(model.state_dict(), model_filename)
     print(f"Model saved as {model_filename}")
+    # fig, axs = plt.subplots(1, 2, figsize=(15, 5))
+    # axs[0].plot(statistics["train_loss"])
+    # axs[0].set_title("Train loss")
+    # axs[1].plot(statistics["train_accuracy"])
+    # axs[1].set_title("Train accuracy")
+    # fig.savefig("reports/figures/training_statistics.png")
+
     upload_to_gcs(bucket_name="catdog-models", source_file_name=model_filename, destination_blob_name=model_filename)
 
     config_filename = f"outputs/{now}/.hydra/config.yaml"
