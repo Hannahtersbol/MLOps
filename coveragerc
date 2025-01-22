@@ -1,0 +1,23 @@
+[run]
+# Exclude paths or files that shouldn't be included in the coverage report
+omit =
+    */tests/*
+    */migrations/*
+    */venv/*
+
+[report]
+# Include lines that should be excluded from coverage, such as debug lines
+exclude_lines =
+    if __name__ == .__main__.
+    pragma: no cover
+
+# Print a detailed report showing missing lines
+show_missing = True
+
+[html]
+# Output HTML report to this directory
+directory = coverage_html_report
+
+[xml]
+# Output XML report for integration with CI tools
+output = coverage.xml
