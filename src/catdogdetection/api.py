@@ -22,7 +22,7 @@ async def startup_event():
     """
     try:
         print("Downloading files from GCP bucket...")
-        await asyncio.to_thread(download_files_with_prefix, 'catdog-models', 'models', 'models')
+        await asyncio.to_thread(download_files_with_prefix, "catdog-models", "models", "models")
         # await asyncio.to_thread(download_files_with_prefix, 'catdog-data', 'data/raw/cats', 'data/raw/cats')
         # await asyncio.to_thread(download_files_with_prefix, 'catdog-data', 'data/raw/dogs', 'data/raw/dogs')
     except Exception as e:
