@@ -296,8 +296,8 @@ as it’s easier to spot and fix issues. Overall, these practices improve our de
 > Answer:
 
 --- question 11 fill here ---
-We have made pytests in order to ensure that if we were to change anything the test would catch any error during the implementation. We have made tests for the data: testing the length of the datasets, the format and shape of the data, and the path of datasets all to ensure that we are readion the correct data and it is implemented properly. We have also made tests for the model. Testing the output shape, number of parameters and the generel structure of the model to ensure that it also works as intended. We have also made tests for the api to ensure that it evaluates preprocess properly and evaluates an image properly. This is to ensure that there is no mistake before using these api function now that there can be a lot of different mistakes when it comes to passing object or information though the paths and whether it is a post or get api function.  
-We have also done some pre commits that checks syntax and formatting to avoid pushing faulty code to the git 
+We have made pytests in order to ensure that if we were to change anything the test would catch any error during the implementation. We have made tests for the data: testing the length of the datasets, the format and shape of the data, and the path of datasets all to ensure that we are readion the correct data and it is implemented properly. We have also made tests for the model. Testing the output shape, number of parameters and the generel structure of the model to ensure that it also works as intended. We have also made tests for the api to ensure that it evaluates preprocess properly and evaluates an image properly. This is to ensure that there is no mistake before using these api function now that there can be a lot of different mistakes when it comes to passing object or information though the paths and whether it is a post or get api function.
+We have also done some pre commits that checks syntax and formatting to avoid pushing faulty code to the git
 
 ## Running code and tracking experiments
 
@@ -504,8 +504,8 @@ We tried to deploy our API locally using uvicorn to make a local server where we
 
 --- question 25 fill here ---
 For testing of the API we used pytest in order to test the different functions and testClient from the fast api library to simulate a server. we have tested to preprocess data which passed and therefore we can conclude that it works perfectly. We also tested the API for evaluating a single image and it also passed showing that the function works.
-We use the patch library from unittest.mock because we would like to the the API function not the other functions inside the API. 
-In the API where we evaluate a single image by using a patch we create a "dummy" function for the function used inside the API because we do not test the inside function, only the API. By using this patch we ensure that it is only the api we are testing. we assert that the response code is 200 which means that it worked and we also asserts that the "dummy" function is called at least once with the parameters that we send in to the function. 
+We use the patch library from unittest.mock because we would like to the the API function not the other functions inside the API.
+In the API where we evaluate a single image by using a patch we create a "dummy" function for the function used inside the API because we do not test the inside function, only the API. By using this patch we ensure that it is only the api we are testing. we assert that the response code is 200 which means that it worked and we also asserts that the "dummy" function is called at least once with the parameters that we send in to the function.
 
 ### Question 26
 
