@@ -33,6 +33,8 @@ RUN pip install . --no-deps --no-cache-dir --verbose
 # RUN python3 src/catdogdetection/download_bucket.py $DATA_BUCKET $DOGS_PATH $DOGS_PATH
 # RUN python3 src/catdogdetection/data.py 1000
 
+ENV IS_CONTAINER=1
+
 # Expose port 8080
 ENV PORT=8080
 
