@@ -1,5 +1,6 @@
 import asyncio
 import os
+from pathlib import Path
 import subprocess
 from io import BytesIO
 
@@ -10,7 +11,8 @@ from invoke import Context
 from src.catdogdetection.download_bucket import download_files_with_prefix
 from src.catdogdetection.evaluate import evaluate
 from src.catdogdetection.singleImageEval import evaluate_single_image_from_bytes
-from tasks import preprocess_data
+# from tasks import preprocess_data
+from src.catdogdetection.data import preprocess
 
 app = FastAPI()
 
@@ -61,8 +63,9 @@ async def preprocess_data_endpoint(s: int = 1000):
     """
     try:
         # Run the task asynchronously
-        loop = asyncio.get_running_loop()
-        await loop.run_in_executor(None, lambda: preprocess_data(Context(), s=s))
+        # loop = asyncio.get_running_loop()
+        # await loop.run_in_executor(None, lambda: preprocess_data(Context(), s=s))
+        await asyncio.to_thread(preprocess, s, raw_data_path=Path("data/raw/"), output_folder=Path("data/processed/"))
         return {"status": "success", "message": f"Data preprocessing started with parameter s={s}"}
     except Exception as e:
         return {"status": "error", "message": str(e)}
