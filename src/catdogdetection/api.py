@@ -2,14 +2,17 @@ import asyncio
 import os
 import subprocess
 from io import BytesIO
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, UploadFile,Form,File
 from fastapi.responses import JSONResponse
 from invoke import Context
 
+# from tasks import preprocess_data
+from src.catdogdetection.data import preprocess
+from src.catdogdetection.download_bucket import download_files_with_prefix
 from src.catdogdetection.evaluate import evaluate
 from src.catdogdetection.singleImageEval import evaluate_single_image_from_bytes
-from tasks import preprocess_data
 
 app = FastAPI()
 
@@ -20,13 +23,10 @@ async def startup_event():
     Function to run before the application starts.
     """
     try:
-        Context().run("python3 src/catdogdetection/download_bucket.py catdog-models models models", echo=True)
-        Context().run(
-            "python3 src/catdogdetection/download_bucket.py catdog-data data/raw/cats data/raw/cats", echo=True
-        )
-        Context().run(
-            "python3 src/catdogdetection/download_bucket.py catdog-data data/raw/dogs data/raw/dogs", echo=True
-        )
+        print("Downloading files from GCP bucket...")
+        await asyncio.to_thread(download_files_with_prefix, "catdog-models", "models", "models")
+        # await asyncio.to_thread(download_files_with_prefix, 'catdog-data', 'data/raw/cats', 'data/raw/cats')
+        # await asyncio.to_thread(download_files_with_prefix, 'catdog-data', 'data/raw/dogs', 'data/raw/dogs')
     except Exception as e:
         print(f"Error during startup: {e}")
 
@@ -40,9 +40,13 @@ def example():
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int):
-    return {"item_id": item_id}
+@app.get("/getfiles")
+def get_files(s: str = "models"):
+    try:
+        files = os.listdir(s)
+        return {"files": files}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/getaccuracy/{model_checkpoint}")
@@ -59,15 +63,16 @@ async def preprocess_data_endpoint(s: int = 1000):
     """
     try:
         # Run the task asynchronously
-        loop = asyncio.get_running_loop()
-        await loop.run_in_executor(None, lambda: preprocess_data(Context(), s=s))
+        # loop = asyncio.get_running_loop()
+        # await loop.run_in_executor(None, lambda: preprocess_data(Context(), s=s))
+        await asyncio.to_thread(preprocess, s, raw_data_path=Path("data/raw/"), output_folder=Path("data/processed/"))
         return {"status": "success", "message": f"Data preprocessing started with parameter s={s}"}
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
 
 @app.get("/train")
-def train_model(config_name: str = "Exp1"):
+def train_model(s: str = "Exp1"):
     """
     API endpoint to train the model.
     Accepts an optional query parameter `config_name` to specify the configuration.
@@ -75,7 +80,7 @@ def train_model(config_name: str = "Exp1"):
     try:
         # Run the Invoke train task
         result = subprocess.run(
-            ["invoke", "train", f"--config-name={config_name}"],
+            ["invoke", "train", f"-x={s}"],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,

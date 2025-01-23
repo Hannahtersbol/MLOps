@@ -15,7 +15,6 @@ COPY tasks.py tasks.py
 
 RUN mkdir models
 RUN mkdir data
-RUN mkdir data/raw
 RUN mkdir data/processed
 RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt
 RUN pip install . --no-deps --no-cache-dir --verbose
@@ -34,9 +33,11 @@ RUN pip install . --no-deps --no-cache-dir --verbose
 # RUN python3 src/catdogdetection/download_bucket.py $DATA_BUCKET $DOGS_PATH $DOGS_PATH
 # RUN python3 src/catdogdetection/data.py 1000
 
+ENV IS_CONTAINER=1
+
 # Expose port 8080
 ENV PORT=8080
 
 EXPOSE $PORT
 
-CMD ["sh", "-c", "uvicorn src.catdogdetection.api:app --host 0.0.0.0 --port $PORT"]
+CMD ["sh", "-c", "uvicorn src.catdogdetection.api:app --host 0.0.0.0 --port $PORT --reload"]

@@ -1,0 +1,9 @@
+#config.yaml
+info:
+  name: Exp3
+
+hyperparameters:
+  batch_size: 128
+  learning_rate: 2e-4
+  epochs: 10
+  seed: 123

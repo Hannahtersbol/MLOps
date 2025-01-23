@@ -1,5 +1,7 @@
 docs/site/
 
+tests/test_train.py
+
 #gnore log folder
 log/
 

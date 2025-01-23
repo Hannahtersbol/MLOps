@@ -1,6 +1,6 @@
-from unittest.mock import MagicMock, patch
+from pathlib import Path
+from unittest.mock import patch
 
-import pytest
 from fastapi.testclient import TestClient
 
 from src.catdogdetection.api import app
@@ -10,18 +10,24 @@ client = TestClient(app)
 
 def test_preprocess_with_s_20():
     """Test the preprocess endpoint with query parameter s=20."""
-    with patch("src.catdogdetection.api.preprocess_data") as mock_preprocess_data:
-        # Mock the preprocess_data function
-        mock_preprocess_data.return_value = None  # Simulate successful completion
+    with patch("src.catdogdetection.api.preprocess") as mock_preprocess:
+        # Mock the preprocess function to simulate successful processing
+        mock_preprocess.return_value = None
 
-        # Make a GET request to the /preprocess endpoint with s=20
+        # Make a GET request to the /preprocess endpoint
         response = client.get("/preprocess?s=20")
 
         # Assertions
         assert response.status_code == 200
-        assert response.json() == {"status": "success", "message": "Data preprocessing started with parameter s=20"}
-        # Check that preprocess_data was called with the correct parameters
-        mock_preprocess_data.assert_called_once()
+        assert response.json() == {
+            "status": "success",
+            "message": "Data preprocessing started with parameter s=20",
+        }
+
+        # Ensure the mock was called with the correct arguments
+        mock_preprocess.assert_called_once_with(
+            20, raw_data_path=Path("data/raw/"), output_folder=Path("data/processed/")
+        )
 
 
 def test_evaluate_image():

@@ -233,7 +233,11 @@ as it’s easier to spot and fix issues. Overall, these practices improve our de
 >
 > Answer:
 
---- question 7 fill here ---
+We implemented 9 tests across three areas.
+
+- API Tests (2 tests): These validate the /preprocess endpoint to ensure proper handling of query parameters and the /evaluate-image    endpoint for correct classification and integration with the model using mocked functions.
+- Data Tests (5 tests): These confirm dataset integrity, including verifying the dataset length matches expectations, transformations are defined, and the shapes of transformed cat and dog images are consistent. Additionally, we ensure the dataset reads from the correct directory.
+- Model Tests (3 tests): These include checking the forward pass for correct output shape, validating the presence of trainable parameters, and ensuring the model’s structure matches the expected configuration.
 
 ### Question 8
 
@@ -248,7 +252,12 @@ as it’s easier to spot and fix issues. Overall, these practices improve our de
 >
 > Answer:
 
---- question 8 fill here ---
+In the beginning we didn't use a lot of branches. This was deliberate as all of us were unsure of the project setup.
+Instead we started with mob-programming, where 1 person is coding while the rest are directing them on what to write.
+When we had the main functionality of the framework, models and data sorted, we up our work.
+We used seperate branches when we were working on features that affected already established functionality.
+This relates mainly to our python code, as many members could be working on that simultainiously.
+Features like github actions could still be worked on the main branch as only 1 person was assigned to those features.
 
 ### Question 9
 
@@ -263,7 +272,12 @@ as it’s easier to spot and fix issues. Overall, these practices improve our de
 >
 > Answer:
 
---- question 9 fill here ---
+In the beginning we didn't use a lot of branches. This was deliberate as all of us were unsure of the project setup.
+Instead we started with mob-programming, where 1 person is coding while the rest are directing them on what to write.
+When we had the main functionality of the framework, models and data sorted, we up our work.
+We used seperate branches when we were working on features that affected already established functionality.
+This relates mainly to our python code, as many members could be working on that simultainiously.
+Features like github actions could still be worked on the main branch as only 1 person was assigned to those features.
 
 ### Question 10
 
@@ -277,8 +291,12 @@ as it’s easier to spot and fix issues. Overall, these practices improve our de
 > *pipeline*
 >
 > Answer:
-
---- question 10 fill here ---
+We did set up dvc, but did not end up using it too much. It wasn't feasible to have all the data in our git repository
+and push/pull it every time, so we set up dvc to push to a remote branch, which is a public storage bucket hosted on gcloud storage.
+In this way it helped us to move vast amounts of data around, but we did not use the version control aspects of it,
+because we did not change the data or do any cleanup. Data version control becomes very important when you change data,
+like removing wrong training data or in other ways manipulating it.
+Without version control it becomes impossible to reproduce the models that were based on previous data.
 
 ### Question 11
 
@@ -296,8 +314,14 @@ as it’s easier to spot and fix issues. Overall, these practices improve our de
 > Answer:
 
 --- question 11 fill here ---
-We have made pytests in order to ensure that if we were to change anything the test would catch any error during the implementation. We have made tests for the data: testing the length of the datasets, the format and shape of the data, and the path of datasets all to ensure that we are readion the correct data and it is implemented properly. We have also made tests for the model. Testing the output shape, number of parameters and the generel structure of the model to ensure that it also works as intended. We have also made tests for the api to ensure that it evaluates preprocess properly and evaluates an image properly. This is to ensure that there is no mistake before using these api function now that there can be a lot of different mistakes when it comes to passing object or information though the paths and whether it is a post or get api function.  
-We have also done some pre commits that checks syntax and formatting to avoid pushing faulty code to the git 
+We have made pytests in order to ensure that if we were to change anything the test would catch any error during the implementation.
+We have made tests for the data: testing the length of the datasets, the format and shape of the data,
+and the path of datasets all to ensure that we are readion the correct data and it is implemented properly.
+We have also made tests for the model. Testing the output shape, number of parameters and the generel structure of the model to ensure that it also works as intended.
+We have also made tests for the api to ensure that it evaluates preprocess properly and evaluates an image properly.
+This is to ensure that there is no mistake before using these api function now that there can be a lot of different mistakes
+when it comes to passing object or information though the paths and whether it is a post or get api function.
+We have also done some pre commits that checks syntax and formatting to avoid pushing faulty code to the git
 
 ## Running code and tracking experiments
 
@@ -316,7 +340,24 @@ We have also done some pre commits that checks syntax and formatting to avoid pu
 >
 > Answer:
 
---- question 12 fill here ---
+We used hydra combined with config.yaml files. To run an experiment we would write:
+invoke train -x Exp1
+invoke evaluate -m M_Exp1
+This would train a model based on the hyperparameters located in configs/Exp1.yaml
+and then evaluate the outputted model found at models/M_Exp1.pth
+Example of config file:
+#config.yaml
+info:
+  name: Exp1
+
+hyperparameters:
+  batch_size: 64
+  learning_rate: 1e-4
+  epochs: 10
+  seed: 42
+
+After the experiment, hydra would then log the experiment, including the hyperparameters, in log/
+So even if we changed a config file, we would still be able to look at old configurations.
 
 ### Question 13
 
@@ -331,7 +372,11 @@ We have also done some pre commits that checks syntax and formatting to avoid pu
 >
 > Answer:
 
---- question 13 fill here ---
+So as stated previously, hydra was used to keep track of every experiment done. We made sure that our randomization seed was also
+a hyperparameter, so that generated random numbers would be the same if you tried to reproduce an experiment. The next problem is that
+two different machines can get two different results. To remedy this we use docker to isolate the dependencies and containerize them.
+With docker we ensure that everything is identical when our experiments if we use the the same docker images. This is crucial to be
+able to analyze real world models and detect their weaknesses, which needs to happen before you can fix and improve them.
 
 ### Question 14
 
@@ -378,7 +423,9 @@ We have also done some pre commits that checks syntax and formatting to avoid pu
 >
 > Answer:
 
---- question 16 fill here ---
+Debugging: While debuuging have varied from person to person, some repeated practises have been to use the error messages from the Terminal when running the code. As well as using ChatGPT and GitHub's copilot to help solve the issues which arose. Furthermore we tried using the python debugging tool showed in the curse. That being said we also occasionally relied on print statements—an old habit which, while not always ideal, still provided some good insights.
+
+Profiling: We performed profiling on our code, which initially revealed that the training phase spent most of its time moving data rather than executing the training functions. Based on this insight, we made adjustments to optimize the process, ensuring more time was spent running the training function and less on data movement.
 
 ## Working in the cloud
 
@@ -504,8 +551,8 @@ We tried to deploy our API locally using uvicorn to make a local server where we
 
 --- question 25 fill here ---
 For testing of the API we used pytest in order to test the different functions and testClient from the fast api library to simulate a server. we have tested to preprocess data which passed and therefore we can conclude that it works perfectly. We also tested the API for evaluating a single image and it also passed showing that the function works.
-We use the patch library from unittest.mock because we would like to the the API function not the other functions inside the API. 
-In the API where we evaluate a single image by using a patch we create a "dummy" function for the function used inside the API because we do not test the inside function, only the API. By using this patch we ensure that it is only the api we are testing. we assert that the response code is 200 which means that it worked and we also asserts that the "dummy" function is called at least once with the parameters that we send in to the function. 
+We use the patch library from unittest.mock because we would like to the the API function not the other functions inside the API.
+In the API where we evaluate a single image by using a patch we create a "dummy" function for the function used inside the API because we do not test the inside function, only the API. By using this patch we ensure that it is only the api we are testing. we assert that the response code is 200 which means that it worked and we also asserts that the "dummy" function is called at least once with the parameters that we send in to the function.
 
 ### Question 26
 
