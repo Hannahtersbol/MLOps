@@ -3,7 +3,7 @@ import os
 import subprocess
 from io import BytesIO
 
-from fastapi import FastAPI, HTTPException, UploadFile
+from fastapi import FastAPI, HTTPException, UploadFile,Form,File
 from fastapi.responses import JSONResponse
 from invoke import Context
 
@@ -92,7 +92,10 @@ def train_model(config_name: str = "Exp1"):
 
 # Define the endpoint
 @app.post("/evaluate-image/")
-async def evaluate_image(model_checkpoint: str, file: UploadFile):
+async def evaluate_image(
+    model_checkpoint: str = Form(...), 
+    file: UploadFile = File(...)
+    ):
     """
     API endpoint to evaluate an image.
     - model_checkpoint: The model checkpoint file to load.
