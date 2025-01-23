@@ -80,7 +80,7 @@ def train_model(config_name: str = "Exp1"):
     try:
         # Run the Invoke train task
         result = subprocess.run(
-            ["invoke", "train", f"--config-name={config_name}"],
+            ["invoke", "train", f"-x={config_name}"],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
