@@ -41,7 +41,7 @@ def example():
 
 
 @app.get("/getfiles")
-def get_files(s: str = "mnt"):
+def get_files(s: str = "models"):
     try:
         files = os.listdir(s)
         return {"files": files}
@@ -72,7 +72,7 @@ async def preprocess_data_endpoint(s: int = 1000):
 
 
 @app.get("/train")
-def train_model(config_name: str = "Exp1"):
+def train_model(s: str = "Exp1"):
     """
     API endpoint to train the model.
     Accepts an optional query parameter `config_name` to specify the configuration.
@@ -80,7 +80,7 @@ def train_model(config_name: str = "Exp1"):
     try:
         # Run the Invoke train task
         result = subprocess.run(
-            ["invoke", "train", f"-x={config_name}"],
+            ["invoke", "train", f"-x={s}"],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
