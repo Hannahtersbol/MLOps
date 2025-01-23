@@ -1,18 +1,18 @@
 import asyncio
 import os
-from pathlib import Path
 import subprocess
 from io import BytesIO
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.responses import JSONResponse
 from invoke import Context
 
+# from tasks import preprocess_data
+from src.catdogdetection.data import preprocess
 from src.catdogdetection.download_bucket import download_files_with_prefix
 from src.catdogdetection.evaluate import evaluate
 from src.catdogdetection.singleImageEval import evaluate_single_image_from_bytes
-# from tasks import preprocess_data
-from src.catdogdetection.data import preprocess
 
 app = FastAPI()
 
