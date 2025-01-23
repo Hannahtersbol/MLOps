@@ -82,7 +82,7 @@ class MyDataset:
 def preprocess(size, raw_data_path: Path, output_folder: Path) -> None:
     print(f"{raw_data_path}")
     print(f"{os.getenv('IS_CONTAINER')}")
-    if os.getenv('IS_CONTAINER') == 1:
+    if os.getenv("IS_CONTAINER") == 1:
         print("Running in Docker container")
         raw_data_path = Path("mnt") / raw_data_path
         print(f"{raw_data_path}")
