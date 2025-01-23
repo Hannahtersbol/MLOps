@@ -1,26 +1,29 @@
-from unittest.mock import patch
-from fastapi.testclient import TestClient
-from src.catdogdetection.api import app
 from pathlib import Path
+from unittest.mock import patch
+
+from fastapi.testclient import TestClient
+
+from src.catdogdetection.api import app
 
 client = TestClient(app)
+
 
 def test_preprocess_with_s_20():
     """Test the preprocess endpoint with query parameter s=20."""
     with patch("src.catdogdetection.api.preprocess") as mock_preprocess:
         # Mock the preprocess function to simulate successful processing
         mock_preprocess.return_value = None
-        
+
         # Make a GET request to the /preprocess endpoint
         response = client.get("/preprocess?s=20")
-        
+
         # Assertions
         assert response.status_code == 200
         assert response.json() == {
             "status": "success",
             "message": "Data preprocessing started with parameter s=20",
         }
-        
+
         # Ensure the mock was called with the correct arguments
         mock_preprocess.assert_called_once_with(
             20, raw_data_path=Path("data/raw/"), output_folder=Path("data/processed/")
