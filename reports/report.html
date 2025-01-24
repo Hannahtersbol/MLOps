@@ -154,11 +154,8 @@ If working on development, install additional packages from requirements_dev.txt
 <em>experiments.</em></p>
 <p>Answer:</p>
 </blockquote>
-<p>We have used the cookiecutter template but we removed the docs and notebook folder as we didn't use them.
-In our data folder we split it up in a cat and dog folder as our dataset didn't come with explicit labels.
-So instead we used the path of the folder, from which the picture came, to create the labels for them.
-We added an outputs folder that contains the logs from hydra, so we could log each experiment we did,
-so even if we changed an experiment-config-file, we would still have the old experiments stored.</p>
+<p>We used the cookiecutter template but removed the docs and notebooks folders, as they were unnecessary for our project. In the data folder, we split it up into cat and dog subfolders because our dataset lacked explicit labels. Instead, we used the path of the folder, from which the picture came, to create the labels for them.</p>
+<p>We added an outputs folder that contains the logs from Hydra, allowing us to log each experiment. This ensured that even if we changed an experiment-config-file, we still had the old experiments stored. This structure allowed us to adapt the template effectively to our dataset and workflow, maintaining a clear organization and preserving important experiment records.</p>
 <h3>Question 6</h3>
 <blockquote>
 <p><strong>Did you implement any rules for code quality and format? What about typing and documentation? Additionally,</strong>
@@ -190,8 +187,8 @@ corporate and increase the quality of your code.</p>
 </blockquote>
 <p>We implemented 9 tests across three areas.</p>
 <ul>
-<li>API Tests (2 tests): These validate the /preprocess endpoint to ensure proper handling of query parameters and the /evaluate-image    endpoint for correct classification and integration with the model using mocked functions.</li>
-<li>Data Tests (5 tests): These confirm dataset integrity, including verifying the dataset length matches expectations, transformations are defined, and the shapes of transformed cat and dog images are consistent. Additionally, we ensure the dataset reads from the correct directory.</li>
+<li>API Tests (2 tests): These validate the /preprocess endpoint and the /evaluate-image endpoint for correct classification and integration with the model using mocked functions.</li>
+<li>Data Tests (5 tests): These confirm dataset integrity, including verifying the dataset length matches expectations and the shapes of transformed cat and dog images are consistent. Additionally, we ensure the dataset reads from the correct directory.</li>
 <li>Model Tests (3 tests): These include checking the forward pass for correct output shape, validating the presence of trainable parameters, and ensuring the model’s structure matches the expected configuration.</li>
 </ul>
 <h3>Question 8</h3>
@@ -202,9 +199,9 @@ corporate and increase the quality of your code.</p>
 <p>Example:
 <em>The total code coverage of code is X%, which includes all our source code. We are far from 100% coverage of our **
 </em>code and even if we were then...*</p>
-<p>Answer:
-The total code coverage of our code is 37%, which includes all our source code. This is, of course, far from 100% coverage. While higher coverage increases the likelihood of detecting bugs, even 100% code coverage does not guarantee the absence of errors. Code coverage merely indicates that the percentage of code that have been executed during testing, but it does not confirm that the code behaves correctly in all scenarios.</p>
+<p>Answer:</p>
 </blockquote>
+<p>The total code coverage of our code is 37%, which includes all our source code. This is, of course, far from 100% coverage. While higher coverage increases the likelihood of detecting bugs, even 100% code coverage does not guarantee the absence of errors. Code coverage merely indicates that the percentage of code that have been executed during testing, but it does not confirm that the code behaves correctly in all scenarios.</p>
 <p>Achieving 100% coverage does not account for untested edge cases, logical errors, or unexpected interactions between components. For example, if a function f(a)=a+a is tested with f(1)=2, the test might pass, but it would fail to detect issues that a more thorough test, like verifying f(a)=2×a, might reveal. Both tests could execute the same lines of code, but only the second one ensures correctness across all inputs. Therefore, reliable software development requires not just high code coverage but also well-designed test cases that evaluate various scenarios and edge cases comprehensively.</p>
 <h3>Question 9</h3>
 <blockquote>
@@ -230,14 +227,14 @@ Features like github actions could still be worked on the main branch as only 1 
 <p>Example:
 <em>We did make use of DVC in the following way: ... . In the end it helped us in ... for controlling ... part of our</em>
 <em>pipeline</em></p>
-<p>Answer:
-We did set up dvc, but did not end up using it too much. It wasn't feasible to have all the data in our git repository
+<p>Answer:</p>
+</blockquote>
+<p>We did set up dvc, but did not end up using it too much. It wasn't feasible to have all the data in our git repository
 and push/pull it every time, so we set up dvc to push to a remote branch, which is a public storage bucket hosted on gcloud storage.
 In this way it helped us to move vast amounts of data around, but we did not use the version control aspects of it,
 because we did not change the data or do any cleanup. Data version control becomes very important when you change data,
 like removing wrong training data or in other ways manipulating it.
 Without version control it becomes impossible to reproduce the models that were based on previous data.</p>
-</blockquote>
 <h3>Question 11</h3>
 <blockquote>
 <p><strong>Discuss you continuous integration setup. What kind of continuous integration are you running (unittesting,</strong>
@@ -250,7 +247,7 @@ Without version control it becomes impossible to reproduce the models that were 
 <em>here: <weblink></em></p>
 <p>Answer:</p>
 </blockquote>
-<p>We have made pytests in order to ensure that if we were to change anything the test would catch any error during the implementation.
+<p>We have developed comprehensive pytests to ensure that any changes made to the codebase are  tested and that any errors introduced during the implementation could be identified. By running these tests automatically, we can validate the correctness of new updates while maintaining the stability and functionality of the overall system.
 We have made tests for the data: testing the length of the datasets, the format and shape of the data,
 and the path of datasets all to ensure that we are readion the correct data and it is implemented properly.
 We have also made tests for the model. Testing the output shape, number of parameters and the generel structure of the model to ensure that it also works as intended.
@@ -316,9 +313,9 @@ All models and the config files used to create them are stored in the cloud whit
 <em>As seen in the second image we are also tracking ... and ...</em></p>
 <p>Answer:</p>
 </blockquote>
-<p>Experiment 1: <a href="figures/training_statistics_Exp1.png">this figure</a>
-Experiment 2: <a href="figures/training_statistics_Exp2.png">this figure</a></p>
-<p>Evaluations: <a href="figures/evaluations.png">this figure</a></p>
+<p>Experiment 1: <img alt="this figure" src="figures/training_statistics_Exp1.png" />
+Experiment 2: <img alt="this figure" src="figures/training_statistics_Exp2.png" /></p>
+<p>Evaluations: <img alt="this figure" src="figures/evaluations.png" /></p>
 <p>We tracked the same statistics on two experiments. In experiment 2 we doubled the learning rate. This increased the model accuracy by about 6%.
 Comparing the first two images you can see that the accuracy increases at a higher rate with increased learning rate.</p>
 <h3>Question 15</h3>
@@ -355,14 +352,14 @@ The dockerfile the image is built from is train.dockerfile. This docerfile speci
 <p>Recommended answer length: 50-200 words.</p>
 <p>Example:
 <em>We used the following two services: Engine and Bucket. Engine is used for... and Bucket is used for...</em></p>
-<p>Answer:
-We used the following services: Engine, bucket, cloud run, artifact registry and cloud build.
+<p>Answer:</p>
+</blockquote>
+<p>We used the following services: Engine, bucket, cloud run, artifact registry and cloud build.
 The cloud engine can be used for managing VM's as well as deploying them.
 Cloud storage can host data in different buckets.
 Cloud run is a "serverless" platform where containers can be run, without the user having to think about the underlying server structure.
 Artifact registry is for managing container images and other types of software.
 Cloud build is for building images and is an essential part of the CI/CD process.</p>
-</blockquote>
 <h3>Question 18</h3>
 <blockquote>
 <p><strong>The backbone of GCP is the Compute engine. Explained how you made use of this service and what type of VMs</strong>
@@ -371,32 +368,32 @@ Cloud build is for building images and is an essential part of the CI/CD process
 <p>Example:
 <em>We used the compute engine to run our ... . We used instances with the following hardware: ... and we started the</em>
 <em>using a custom container: ...</em></p>
-<p>Answer:
-We mainly used the VMs for bugfixing the containers, because it is possible to ssh into the VM which makes it a lot easier to see what is going on. We got a VM with a GPU, but didn't get to use it for mutch. We mainly used cloud run to fully automate the CI/CD process. The containers are then accessable through the internet.</p>
+<p>Answer:</p>
 </blockquote>
+<p>We primarily utilized virtual machines (VMs) for debugging and fixing issues with the containers. The ability to SSH into the VMs proved important, as it allowed us to directly access and inspect the system, making it much easier to diagnose and resolve any problems that arose. Additionally, we had access to a VM with a GPU, which could have been practical for computationally intensive tasks, though we didn’t get the opportunity to use it extensively. For deployment, we mainly relied on Cloud Run to automate the continuous integration and continuous delivery (CI/CD) pipeline fully. This streamlined process ensured that our code changes were automatically built, tested, and deployed with minimal manual intervention. The containers deployed via Cloud Run were made accessible through the internet, providing an efficient and scalable solution for hosting and accessing our services.</p>
 <h3>Question 19</h3>
 <blockquote>
 <p><strong>Insert 1-2 images of your GCP bucket, such that we can see what data you have stored in it.</strong></p>
 <p>Answer:</p>
 </blockquote>
-<p><a href="figures/buckets.png">this figure</a>
+<p><img alt="this figure" src="figures/buckets.png" />
 <a href="figures/data-bucket.PNG">this figure</a>
-<a href="figures/models-bucket.PNG">this figure</a></p>
+<img alt="this figure" src="figures/models-bucket.PNG" /></p>
 <h3>Question 20</h3>
 <blockquote>
 <p><strong>Upload 1-2 images of your GCP artifact registry, such that we can see the different docker images that you have</strong>
 <strong>stored.</strong></p>
 <p>Answer:</p>
 </blockquote>
-<p><a href="figures/registry.png">this figure</a>
-<a href="figures/images-registry.PNG">this figure</a></p>
+<p><img alt="this figure" src="figures/registry.png" />
+<img alt="this figure" src="figures/images-registry.PNG" /></p>
 <h3>Question 21</h3>
 <blockquote>
 <p><strong>Upload 1-2 images of your GCP cloud build history, so we can see the history of the images that have been build in</strong>
 <strong>your project.</strong></p>
 <p>Answer:</p>
 </blockquote>
-<p><a href="figures/build.png">this figure</a></p>
+<p><img alt="this figure" src="figures/build.png" /></p>
 <h3>Question 22</h3>
 <blockquote>
 <p><strong>Did you manage to train your model in the cloud using either the Engine or Vertex AI? If yes, explain how you did</strong>
@@ -405,9 +402,10 @@ We mainly used the VMs for bugfixing the containers, because it is possible to s
 <p>Example:
 <em>We managed to train our model in the cloud using the Engine. We did this by ... . The reason we choose the Engine</em>
 <em>was because ...</em></p>
-<p>Answer:
-We managed to train our model in the cloud through the container running in cloud run. The reason we did it this way was for simplicity. Because the deployment of containers are fully automated it is easy for us to make changes to the code and get the updated container running. This minimized the amount of manual setup and sped up our work process. When the container is running we can train our model through the api.</p>
+<p>Answer:</p>
 </blockquote>
+<p>We successfully trained our machine learning model in the cloud by utilizing a container running on Google Cloud Run. This approach was chosen due to its simplicity and efficiency. Cloud Run allowed us to easily deploy and manage the containerized application, which was ideal for our workflow. One of the key advantages of this solution was Cloud Run’s automated deployment process for containers. This automation help us to implement code changes quickly and deploy the updated container with minimal effort, reducing the need for manual setup.</p>
+<p>As a result, we were able to focus more on model development and experimentation, rather than on infrastructure management. Once the container was deployed and running, we made use of Cloud Run’s API capabilities to initiate and manage the model training process. This ensured that the entire training pipeline could be run directly in the cloud, providing both flexibility and scalability. Ultimately, this cloud-based containerized approach streamlined our operations and accelerated our model development and training process.</p>
 <h2>Deployment</h2>
 <h3>Question 23</h3>
 <blockquote>
@@ -429,9 +427,9 @@ We managed to train our model in the cloud through the container running in clou
 <em>For deployment we wrapped our model into application using ... . We first tried locally serving the model, which</em>
 <em>worked. Afterwards we deployed it in the cloud, using ... . To invoke the service an user would call</em>
 <em><code>curl -X POST -F "file=@file.json"&lt;weburl&gt;</code></em></p>
-<p>Answer:
-We tried to deploy our API locally using uvicorn to make a local server where we could call the API using the url. The functions would then get called and would return the training data or some kind of response that the API was sucessfull. It worked perfectly locally and produced the results that we were expecting and it preprocessed and trained on the preprocessed images as intended.</p>
+<p>Answer:</p>
 </blockquote>
+<p>We tried to deploy our API locally using uvicorn to make a local server where we could call the API using the url. The functions would then get called and would return the training data or some kind of response that the API was sucessfull. It worked perfectly locally and produced the results that we were expecting and it preprocessed and trained on the preprocessed images as intended.</p>
 <p>We also got it running in the cloud. Our train.dockerfile entrypoint is the api. So when the container is run in the google cloud run environment the api is exposed to the internet.</p>
 <h3>Question 25</h3>
 <blockquote>
@@ -441,11 +439,11 @@ We tried to deploy our API locally using uvicorn to make a local server where we
 <p>Example:
 <em>For unit testing we used ... and for load testing we used ... . The results of the load testing showed that ...</em>
 <em>before the service crashed.</em></p>
-<p>Answer:
-For testing of the API we used pytest in order to test the different functions and testClient from the fast api library to simulate a server. we have tested to preprocess data which passed and therefore we can conclude that it works perfectly. We also tested the API for evaluating a single image and it also passed showing that the function works.
+<p>Answer:</p>
+</blockquote>
+<p>For testing of the API we used pytest in order to test the different functions and testClient from the fast api library to simulate a server. we have tested to preprocess data which passed and therefore we can conclude that it works perfectly. We also tested the API for evaluating a single image and it also passed showing that the function works.
 We use the patch library from unittest.mock because we would like to the the API function not the other functions inside the API.
 In the API where we evaluate a single image by using a patch we create a "dummy" function for the function used inside the API because we do not test the inside function, only the API. By using this patch we ensure that it is only the api we are testing. we assert that the response code is 200 which means that it worked and we also asserts that the "dummy" function is called at least once with the parameters that we send in to the function.</p>
-</blockquote>
 <h3>Question 26</h3>
 <blockquote>
 <p><strong>Did you manage to implement monitoring of your deployed model? If yes, explain how it works. If not, explain how</strong>
@@ -454,9 +452,9 @@ In the API where we evaluate a single image by using a patch we create a "dummy"
 <p>Example:
 <em>We did not manage to implement monitoring. We would like to have monitoring implemented such that over time we could</em>
 <em>measure ... and ... that would inform us about this ... behaviour of our application.</em></p>
-<p>Answer:
-We did not manage to implement monitoring. However, implementing monitoring would significantly enhance the longevity of our application. Monitoring would allow us to track the performance and health of our deployed model over time. By measuring key metrics such as accuracy, latency, and error rates, we could identify any deviations or degradations in performance early on. This could help us catch issues before they become a big problem for our users.</p>
+<p>Answer:</p>
 </blockquote>
+<p>We did not manage to implement monitoring. However, implementing monitoring would significantly enhance the longevity of our application. Monitoring would allow us to track the performance and health of our deployed model over time. By measuring key metrics such as accuracy, latency, and error rates, we could identify any deviations or degradations in performance early on. This could help us catch issues before they become a big problem for our users.</p>
 <p>Additionally, monitoring would help us understand the behavior of our application in real-world scenarios, providing insights into how it interacts with different data inputs and environments. This continuous feedback loop would be great for making informed decisions about model updates, retraining, and maintenance, ensuring our application remains reliable and effective in the long term.</p>
 <h2>Overall discussion of project</h2>
 <blockquote>
@@ -499,7 +497,14 @@ a classification whether it is a cat or a dog on the image.</p>
 <em>Whenever we commit code and push to GitHub, it auto triggers ... and ... . From there the diagram shows ...</em></p>
 <p>Answer:</p>
 </blockquote>
-<p>--- question 29 fill here ---</p>
+<p>the project structure has been described using <img alt="this figure" src="figures/project_structure.png" />
+In this diagram we have the local properties on the left side and the cloud based components on the right side.
+The starting point is on the local side where we first of all specify which IDE we are using which is visual studio code. For our environment we use anaconda to create it and this is also where we have all our dependencies. For the generel structure and build we use cookiecutter in order to have a consistent and organised project setup across project members.
+We use Pytorch as our framework in order to build, train and deploy our models. In pytorch we use pytorch image models timm as our external framework. In timm we use the resNet18 pretrained model which is fast to train and is good at image recognition. We use Hydra in order to organize our config files and logs our experiments when training models.
+When it comes to our API we have used fastAPI as it works well in making GET,PUT,POST,DELETE functions and is easily used through URL. In order to test the API's locally we have used uvicorn to create a localHost server and then thorugh url tesing the different API functions.
+When it comes to testing our project we have used pytest in order to ensure that different parts of our project works as intended. We have created tests for the API, data and model. These pytests also gets run when we push anything to our github to make sure  nothing has been broken while making changes. On top of pytests we also have some pre commit github actions that checks the syntax and format of our code to not accidentally push some faulty code to the shared main branch.
+In our IDE we also have some command-line interfaces used to create docker files and to check our code coverage of how much of our code is checked via the pytests.
+From our github, the docker files are pulled into the cloud where the cloud build makes docker images that are used to deploy our project. The docker container images are then stored in artifact registry and are also sent to the cloud run to deploy our docker images. The data when deployed are then stored in cloud storage. This is also used together with Data Version Control in order to manage data, models</p>
 <h3>Question 30</h3>
 <blockquote>
 <p><strong>Discuss the overall struggles of the project. Where did you spend most time and what did you do to overcome these</strong>
@@ -512,7 +517,8 @@ a classification whether it is a cat or a dog on the image.</p>
 <p>Our biggest struggle was probably writing our code for local use with command line arguments and such, and then having to deploy it
 on the cloud. We had to rewrite a lot of our code to get it to work again. This was quite tedious as it would take 10 mins for the cloud to run the code from a new git commit. Iterating our code would then quickly take hours of our time as we didn't have a better option, since the code worked locally but not initially on the cloud.
 When we finally got it working on the cloud continued developement wasn't a problem, since when we set it up correctly on the cloud.
-So we could iterate locally and then be quite certain that it would work on the cloud, so we had to spend less time bug fixing over the cloud.</p>
+So we could iterate locally and then be quite certain that it would work on the cloud, so we had to spend less time bug fixing over the cloud.
+Another struggle was figuring out how to test the varius data using the unit tests in GitHub. This was because our data was ofcourse stored locally and not in the git repository, which didn't make it possible to test. This had a simple solution of adding a test data folder, with a small dataset. While this was a small struggle in hindsight, it took some time to figure out what the issue was.</p>
 <h3>Question 31</h3>
 <blockquote>
 <p><strong>State the individual contributions of each team member. This is required information from DTU, because we need to</strong>
@@ -538,11 +544,14 @@ Answer:</p>
 - Profiling
 - Code coverage</p>
 <p>Student s224762 was in charge of:
-- API</p>
+- API
+- Pytest for API
+- singleImageEvaluation</p>
 <p>Student s224773 was in charge of:
 - All of GCP tasks
 - Some API and docker configureation to work in cloud</p>
 <p>We all contributed to the source code. In week 1 we decided that we would do mob-programming, meaning that one person was writing code
 while the rest were directing and discussing what to write. This gave all of us a good foundation and understanding for the project
 from the start.
-Then in the following weeks we would individually add to or edit the code to complete our delegated tasks. For instance, adding CLI meant changing the Python files to be run through (Typer/Invoke/Hydra)</p>
+Then in the following weeks we would individually add to or edit the code to complete our delegated tasks. For instance, adding CLI meant changing the Python files to be run through (Typer/Invoke/Hydra)
+We have used ChatGPT to help set up some of the different dependensies and helped write some of the code as well as operation in the cloud.</p>
