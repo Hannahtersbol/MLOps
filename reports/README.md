@@ -397,7 +397,8 @@ Experiment 2: [this figure](figures/training_statistics_Exp2.png)
 
 Evaluations: [this figure](figures/evaluations.png)
 
-We tracked the same statistics on two experiments. In experiment 2 we doubled the learning rate. This increased
+We tracked the same statistics on two experiments. In experiment 2 we doubled the learning rate. This increased the model accuracy by about 6%.
+Comparing the first two images you can see that the accuracy increases at a higher rate with increased learning rate.
 
 ### Question 15
 
@@ -537,7 +538,6 @@ When writing the API's for our model we considered which method we would need to
 >
 > Answer:
 
---- question 24 fill here ---
 We tried to deploy our API locally using uvicorn to make a local server where we could call the API using the url. The functions would then get called and would return the training data or some kind of response that the API was sucessfull. It worked perfectly locally and produced the results that we were expecting and it preprocessed and trained on the preprocessed images as intended.
 
 ### Question 25
@@ -553,7 +553,6 @@ We tried to deploy our API locally using uvicorn to make a local server where we
 >
 > Answer:
 
---- question 25 fill here ---
 For testing of the API we used pytest in order to test the different functions and testClient from the fast api library to simulate a server. we have tested to preprocess data which passed and therefore we can conclude that it works perfectly. We also tested the API for evaluating a single image and it also passed showing that the function works.
 We use the patch library from unittest.mock because we would like to the the API function not the other functions inside the API.
 In the API where we evaluate a single image by using a patch we create a "dummy" function for the function used inside the API because we do not test the inside function, only the API. By using this patch we ensure that it is only the api we are testing. we assert that the response code is 200 which means that it worked and we also asserts that the "dummy" function is called at least once with the parameters that we send in to the function.
@@ -570,8 +569,10 @@ In the API where we evaluate a single image by using a patch we create a "dummy"
 > *measure ... and ... that would inform us about this ... behaviour of our application.*
 >
 > Answer:
+We did not manage to implement monitoring. However, implementing monitoring would significantly enhance the longevity of our application. Monitoring would allow us to track the performance and health of our deployed model over time. By measuring key metrics such as accuracy, latency, and error rates, we could identify any deviations or degradations in performance early on. This could help us catch issues before they become a big problem for our users.
 
---- question 26 fill here ---
+Additionally, monitoring would help us understand the behavior of our application in real-world scenarios, providing insights into how it interacts with different data inputs and environments. This continuous feedback loop would be great for making informed decisions about model updates, retraining, and maintenance, ensuring our application remains reliable and effective in the long term.
+
 
 ## Overall discussion of project
 
