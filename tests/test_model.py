@@ -7,7 +7,7 @@ import torch
 # Add the src directory to the Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../src")))
 
-from catdogdetection.model import Model
+from src.catdogdetection.model import Model
 
 # To run test run pytest tests/test_model.py
 

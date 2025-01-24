@@ -667,7 +667,7 @@ So we could iterate locally and then be quite certain that it would work on the 
 > Answer:
 
 Student s224758 was in charge of:
-- Main project setup
+- Main project setups
 - CLI
 - GitHub Actions
 - local Dockerfiles (not the ones used on the cloud)
@@ -675,6 +675,7 @@ Student s224758 was in charge of:
 Student s224775 was in charge of:
 - Initial git setup
 - Unit tests
+- Profiling
 - Code coverage
 
 Student s224762 was in charge of:
