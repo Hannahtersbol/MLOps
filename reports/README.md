@@ -372,7 +372,7 @@ a hyperparameter, so that generated random numbers would be the same if you trie
 two different machines can get two different results. To remedy this we use docker to isolate the dependencies and containerize them.
 With docker we ensure that everything is identical when our experiments if we use the the same docker images. This is crucial to be
 able to analyze real world models and detect their weaknesses, which needs to happen before you can fix and improve them.
-All models and the config files used to create them are stored in the cloud whith the time that they where created as a uniqe identifier. 
+All models and the config files used to create them are stored in the cloud whith the time that they where created as a uniqe identifier.
 
 ### Question 14
 
@@ -410,8 +410,8 @@ Comparing the first two images you can see that the accuracy increases at a high
 >
 > Answer:
 
-We wanted to have everything running in the cloud. Origionally we wanted to make multiple containers, i.e one for running a model and another to train them, but because of time constraints and dificulties setting th cloud environment up, we ended up having one container that is able to preform all the functionallity of our project. We aoutomated the process so gcloud makes an image every time we push to main, the file cloudbuild.yaml specifies how gcloud shloud handle this process, this image is then deployed to cloud run with the name train-image.  
-The dockerfile the image is built from is train.dockerfile. This docerfile specifies what files, environment varriables, initilization and entrypoint of our container. Here is a link to our cloud run container instance: https://train-image-978483010590.europe-west1.run.app/ 
+We wanted to have everything running in the cloud. Origionally we wanted to make multiple containers, i.e one for running a model and another to train them, but because of time constraints and dificulties setting th cloud environment up, we ended up having one container that is able to preform all the functionallity of our project. We aoutomated the process so gcloud makes an image every time we push to main, the file cloudbuild.yaml specifies how gcloud shloud handle this process, this image is then deployed to cloud run with the name train-image.
+The dockerfile the image is built from is train.dockerfile. This docerfile specifies what files, environment varriables, initilization and entrypoint of our container. Here is a link to our cloud run container instance: https://train-image-978483010590.europe-west1.run.app/
 
 ### Question 16
 
@@ -445,11 +445,11 @@ Profiling: We performed profiling on our code, which initially revealed that the
 >
 > Answer:
 We used the following services: Engine, bucket, cloud run, artifact registry and cloud build.
-The cloud engine can be used for managing VM's as well as deploying them. 
-Cloud storage can host data in different buckets. 
-Cloud run is a "serverless" platform where containers can be run, without the user having to think about the underlying server structure. 
-Artifact registry is for maneging container images and other types of software. 
-Cloud build is for building images and is an essential part of the CI/CD process.  
+The cloud engine can be used for managing VM's as well as deploying them.
+Cloud storage can host data in different buckets.
+Cloud run is a "serverless" platform where containers can be run, without the user having to think about the underlying server structure.
+Artifact registry is for maneging container images and other types of software.
+Cloud build is for building images and is an essential part of the CI/CD process.
 
 ### Question 18
 
@@ -463,7 +463,7 @@ Cloud build is for building images and is an essential part of the CI/CD process
 > *using a custom container: ...*
 >
 > Answer:
-We mainly used the VMs for bugfixing the containers, because it is possible to ssh into the VM which makes it a lot easier to see what is going on. We got a VM with a GPU, but didn't get to use it for mutch. We mainly used cloud run to fully automate the CI/CD process. The containers are then accessable through the internet. 
+We mainly used the VMs for bugfixing the containers, because it is possible to ssh into the VM which makes it a lot easier to see what is going on. We got a VM with a GPU, but didn't get to use it for mutch. We mainly used cloud run to fully automate the CI/CD process. The containers are then accessable through the internet.
 
 ### Question 19
 
@@ -542,7 +542,7 @@ When writing the API's for our model we considered which method we would need to
 > Answer:
 We tried to deploy our API locally using uvicorn to make a local server where we could call the API using the url. The functions would then get called and would return the training data or some kind of response that the API was sucessfull. It worked perfectly locally and produced the results that we were expecting and it preprocessed and trained on the preprocessed images as intended.
 
-We also got it running in the cloud. Our train.dockerfile entrypoint is the api. So when the container is run in the google cloud run environment the api is exposed to the internet.  
+We also got it running in the cloud. Our train.dockerfile entrypoint is the api. So when the container is run in the google cloud run environment the api is exposed to the internet.
 
 ### Question 25
 
@@ -594,9 +594,9 @@ Additionally, monitoring would help us understand the behavior of our applicatio
 >
 > Answer:
 
-We used ~150kr in total. The most expensive feature was compute engine probably because we never stoped them, so they were always running. 
-There is alot of setup and maintenece required to have a functional cloud environment. But there are alot of benefits. Firsty there is the fact that you can create spesialized environments and hardware for your project that you do not need to run your self. The CI/CD capabilities of gcloud are nice and there is alot of documentation of it, so it is possible to figure out how to use. That being said there are a lot of functionallities in gcloud and it can therefore be a confusing to use. 
-In cloud run the monitoring and logging features are very good and is a good way of figuring out what the application is doing as well as the network trafic. 
+We used ~150kr in total. The most expensive feature was compute engine probably because we never stoped them, so they were always running.
+There is alot of setup and maintenece required to have a functional cloud environment. But there are alot of benefits. Firsty there is the fact that you can create spesialized environments and hardware for your project that you do not need to run your self. The CI/CD capabilities of gcloud are nice and there is alot of documentation of it, so it is possible to figure out how to use. That being said there are a lot of functionallities in gcloud and it can therefore be a confusing to use.
+In cloud run the monitoring and logging features are very good and is a good way of figuring out what the application is doing as well as the network trafic.
 
 ### Question 28
 
