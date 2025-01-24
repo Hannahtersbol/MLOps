@@ -424,7 +424,7 @@ Comparing the first two images you can see that the accuracy increases at a high
 >
 > Answer:
 
-Debugging: While debuuging have varied from person to person, some repeated practises have been to use the error messages from the Terminal when running the code. As well as using ChatGPT and GitHub's copilot to help solve the issues which arose. Furthermore we tried using the python debugging tool showed in the curse. That being said we also occasionally relied on print statements—an old habit which, while not always ideal, still provided some good insights.
+Debugging: While debugging have varied from person to person, some repeated practises have been to use the error messages from the Terminal when running the code. As well as using ChatGPT and GitHub's copilot to help solve the issues which arose. Furthermore we tried using the python debugging tool showed in the curse. That being said we also occasionally relied on print statements—an old habit which, while not always ideal, still provided some good insights.
 
 Profiling: We performed profiling on our code, which initially revealed that the training phase spent most of its time moving data rather than executing the training functions. Based on this insight, we made adjustments to optimize the process, ensuring more time was spent running the training function and less on data movement.
 
@@ -517,7 +517,7 @@ Profiling: We performed profiling on our code, which initially revealed that the
 >
 > Answer:
 
---- question 23 fill here ---
+
 When writing the API's for our model we considered which method we would need to use. We wanted to be able to train our model in order to make it better. In order to train our model we needed to preprocess pictures in order to have material to train on. lastly we also needed to have an API for sending a picture, preprocess the picture and use the machine to analyze it and return a result whether it was a cat or a dog. To make these API functions we use FastAPI as this seemed like the most intuitive solution. For the preprocess of images and model training we used GET API because we didnt need to send any object now that we have locally put in 30.000 pictures of cats and dogs. For the preprocess we can pass in a number in the url that tells the function how many pictures it needs to preprocess. For the single image evaluation we used a POST function because we need to pass in an image that it needs to evaluate.
 
 ### Question 24
@@ -603,7 +603,8 @@ Additionally, monitoring would help us understand the behavior of our applicatio
 >
 > Answer:
 
---- question 28 fill here ---
+We did not implement anything extra. We wanted to create a frontend where you could upload an image and have the API give you
+a classification whether it is a cat or a dog on the image.
 
 ### Question 29
 
