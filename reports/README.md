@@ -313,7 +313,6 @@ Without version control it becomes impossible to reproduce the models that were 
 >
 > Answer:
 
---- question 11 fill here ---
 We have made pytests in order to ensure that if we were to change anything the test would catch any error during the implementation.
 We have made tests for the data: testing the length of the datasets, the format and shape of the data,
 and the path of datasets all to ensure that we are readion the correct data and it is implemented properly.
@@ -393,7 +392,12 @@ able to analyze real world models and detect their weaknesses, which needs to ha
 >
 > Answer:
 
---- question 14 fill here ---
+Experiment 1: [this figure](figures/training_statistics_Exp1.png)
+Experiment 2: [this figure](figures/training_statistics_Exp2.png)
+
+Evaluations: [this figure](figures/evaluations.png)
+
+We tracked the same statistics on two experiments. In experiment 2 we doubled the learning rate. This increased
 
 ### Question 15
 
