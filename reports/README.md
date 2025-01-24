@@ -675,7 +675,7 @@ Student s224758 was in charge of:
 Student s224775 was in charge of:
 - Initial git setup
 - Unit tests
-- Profiling 
+- Profiling
 - Code coverage
 
 Student s224762 was in charge of:
