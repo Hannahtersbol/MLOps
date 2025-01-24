@@ -631,6 +631,14 @@ a classification whether it is a cat or a dog on the image.
 > Answer:
 
 --- question 29 fill here ---
+the project structure has been described using [this figure](figures/project_structure.png)
+In this diagram we have the local properties on the left side and the cloud based components on the right side.
+The starting point is on the local side where we first of all specify which IDE we are using which is visual studio code. For our environment we use anaconda to create it and this is also where we have all our dependencies. For the generel structure and build we use cookiecutter in order to have a consistent and organised project setup across all project members. 
+We use Pytorch as our primary framework in ourder to build, train and deploy our models. In pytorch we use pytorch image models timm as our external framework. In timm we use the resNet18 pretrained model which is fast to train and is very good at image recognition. We use Hydra in order to organize our config files and logs all our experiments when training models. 
+When it comes to our API we have used fastAPI as it works very well in making GET,PUT,POST,DELETE functions and is easily used through URL. In order to test the API's locally we have used uvicorn to create a localHost server and then thorugh url tesing the different API functions.
+When it comes to testing our project we have used pytest in order to ensure that different parts of our project works as intended. We have created tests for the API, the data and the model. These pytests also gets run when we push anything to our github to make sure that nothing has been broken while making changes. On top of pytests we also have some pre commit github actions that checks the syntax and format of our code to not accidentally push some faulty code to the shared main branch. 
+In our IDE we also have some command-line interfaces especially used to create docker files and to check our code coverage of how much of our code is checked via the pytests. 
+From our github the docker files are pulled into the cloud where the cloud build makes docker images that are then used to deploy our project. The docker container images are then stored in our artifact registry and are also sent to the cloud run to deploy our docker images. The data when deployed are then stored in cloud storage. This is also used together with Data Version Control in order to manage data, models     
 
 ### Question 30
 
@@ -679,6 +687,8 @@ Student s224775 was in charge of:
 
 Student s224762 was in charge of:
 - API
+- Pytest for API
+- singleImageEvaluation 
 
 
 Student s224773 was in charge of:
@@ -688,3 +698,4 @@ We all contributed to the source code. In week 1 we decided that we would do mob
 while the rest were directing and discussing what to write. This gave all of us a good foundation and understanding for the project
 from the start.
 Then in the following weeks we would individually add to or edit the code to complete our delegated tasks. For instance, adding CLI meant changing the Python files to be run through (Typer/Invoke/Hydra)
+We have used ChatGPT to help set up some of the different dependensies and helped write some of the code as well as operation in the cloud.
