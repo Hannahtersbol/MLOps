@@ -1,10 +1,12 @@
 import torch
 import typer
+
 try:
-    from src.catdogdetection.model import Model
     from src.catdogdetection.data import load_data
+    from src.catdogdetection.model import Model
 except ImportError:
     from model import Model
+
     from data import load_data
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu")
