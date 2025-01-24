@@ -639,7 +639,11 @@ a classification whether it is a cat or a dog on the image.
 >
 > Answer:
 
---- question 30 fill here ---
+Our biggest struggle was probably writing our code for local use with command line arguments and such, and then having to deploy it
+on the cloud. We had to rewrite a lot of our code to get it to work again. This was quite tedious as it would take 10 mins for the cloud to run the code from a new git commit. Iterating our code would then quickly take hours of our time as we didn't have a better option, since the code worked locally but not initially on the cloud.
+When we finally got it working on the cloud continued developement wasn't a problem, since when we set it up correctly on the cloud.
+So we could iterate locally and then be quite certain that it would work on the cloud, so we had to spend less time bug fixing over the cloud.
+
 
 ### Question 31
 
