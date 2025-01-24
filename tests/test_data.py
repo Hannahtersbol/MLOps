@@ -10,7 +10,7 @@ from src.catdogdetection.data import MyDataset
 @pytest.fixture
 def dataset():
     # Point to data/test instead of data/raw
-    test_data_path = Path(os.path.dirname(__file__), "../data/test").resolve()
+    test_data_path = Path(os.path.dirname(__file__), "../tests/test_images").resolve()
     # Since you only have 2 total images (1 cat + 1 dog), set size=2
     return MyDataset(2, test_data_path)
 
@@ -49,7 +49,7 @@ def test_getdog_shape(dataset):
 
 def test_data_path(dataset):
     """Test that the dataset is reading from the correct folder."""
-    raw_data_path = Path(os.path.dirname(__file__), "../data/test").resolve()
+    raw_data_path = Path(os.path.dirname(__file__), "../tests/test_images").resolve()
     assert (
         dataset.data_path.resolve() == raw_data_path
     ), f"Expected data path {raw_data_path}, got {dataset.data_path.resolve()}"

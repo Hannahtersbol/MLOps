@@ -94,10 +94,10 @@ def preprocess(size, raw_data_path: Path, output_folder: Path) -> None:
 
 def load_data() -> tuple[torch.utils.data.Dataset, torch.utils.data.Dataset]:
     """Load the preprocessed data from a .pt file."""
-    train_images = torch.load("data/processed/train_images.pt").float()
-    train_targets = torch.load("data/processed/train_target.pt")
-    test_images = torch.load("data/processed/test_images.pt").float()
-    test_targets = torch.load("data/processed/test_target.pt")
+    train_images = torch.load("data/processed/train_images.pt", weights_only=True).float()
+    train_targets = torch.load("data/processed/train_target.pt", weights_only=True)
+    test_images = torch.load("data/processed/test_images.pt", weights_only=True).float()
+    test_targets = torch.load("data/processed/test_target.pt", weights_only=True)
 
     train_set = torch.utils.data.TensorDataset(train_images, train_targets)
     test_set = torch.utils.data.TensorDataset(test_images, test_targets)

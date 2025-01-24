@@ -129,7 +129,7 @@ Group 9
 >
 > Answer:
 
-s224758, s224775, s224762
+s224758, s224775, s224762, s224773
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -251,13 +251,9 @@ We implemented 9 tests across three areas.
 > *code and even if we were then...*
 >
 > Answer:
+The total code coverage of our code is 37%, which includes all our source code. This is, of course, far from 100% coverage. While higher coverage increases the likelihood of detecting bugs, even 100% code coverage does not guarantee the absence of errors. Code coverage merely indicates that the percentage of code that have been executed during testing, but it does not confirm that the code behaves correctly in all scenarios.
 
-In the beginning we didn't use a lot of branches. This was deliberate as all of us were unsure of the project setup.
-Instead we started with mob-programming, where 1 person is coding while the rest are directing them on what to write.
-When we had the main functionality of the framework, models and data sorted, we up our work.
-We used seperate branches when we were working on features that affected already established functionality.
-This relates mainly to our python code, as many members could be working on that simultainiously.
-Features like github actions could still be worked on the main branch as only 1 person was assigned to those features.
+Achieving 100% coverage does not account for untested edge cases, logical errors, or unexpected interactions between components. For example, if a function f(a)=a+a is tested with f(1)=2, the test might pass, but it would fail to detect issues that a more thorough test, like verifying f(a)=2×a, might reveal. Both tests could execute the same lines of code, but only the second one ensures correctness across all inputs. Therefore, reliable software development requires not just high code coverage but also well-designed test cases that evaluate various scenarios and edge cases comprehensively.
 
 ### Question 9
 
@@ -313,7 +309,6 @@ Without version control it becomes impossible to reproduce the models that were 
 >
 > Answer:
 
---- question 11 fill here ---
 We have made pytests in order to ensure that if we were to change anything the test would catch any error during the implementation.
 We have made tests for the data: testing the length of the datasets, the format and shape of the data,
 and the path of datasets all to ensure that we are readion the correct data and it is implemented properly.
@@ -342,9 +337,9 @@ We have also done some pre commits that checks syntax and formatting to avoid pu
 
 We used hydra combined with config.yaml files. To run an experiment we would write:
 invoke train -x Exp1
-invoke evaluate -m M_Exp1
+invoke evaluate -m Exp-yyyy-mm-dd-hh-mm-ss
 This would train a model based on the hyperparameters located in configs/Exp1.yaml
-and then evaluate the outputted model found at models/M_Exp1.pth
+and then evaluate the outputted model found at models/Exp-yyyy-mm-dd-hh-mm-ss.pth
 Example of config file:
 #config.yaml
 info:
@@ -356,7 +351,7 @@ hyperparameters:
   epochs: 10
   seed: 42
 
-After the experiment, hydra would then log the experiment, including the hyperparameters, in log/
+After the experiment, hydra would then log the experiment, including the hyperparameters, in outputs/
 So even if we changed a config file, we would still be able to look at old configurations.
 
 ### Question 13
@@ -377,6 +372,7 @@ a hyperparameter, so that generated random numbers would be the same if you trie
 two different machines can get two different results. To remedy this we use docker to isolate the dependencies and containerize them.
 With docker we ensure that everything is identical when our experiments if we use the the same docker images. This is crucial to be
 able to analyze real world models and detect their weaknesses, which needs to happen before you can fix and improve them.
+All models and the config files used to create them are stored in the cloud whith the time that they where created as a uniqe identifier.
 
 ### Question 14
 
@@ -393,7 +389,13 @@ able to analyze real world models and detect their weaknesses, which needs to ha
 >
 > Answer:
 
---- question 14 fill here ---
+Experiment 1: [this figure](figures/training_statistics_Exp1.png)
+Experiment 2: [this figure](figures/training_statistics_Exp2.png)
+
+Evaluations: [this figure](figures/evaluations.png)
+
+We tracked the same statistics on two experiments. In experiment 2 we doubled the learning rate. This increased the model accuracy by about 6%.
+Comparing the first two images you can see that the accuracy increases at a higher rate with increased learning rate.
 
 ### Question 15
 
@@ -408,7 +410,8 @@ able to analyze real world models and detect their weaknesses, which needs to ha
 >
 > Answer:
 
---- question 15 fill here ---
+We wanted to have everything running in the cloud. Origionally we wanted to make multiple containers, i.e one for running a model and another to train them, but because of time constraints and dificulties setting th cloud environment up, we ended up having one container that is able to preform all the functionallity of our project. We aoutomated the process so gcloud makes an image every time we push to main, the file cloudbuild.yaml specifies how gcloud shloud handle this process, this image is then deployed to cloud run with the name train-image.
+The dockerfile the image is built from is train.dockerfile. This docerfile specifies what files, environment varriables, initilization and entrypoint of our container. Here is a link to our cloud run container instance: https://train-image-978483010590.europe-west1.run.app/
 
 ### Question 16
 
@@ -423,7 +426,7 @@ able to analyze real world models and detect their weaknesses, which needs to ha
 >
 > Answer:
 
-Debugging: While debuuging have varied from person to person, some repeated practises have been to use the error messages from the Terminal when running the code. As well as using ChatGPT and GitHub's copilot to help solve the issues which arose. Furthermore we tried using the python debugging tool showed in the curse. That being said we also occasionally relied on print statements—an old habit which, while not always ideal, still provided some good insights.
+Debugging: While debugging have varied from person to person, some repeated practises have been to use the error messages from the Terminal when running the code. As well as using ChatGPT and GitHub's copilot to help solve the issues which arose. Furthermore we tried using the python debugging tool showed in the curse. That being said we also occasionally relied on print statements—an old habit which, while not always ideal, still provided some good insights.
 
 Profiling: We performed profiling on our code, which initially revealed that the training phase spent most of its time moving data rather than executing the training functions. Based on this insight, we made adjustments to optimize the process, ensuring more time was spent running the training function and less on data movement.
 
@@ -441,8 +444,12 @@ Profiling: We performed profiling on our code, which initially revealed that the
 > *We used the following two services: Engine and Bucket. Engine is used for... and Bucket is used for...*
 >
 > Answer:
-
---- question 17 fill here ---
+We used the following services: Engine, bucket, cloud run, artifact registry and cloud build.
+The cloud engine can be used for managing VM's as well as deploying them.
+Cloud storage can host data in different buckets.
+Cloud run is a "serverless" platform where containers can be run, without the user having to think about the underlying server structure.
+Artifact registry is for maneging container images and other types of software.
+Cloud build is for building images and is an essential part of the CI/CD process.
 
 ### Question 18
 
@@ -456,35 +463,37 @@ Profiling: We performed profiling on our code, which initially revealed that the
 > *using a custom container: ...*
 >
 > Answer:
-
---- question 18 fill here ---
+We mainly used the VMs for bugfixing the containers, because it is possible to ssh into the VM which makes it a lot easier to see what is going on. We got a VM with a GPU, but didn't get to use it for mutch. We mainly used cloud run to fully automate the CI/CD process. The containers are then accessable through the internet.
 
 ### Question 19
 
 > **Insert 1-2 images of your GCP bucket, such that we can see what data you have stored in it.**
-> **You can take inspiration from [this figure](figures/bucket.png).**
+>
 >
 > Answer:
 
---- question 19 fill here ---
+[this figure](figures/buckets.png)
+[this figure](figures/data-bucket.PNG)
+[this figure](figures/models-bucket.PNG)
 
 ### Question 20
 
 > **Upload 1-2 images of your GCP artifact registry, such that we can see the different docker images that you have**
-> **stored. You can take inspiration from [this figure](figures/registry.png).**
+> **stored.**
 >
 > Answer:
 
---- question 20 fill here ---
+[this figure](figures/registry.png)
+[this figure](figures/images-registry.PNG)
 
 ### Question 21
 
 > **Upload 1-2 images of your GCP cloud build history, so we can see the history of the images that have been build in**
-> **your project. You can take inspiration from [this figure](figures/build.png).**
+> **your project.**
 >
 > Answer:
 
---- question 21 fill here ---
+[this figure](figures/build.png)
 
 ### Question 22
 
@@ -498,8 +507,7 @@ Profiling: We performed profiling on our code, which initially revealed that the
 > *was because ...*
 >
 > Answer:
-
---- question 22 fill here ---
+We maneged to train our model in the cloud through the container running in cloud run. The reason we did it this way was for simplicity. Because the deployment of containers are fully automated it is easy for us to make changes to the code and get the updated container running. This minimized the amount of manual setup and sped up our work process. When the container is running we can train our model through the api.
 
 ## Deployment
 
@@ -516,7 +524,7 @@ Profiling: We performed profiling on our code, which initially revealed that the
 >
 > Answer:
 
---- question 23 fill here ---
+
 When writing the API's for our model we considered which method we would need to use. We wanted to be able to train our model in order to make it better. In order to train our model we needed to preprocess pictures in order to have material to train on. lastly we also needed to have an API for sending a picture, preprocess the picture and use the machine to analyze it and return a result whether it was a cat or a dog. To make these API functions we use FastAPI as this seemed like the most intuitive solution. For the preprocess of images and model training we used GET API because we didnt need to send any object now that we have locally put in 30.000 pictures of cats and dogs. For the preprocess we can pass in a number in the url that tells the function how many pictures it needs to preprocess. For the single image evaluation we used a POST function because we need to pass in an image that it needs to evaluate.
 
 ### Question 24
@@ -532,9 +540,9 @@ When writing the API's for our model we considered which method we would need to
 > *`curl -X POST -F "file=@file.json"<weburl>`*
 >
 > Answer:
-
---- question 24 fill here ---
 We tried to deploy our API locally using uvicorn to make a local server where we could call the API using the url. The functions would then get called and would return the training data or some kind of response that the API was sucessfull. It worked perfectly locally and produced the results that we were expecting and it preprocessed and trained on the preprocessed images as intended.
+
+We also got it running in the cloud. Our train.dockerfile entrypoint is the api. So when the container is run in the google cloud run environment the api is exposed to the internet.
 
 ### Question 25
 
@@ -548,8 +556,6 @@ We tried to deploy our API locally using uvicorn to make a local server where we
 > *before the service crashed.*
 >
 > Answer:
-
---- question 25 fill here ---
 For testing of the API we used pytest in order to test the different functions and testClient from the fast api library to simulate a server. we have tested to preprocess data which passed and therefore we can conclude that it works perfectly. We also tested the API for evaluating a single image and it also passed showing that the function works.
 We use the patch library from unittest.mock because we would like to the the API function not the other functions inside the API.
 In the API where we evaluate a single image by using a patch we create a "dummy" function for the function used inside the API because we do not test the inside function, only the API. By using this patch we ensure that it is only the api we are testing. we assert that the response code is 200 which means that it worked and we also asserts that the "dummy" function is called at least once with the parameters that we send in to the function.
@@ -566,8 +572,10 @@ In the API where we evaluate a single image by using a patch we create a "dummy"
 > *measure ... and ... that would inform us about this ... behaviour of our application.*
 >
 > Answer:
+We did not manage to implement monitoring. However, implementing monitoring would significantly enhance the longevity of our application. Monitoring would allow us to track the performance and health of our deployed model over time. By measuring key metrics such as accuracy, latency, and error rates, we could identify any deviations or degradations in performance early on. This could help us catch issues before they become a big problem for our users.
 
---- question 26 fill here ---
+Additionally, monitoring would help us understand the behavior of our application in real-world scenarios, providing insights into how it interacts with different data inputs and environments. This continuous feedback loop would be great for making informed decisions about model updates, retraining, and maintenance, ensuring our application remains reliable and effective in the long term.
+
 
 ## Overall discussion of project
 
@@ -586,7 +594,9 @@ In the API where we evaluate a single image by using a patch we create a "dummy"
 >
 > Answer:
 
---- question 27 fill here ---
+We used ~150kr in total. The most expensive feature was compute engine probably because we never stoped them, so they were always running.
+There is alot of setup and maintenece required to have a functional cloud environment. But there are alot of benefits. Firsty there is the fact that you can create spesialized environments and hardware for your project that you do not need to run your self. The CI/CD capabilities of gcloud are nice and there is alot of documentation of it, so it is possible to figure out how to use. That being said there are a lot of functionallities in gcloud and it can therefore be a confusing to use.
+In cloud run the monitoring and logging features are very good and is a good way of figuring out what the application is doing as well as the network trafic.
 
 ### Question 28
 
@@ -602,7 +612,8 @@ In the API where we evaluate a single image by using a patch we create a "dummy"
 >
 > Answer:
 
---- question 28 fill here ---
+We did not implement anything extra. We wanted to create a frontend where you could upload an image and have the API give you
+a classification whether it is a cat or a dog on the image.
 
 ### Question 29
 
@@ -633,7 +644,11 @@ In the API where we evaluate a single image by using a patch we create a "dummy"
 >
 > Answer:
 
---- question 30 fill here ---
+Our biggest struggle was probably writing our code for local use with command line arguments and such, and then having to deploy it
+on the cloud. We had to rewrite a lot of our code to get it to work again. This was quite tedious as it would take 10 mins for the cloud to run the code from a new git commit. Iterating our code would then quickly take hours of our time as we didn't have a better option, since the code worked locally but not initially on the cloud.
+When we finally got it working on the cloud continued developement wasn't a problem, since when we set it up correctly on the cloud.
+So we could iterate locally and then be quite certain that it would work on the cloud, so we had to spend less time bug fixing over the cloud.
+
 
 ### Question 31
 
@@ -651,4 +666,25 @@ In the API where we evaluate a single image by using a patch we create a "dummy"
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
---- question 31 fill here ---
+Student s224758 was in charge of:
+- Main project setup
+- CLI
+- GitHub Actions
+- local Dockerfiles (not the ones used on the cloud)
+
+Student s224775 was in charge of:
+- Initial git setup
+- Unit tests
+- Code coverage
+
+Student s224762 was in charge of:
+- API
+
+
+Student s224773 was in charge of:
+- All of GCP tasks
+
+We all contributed to the source code. In week 1 we decided that we would do mob-programming, meaning that one person was writing code
+while the rest were directing and discussing what to write. This gave all of us a good foundation and understanding for the project
+from the start.
+Then in the following weeks we would individually add to or edit the code to complete our delegated tasks. For instance, adding CLI meant changing the Python files to be run through (Typer/Invoke/Hydra)
