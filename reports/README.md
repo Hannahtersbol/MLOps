@@ -251,6 +251,7 @@ We implemented 9 tests across three areas.
 > *code and even if we were then...*
 >
 > Answer:
+
 The total code coverage of our code is 37%, which includes all our source code. This is, of course, far from 100% coverage. While higher coverage increases the likelihood of detecting bugs, even 100% code coverage does not guarantee the absence of errors. Code coverage merely indicates that the percentage of code that have been executed during testing, but it does not confirm that the code behaves correctly in all scenarios.
 
 Achieving 100% coverage does not account for untested edge cases, logical errors, or unexpected interactions between components. For example, if a function f(a)=a+a is tested with f(1)=2, the test might pass, but it would fail to detect issues that a more thorough test, like verifying f(a)=2×a, might reveal. Both tests could execute the same lines of code, but only the second one ensures correctness across all inputs. Therefore, reliable software development requires not just high code coverage but also well-designed test cases that evaluate various scenarios and edge cases comprehensively.
@@ -287,6 +288,7 @@ Features like github actions could still be worked on the main branch as only 1 
 > *pipeline*
 >
 > Answer:
+
 We did set up dvc, but did not end up using it too much. It wasn't feasible to have all the data in our git repository
 and push/pull it every time, so we set up dvc to push to a remote branch, which is a public storage bucket hosted on gcloud storage.
 In this way it helped us to move vast amounts of data around, but we did not use the version control aspects of it,
@@ -444,6 +446,7 @@ Profiling: We performed profiling on our code, which initially revealed that the
 > *We used the following two services: Engine and Bucket. Engine is used for... and Bucket is used for...*
 >
 > Answer:
+
 We used the following services: Engine, bucket, cloud run, artifact registry and cloud build.
 The cloud engine can be used for managing VM's as well as deploying them.
 Cloud storage can host data in different buckets.
@@ -463,6 +466,7 @@ Cloud build is for building images and is an essential part of the CI/CD process
 > *using a custom container: ...*
 >
 > Answer:
+
 We mainly used the VMs for bugfixing the containers, because it is possible to ssh into the VM which makes it a lot easier to see what is going on. We got a VM with a GPU, but didn't get to use it for mutch. We mainly used cloud run to fully automate the CI/CD process. The containers are then accessable through the internet.
 
 ### Question 19
@@ -507,6 +511,7 @@ We mainly used the VMs for bugfixing the containers, because it is possible to s
 > *was because ...*
 >
 > Answer:
+
 We managed to train our model in the cloud through the container running in cloud run. The reason we did it this way was for simplicity. Because the deployment of containers are fully automated it is easy for us to make changes to the code and get the updated container running. This minimized the amount of manual setup and sped up our work process. When the container is running we can train our model through the api.
 
 ## Deployment
@@ -540,6 +545,7 @@ When writing the API's for our model we considered which method we would need to
 > *`curl -X POST -F "file=@file.json"<weburl>`*
 >
 > Answer:
+
 We tried to deploy our API locally using uvicorn to make a local server where we could call the API using the url. The functions would then get called and would return the training data or some kind of response that the API was sucessfull. It worked perfectly locally and produced the results that we were expecting and it preprocessed and trained on the preprocessed images as intended.
 
 We also got it running in the cloud. Our train.dockerfile entrypoint is the api. So when the container is run in the google cloud run environment the api is exposed to the internet.
@@ -556,6 +562,7 @@ We also got it running in the cloud. Our train.dockerfile entrypoint is the api.
 > *before the service crashed.*
 >
 > Answer:
+
 For testing of the API we used pytest in order to test the different functions and testClient from the fast api library to simulate a server. we have tested to preprocess data which passed and therefore we can conclude that it works perfectly. We also tested the API for evaluating a single image and it also passed showing that the function works.
 We use the patch library from unittest.mock because we would like to the the API function not the other functions inside the API.
 In the API where we evaluate a single image by using a patch we create a "dummy" function for the function used inside the API because we do not test the inside function, only the API. By using this patch we ensure that it is only the api we are testing. we assert that the response code is 200 which means that it worked and we also asserts that the "dummy" function is called at least once with the parameters that we send in to the function.
@@ -572,6 +579,7 @@ In the API where we evaluate a single image by using a patch we create a "dummy"
 > *measure ... and ... that would inform us about this ... behaviour of our application.*
 >
 > Answer:
+
 We did not manage to implement monitoring. However, implementing monitoring would significantly enhance the longevity of our application. Monitoring would allow us to track the performance and health of our deployed model over time. By measuring key metrics such as accuracy, latency, and error rates, we could identify any deviations or degradations in performance early on. This could help us catch issues before they become a big problem for our users.
 
 Additionally, monitoring would help us understand the behavior of our application in real-world scenarios, providing insights into how it interacts with different data inputs and environments. This continuous feedback loop would be great for making informed decisions about model updates, retraining, and maintenance, ensuring our application remains reliable and effective in the long term.
@@ -630,7 +638,14 @@ a classification whether it is a cat or a dog on the image.
 >
 > Answer:
 
---- question 29 fill here ---
+the project structure has been described using [this figure](figures/project_structure.png)
+In this diagram we have the local properties on the left side and the cloud based components on the right side.
+The starting point is on the local side where we first of all specify which IDE we are using which is visual studio code. For our environment we use anaconda to create it and this is also where we have all our dependencies. For the generel structure and build we use cookiecutter in order to have a consistent and organised project setup across all project members.
+We use Pytorch as our primary framework in ourder to build, train and deploy our models. In pytorch we use pytorch image models timm as our external framework. In timm we use the resNet18 pretrained model which is fast to train and is very good at image recognition. We use Hydra in order to organize our config files and logs all our experiments when training models.
+When it comes to our API we have used fastAPI as it works very well in making GET,PUT,POST,DELETE functions and is easily used through URL. In order to test the API's locally we have used uvicorn to create a localHost server and then thorugh url tesing the different API functions.
+When it comes to testing our project we have used pytest in order to ensure that different parts of our project works as intended. We have created tests for the API, the data and the model. These pytests also gets run when we push anything to our github to make sure that nothing has been broken while making changes. On top of pytests we also have some pre commit github actions that checks the syntax and format of our code to not accidentally push some faulty code to the shared main branch.
+In our IDE we also have some command-line interfaces especially used to create docker files and to check our code coverage of how much of our code is checked via the pytests.
+From our github the docker files are pulled into the cloud where the cloud build makes docker images that are then used to deploy our project. The docker container images are then stored in our artifact registry and are also sent to the cloud run to deploy our docker images. The data when deployed are then stored in cloud storage. This is also used together with Data Version Control in order to manage data, models
 
 ### Question 30
 
@@ -680,6 +695,8 @@ Student s224775 was in charge of:
 
 Student s224762 was in charge of:
 - API
+- Pytest for API
+- singleImageEvaluation
 
 
 Student s224773 was in charge of:
@@ -690,3 +707,4 @@ We all contributed to the source code. In week 1 we decided that we would do mob
 while the rest were directing and discussing what to write. This gave all of us a good foundation and understanding for the project
 from the start.
 Then in the following weeks we would individually add to or edit the code to complete our delegated tasks. For instance, adding CLI meant changing the Python files to be run through (Typer/Invoke/Hydra)
+We have used ChatGPT to help set up some of the different dependensies and helped write some of the code as well as operation in the cloud.
