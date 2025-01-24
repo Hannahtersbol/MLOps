@@ -129,7 +129,7 @@ Group 9
 >
 > Answer:
 
-s224758, s224775, s224762
+s224758, s224775, s224762, s224773
 
 ### Question 3
 > **A requirement to the project is that you include a third-party package not covered in the course. What framework**
@@ -666,4 +666,25 @@ So we could iterate locally and then be quite certain that it would work on the 
 > *We have used ChatGPT to help debug our code. Additionally, we used GitHub Copilot to help write some of our code.*
 > Answer:
 
---- question 31 fill here ---
+Student s224758 was in charge of:
+- Main project setup
+- CLI
+- GitHub Actions
+- local Dockerfiles (not the ones used on the cloud)
+
+Student s224775 was in charge of:
+- Initial git setup
+- Unit tests
+- Code coverage
+
+Student s224762 was in charge of:
+- API
+
+
+Student s224773 was in charge of:
+- All of GCP tasks
+
+We all contributed to the source code. In week 1 we decided that we would do mob-programming, meaning that one person was writing code
+while the rest were directing and discussing what to write. This gave all of us a good foundation and understanding for the project
+from the start.
+Then in the following weeks we would individually add to or edit the code to complete our delegated tasks. For instance, adding CLI meant changing the Python files to be run through (Typer/Invoke/Hydra)
