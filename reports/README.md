@@ -462,29 +462,29 @@ Profiling: We performed profiling on our code, which initially revealed that the
 ### Question 19
 
 > **Insert 1-2 images of your GCP bucket, such that we can see what data you have stored in it.**
-> **You can take inspiration from [this figure](figures/bucket.png).**
+>
 >
 > Answer:
 
---- question 19 fill here ---
+[this figure](figures/buckets.png)
 
 ### Question 20
 
 > **Upload 1-2 images of your GCP artifact registry, such that we can see the different docker images that you have**
-> **stored. You can take inspiration from [this figure](figures/registry.png).**
+> **stored.**
 >
 > Answer:
 
---- question 20 fill here ---
+[this figure](figures/registry.png)
 
 ### Question 21
 
 > **Upload 1-2 images of your GCP cloud build history, so we can see the history of the images that have been build in**
-> **your project. You can take inspiration from [this figure](figures/build.png).**
+> **your project.**
 >
 > Answer:
 
---- question 21 fill here ---
+[this figure](figures/build.png)
 
 ### Question 22
 
