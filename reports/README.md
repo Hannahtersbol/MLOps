@@ -509,7 +509,9 @@ We primarily utilized virtual machines (VMs) for debugging and fixing issues wit
 >
 > Answer:
 
-We successfully trained our model in the cloud by utilizing a container running on Cloud Run. This approach was chosen for its simplicity and efficiency. By making use if Cloud Run’s automated container deployment, we could implement changes to the code and have the updated container up and running with minimal effort. This reduced the amount of manual setup required and accelerated our workflow. Once the container was deployed and running, we were able to train our model through the API, ensuring a streamlined and flexible training process directly in the cloud environment.
+We successfully trained our machine learning model in the cloud by utilizing a container running on Google Cloud Run. This approach was chosen due to its simplicity and efficiency. Cloud Run allowed us to easily deploy and manage the containerized application, which was ideal for our workflow. One of the key advantages of this solution was Cloud Run’s automated deployment process for containers. This automation help us to implement code changes quickly and deploy the updated container with minimal effort, reducing the need for manual setup.
+
+As a result, we were able to focus more on model development and experimentation, rather than on infrastructure management. Once the container was deployed and running, we made use of Cloud Run’s API capabilities to initiate and manage the model training process. This ensured that the entire training pipeline could be run directly in the cloud, providing both flexibility and scalability. Ultimately, this cloud-based containerized approach streamlined our operations and accelerated our model development and training process.
 
 ## Deployment
 
@@ -637,12 +639,12 @@ a classification whether it is a cat or a dog on the image.
 
 the project structure has been described using ![this figure](figures/project_structure.png)
 In this diagram we have the local properties on the left side and the cloud based components on the right side.
-The starting point is on the local side where we first of all specify which IDE we are using which is visual studio code. For our environment we use anaconda to create it and this is also where we have all our dependencies. For the generel structure and build we use cookiecutter in order to have a consistent and organised project setup across all project members.
-We use Pytorch as our primary framework in ourder to build, train and deploy our models. In pytorch we use pytorch image models timm as our external framework. In timm we use the resNet18 pretrained model which is fast to train and is very good at image recognition. We use Hydra in order to organize our config files and logs all our experiments when training models.
-When it comes to our API we have used fastAPI as it works very well in making GET,PUT,POST,DELETE functions and is easily used through URL. In order to test the API's locally we have used uvicorn to create a localHost server and then thorugh url tesing the different API functions.
-When it comes to testing our project we have used pytest in order to ensure that different parts of our project works as intended. We have created tests for the API, the data and the model. These pytests also gets run when we push anything to our github to make sure that nothing has been broken while making changes. On top of pytests we also have some pre commit github actions that checks the syntax and format of our code to not accidentally push some faulty code to the shared main branch.
-In our IDE we also have some command-line interfaces especially used to create docker files and to check our code coverage of how much of our code is checked via the pytests.
-From our github the docker files are pulled into the cloud where the cloud build makes docker images that are then used to deploy our project. The docker container images are then stored in our artifact registry and are also sent to the cloud run to deploy our docker images. The data when deployed are then stored in cloud storage. This is also used together with Data Version Control in order to manage data, models
+The starting point is on the local side where we first of all specify which IDE we are using which is visual studio code. For our environment we use anaconda to create it and this is also where we have all our dependencies. For the generel structure and build we use cookiecutter in order to have a consistent and organised project setup across project members.
+We use Pytorch as our framework in order to build, train and deploy our models. In pytorch we use pytorch image models timm as our external framework. In timm we use the resNet18 pretrained model which is fast to train and is good at image recognition. We use Hydra in order to organize our config files and logs our experiments when training models.
+When it comes to our API we have used fastAPI as it works well in making GET,PUT,POST,DELETE functions and is easily used through URL. In order to test the API's locally we have used uvicorn to create a localHost server and then thorugh url tesing the different API functions.
+When it comes to testing our project we have used pytest in order to ensure that different parts of our project works as intended. We have created tests for the API, data and model. These pytests also gets run when we push anything to our github to make sure  nothing has been broken while making changes. On top of pytests we also have some pre commit github actions that checks the syntax and format of our code to not accidentally push some faulty code to the shared main branch.
+In our IDE we also have some command-line interfaces used to create docker files and to check our code coverage of how much of our code is checked via the pytests.
+From our github, the docker files are pulled into the cloud where the cloud build makes docker images that are used to deploy our project. The docker container images are then stored in artifact registry and are also sent to the cloud run to deploy our docker images. The data when deployed are then stored in cloud storage. This is also used together with Data Version Control in order to manage data, models
 
 ### Question 30
 
@@ -660,6 +662,7 @@ Our biggest struggle was probably writing our code for local use with command li
 on the cloud. We had to rewrite a lot of our code to get it to work again. This was quite tedious as it would take 10 mins for the cloud to run the code from a new git commit. Iterating our code would then quickly take hours of our time as we didn't have a better option, since the code worked locally but not initially on the cloud.
 When we finally got it working on the cloud continued developement wasn't a problem, since when we set it up correctly on the cloud.
 So we could iterate locally and then be quite certain that it would work on the cloud, so we had to spend less time bug fixing over the cloud.
+Another struggle was figuring out how to test the varius data using the unit tests in GitHub. This was because our data was ofcourse stored locally and not in the git repository, which didn't make it possible to test. This had a simple solution of adding a test data folder, with a small dataset. While this was a small struggle in hindsight, it took some time to figure out what the issue was.
 
 
 ### Question 31
