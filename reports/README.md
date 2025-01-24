@@ -190,12 +190,9 @@ If working on development, install additional packages from requirements_dev.txt
 >
 > Answer:
 
-We have used the cookiecutter template but we removed the docs and notebook folder as we didn't use them.
-In our data folder we split it up in a cat and dog folder as our dataset didn't come with explicit labels.
-So instead we used the path of the folder, from which the picture came, to create the labels for them.
-We added an outputs folder that contains the logs from hydra, so we could log each experiment we did,
-so even if we changed an experiment-config-file, we would still have the old experiments stored.
+We used the cookiecutter template but removed the docs and notebooks folders, as they were unnecessary for our project. In the data folder, we split it up into cat and dog subfolders because our dataset lacked explicit labels. Instead, we used the path of the folder, from which the picture came, to create the labels for them.
 
+We added an outputs folder that contains the logs from Hydra, allowing us to log each experiment. This ensured that even if we changed an experiment-config-file, we still had the old experiments stored. This structure allowed us to adapt the template effectively to our dataset and workflow, maintaining a clear organization and preserving important experiment records.
 ### Question 6
 
 > **Did you implement any rules for code quality and format? What about typing and documentation? Additionally,**
@@ -235,8 +232,8 @@ as it’s easier to spot and fix issues. Overall, these practices improve our de
 
 We implemented 9 tests across three areas.
 
-- API Tests (2 tests): These validate the /preprocess endpoint to ensure proper handling of query parameters and the /evaluate-image    endpoint for correct classification and integration with the model using mocked functions.
-- Data Tests (5 tests): These confirm dataset integrity, including verifying the dataset length matches expectations, transformations are defined, and the shapes of transformed cat and dog images are consistent. Additionally, we ensure the dataset reads from the correct directory.
+- API Tests (2 tests): These validate the /preprocess endpoint and the /evaluate-image endpoint for correct classification and integration with the model using mocked functions.
+- Data Tests (5 tests): These confirm dataset integrity, including verifying the dataset length matches expectations and the shapes of transformed cat and dog images are consistent. Additionally, we ensure the dataset reads from the correct directory.
 - Model Tests (3 tests): These include checking the forward pass for correct output shape, validating the presence of trainable parameters, and ensuring the model’s structure matches the expected configuration.
 
 ### Question 8
@@ -311,7 +308,7 @@ Without version control it becomes impossible to reproduce the models that were 
 >
 > Answer:
 
-We have made pytests in order to ensure that if we were to change anything the test would catch any error during the implementation.
+We have developed comprehensive pytests to ensure that any changes made to the codebase are  tested and that any errors introduced during the implementation could be identified. By running these tests automatically, we can validate the correctness of new updates while maintaining the stability and functionality of the overall system.
 We have made tests for the data: testing the length of the datasets, the format and shape of the data,
 and the path of datasets all to ensure that we are readion the correct data and it is implemented properly.
 We have also made tests for the model. Testing the output shape, number of parameters and the generel structure of the model to ensure that it also works as intended.
@@ -467,7 +464,7 @@ Cloud build is for building images and is an essential part of the CI/CD process
 >
 > Answer:
 
-We mainly used the VMs for bugfixing the containers, because it is possible to ssh into the VM which makes it a lot easier to see what is going on. We got a VM with a GPU, but didn't get to use it for mutch. We mainly used cloud run to fully automate the CI/CD process. The containers are then accessable through the internet.
+We primarily utilized virtual machines (VMs) for debugging and fixing issues with the containers. The ability to SSH into the VMs proved important, as it allowed us to directly access and inspect the system, making it much easier to diagnose and resolve any problems that arose. Additionally, we had access to a VM with a GPU, which could have been practical for computationally intensive tasks, though we didn’t get the opportunity to use it extensively. For deployment, we mainly relied on Cloud Run to automate the continuous integration and continuous delivery (CI/CD) pipeline fully. This streamlined process ensured that our code changes were automatically built, tested, and deployed with minimal manual intervention. The containers deployed via Cloud Run were made accessible through the internet, providing an efficient and scalable solution for hosting and accessing our services.
 
 ### Question 19
 
@@ -512,7 +509,7 @@ We mainly used the VMs for bugfixing the containers, because it is possible to s
 >
 > Answer:
 
-We managed to train our model in the cloud through the container running in cloud run. The reason we did it this way was for simplicity. Because the deployment of containers are fully automated it is easy for us to make changes to the code and get the updated container running. This minimized the amount of manual setup and sped up our work process. When the container is running we can train our model through the api.
+We successfully trained our model in the cloud by utilizing a container running on Cloud Run. This approach was chosen for its simplicity and efficiency. By making use if Cloud Run’s automated container deployment, we could implement changes to the code and have the updated container up and running with minimal effort. This reduced the amount of manual setup required and accelerated our workflow. Once the container was deployed and running, we were able to train our model through the API, ensuring a streamlined and flexible training process directly in the cloud environment.
 
 ## Deployment
 
