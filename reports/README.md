@@ -86,7 +86,7 @@ will check the repositories and the code to verify your answers.
 * [X] Get your model training in GCP using either the Engine or Vertex AI (M21)
 * [X] Create a FastAPI application that can do inference using your model (M22)
 * [X] Deploy your model in GCP using either Functions or Run as the backend (M23)
-* [] Write API tests for your application and setup continues integration for these (M24)
+* [ ] Write API tests for your application and setup continues integration for these (M24)
 * [ ] Load test your application (M24)
 * [ ] Create a more specialized ML-deployment API using either ONNX or BentoML, or both (M25)
 * [ ] Create a frontend for your API (M26)
@@ -389,10 +389,10 @@ All models and the config files used to create them are stored in the cloud whit
 >
 > Answer:
 
-Experiment 1: [this figure](figures/training_statistics_Exp1.png)
-Experiment 2: [this figure](figures/training_statistics_Exp2.png)
+Experiment 1: ![this figure](figures/training_statistics_Exp1.png)
+Experiment 2: ![this figure](figures/training_statistics_Exp2.png)
 
-Evaluations: [this figure](figures/evaluations.png)
+Evaluations: ![this figure](figures/evaluations.png)
 
 We tracked the same statistics on two experiments. In experiment 2 we doubled the learning rate. This increased the model accuracy by about 6%.
 Comparing the first two images you can see that the accuracy increases at a higher rate with increased learning rate.
@@ -472,9 +472,9 @@ We mainly used the VMs for bugfixing the containers, because it is possible to s
 >
 > Answer:
 
-[this figure](figures/buckets.png)
-[this figure](figures/data-bucket.PNG)
-[this figure](figures/models-bucket.PNG)
+![this figure](figures/buckets.png)
+![this figure](figures/data-bucket.PNG)
+![this figure](figures/models-bucket.PNG)
 
 ### Question 20
 
@@ -483,8 +483,8 @@ We mainly used the VMs for bugfixing the containers, because it is possible to s
 >
 > Answer:
 
-[this figure](figures/registry.png)
-[this figure](figures/images-registry.PNG)
+![this figure](figures/registry.png)
+![this figure](figures/images-registry.PNG)
 
 ### Question 21
 
@@ -493,7 +493,7 @@ We mainly used the VMs for bugfixing the containers, because it is possible to s
 >
 > Answer:
 
-[this figure](figures/build.png)
+![this figure](figures/build.png)
 
 ### Question 22
 
