@@ -448,7 +448,7 @@ We used the following services: Engine, bucket, cloud run, artifact registry and
 The cloud engine can be used for managing VM's as well as deploying them.
 Cloud storage can host data in different buckets.
 Cloud run is a "serverless" platform where containers can be run, without the user having to think about the underlying server structure.
-Artifact registry is for maneging container images and other types of software.
+Artifact registry is for managing container images and other types of software.
 Cloud build is for building images and is an essential part of the CI/CD process.
 
 ### Question 18
@@ -507,7 +507,7 @@ We mainly used the VMs for bugfixing the containers, because it is possible to s
 > *was because ...*
 >
 > Answer:
-We maneged to train our model in the cloud through the container running in cloud run. The reason we did it this way was for simplicity. Because the deployment of containers are fully automated it is easy for us to make changes to the code and get the updated container running. This minimized the amount of manual setup and sped up our work process. When the container is running we can train our model through the api.
+We managed to train our model in the cloud through the container running in cloud run. The reason we did it this way was for simplicity. Because the deployment of containers are fully automated it is easy for us to make changes to the code and get the updated container running. This minimized the amount of manual setup and sped up our work process. When the container is running we can train our model through the api.
 
 ## Deployment
 
