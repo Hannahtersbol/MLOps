@@ -477,7 +477,7 @@ We mainly used the VMs for bugfixing the containers, because it is possible to s
 > Answer:
 
 ![this figure](figures/buckets.png)
-![this figure](figures/data-bucket.PNG)
+[this figure](figures/data-bucket.PNG)
 ![this figure](figures/models-bucket.PNG)
 
 ### Question 20
