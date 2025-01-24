@@ -251,13 +251,9 @@ We implemented 9 tests across three areas.
 > *code and even if we were then...*
 >
 > Answer:
+The total code coverage of our code is 37%, which includes all our source code. This is, of course, far from 100% coverage. While higher coverage increases the likelihood of detecting bugs, even 100% code coverage does not guarantee the absence of errors. Code coverage merely indicates that the percentage of code that have been executed during testing, but it does not confirm that the code behaves correctly in all scenarios.
 
-In the beginning we didn't use a lot of branches. This was deliberate as all of us were unsure of the project setup.
-Instead we started with mob-programming, where 1 person is coding while the rest are directing them on what to write.
-When we had the main functionality of the framework, models and data sorted, we up our work.
-We used seperate branches when we were working on features that affected already established functionality.
-This relates mainly to our python code, as many members could be working on that simultainiously.
-Features like github actions could still be worked on the main branch as only 1 person was assigned to those features.
+Achieving 100% coverage does not account for untested edge cases, logical errors, or unexpected interactions between components. For example, if a function f(a)=a+a is tested with f(1)=2, the test might pass, but it would fail to detect issues that a more thorough test, like verifying f(a)=2×a, might reveal. Both tests could execute the same lines of code, but only the second one ensures correctness across all inputs. Therefore, reliable software development requires not just high code coverage but also well-designed test cases that evaluate various scenarios and edge cases comprehensively.
 
 ### Question 9
 
@@ -398,7 +394,8 @@ Experiment 2: [this figure](figures/training_statistics_Exp2.png)
 
 Evaluations: [this figure](figures/evaluations.png)
 
-We tracked the same statistics on two experiments. In experiment 2 we doubled the learning rate. This increased
+We tracked the same statistics on two experiments. In experiment 2 we doubled the learning rate. This increased the model accuracy by about 6%.
+Comparing the first two images you can see that the accuracy increases at a higher rate with increased learning rate.
 
 ### Question 15
 
@@ -429,7 +426,7 @@ The dockerfile the image is built from is train.dockerfile. This docerfile speci
 >
 > Answer:
 
-Debugging: While debuuging have varied from person to person, some repeated practises have been to use the error messages from the Terminal when running the code. As well as using ChatGPT and GitHub's copilot to help solve the issues which arose. Furthermore we tried using the python debugging tool showed in the curse. That being said we also occasionally relied on print statements—an old habit which, while not always ideal, still provided some good insights.
+Debugging: While debugging have varied from person to person, some repeated practises have been to use the error messages from the Terminal when running the code. As well as using ChatGPT and GitHub's copilot to help solve the issues which arose. Furthermore we tried using the python debugging tool showed in the curse. That being said we also occasionally relied on print statements—an old habit which, while not always ideal, still provided some good insights.
 
 Profiling: We performed profiling on our code, which initially revealed that the training phase spent most of its time moving data rather than executing the training functions. Based on this insight, we made adjustments to optimize the process, ensuring more time was spent running the training function and less on data movement.
 
@@ -526,6 +523,8 @@ We maneged to train our model in the cloud through the container running in clou
 > *to the API to make it more ...*
 >
 > Answer:
+
+
 When writing the API's for our model we considered which method we would need to use. We wanted to be able to train our model in order to make it better. In order to train our model we needed to preprocess pictures in order to have material to train on. lastly we also needed to have an API for sending a picture, preprocess the picture and use the machine to analyze it and return a result whether it was a cat or a dog. To make these API functions we use FastAPI as this seemed like the most intuitive solution. For the preprocess of images and model training we used GET API because we didnt need to send any object now that we have locally put in 30.000 pictures of cats and dogs. For the preprocess we can pass in a number in the url that tells the function how many pictures it needs to preprocess. For the single image evaluation we used a POST function because we need to pass in an image that it needs to evaluate.
 
 ### Question 24
@@ -573,7 +572,10 @@ In the API where we evaluate a single image by using a patch we create a "dummy"
 > *measure ... and ... that would inform us about this ... behaviour of our application.*
 >
 > Answer:
-We made use of the preexsisting monitoring of the cloud run instances, but would have liked to monitor things like downtime and set up alerts if the instances encountered errors. This would make it easier to figure out if and where there are bug/eroors in our code and help with maintaning the cloud platform. Additionally monitoring system resorces would give insight into the efficiency of our model.  
+We did not manage to implement monitoring. However, implementing monitoring would significantly enhance the longevity of our application. Monitoring would allow us to track the performance and health of our deployed model over time. By measuring key metrics such as accuracy, latency, and error rates, we could identify any deviations or degradations in performance early on. This could help us catch issues before they become a big problem for our users.
+
+Additionally, monitoring would help us understand the behavior of our application in real-world scenarios, providing insights into how it interacts with different data inputs and environments. This continuous feedback loop would be great for making informed decisions about model updates, retraining, and maintenance, ensuring our application remains reliable and effective in the long term.
+
 
 ## Overall discussion of project
 
@@ -610,7 +612,8 @@ In cloud run the monitoring and logging features are very good and is a good way
 >
 > Answer:
 
---- question 28 fill here ---
+We did not implement anything extra. We wanted to create a frontend where you could upload an image and have the API give you
+a classification whether it is a cat or a dog on the image.
 
 ### Question 29
 
@@ -641,7 +644,11 @@ In cloud run the monitoring and logging features are very good and is a good way
 >
 > Answer:
 
---- question 30 fill here ---
+Our biggest struggle was probably writing our code for local use with command line arguments and such, and then having to deploy it
+on the cloud. We had to rewrite a lot of our code to get it to work again. This was quite tedious as it would take 10 mins for the cloud to run the code from a new git commit. Iterating our code would then quickly take hours of our time as we didn't have a better option, since the code worked locally but not initially on the cloud.
+When we finally got it working on the cloud continued developement wasn't a problem, since when we set it up correctly on the cloud.
+So we could iterate locally and then be quite certain that it would work on the cloud, so we had to spend less time bug fixing over the cloud.
+
 
 ### Question 31
 
