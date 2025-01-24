@@ -667,7 +667,7 @@ So we could iterate locally and then be quite certain that it would work on the 
 > Answer:
 
 Student s224758 was in charge of:
-- Main project setup
+- Main project setups
 - CLI
 - GitHub Actions
 - local Dockerfiles (not the ones used on the cloud)
@@ -684,6 +684,7 @@ Student s224762 was in charge of:
 
 Student s224773 was in charge of:
 - All of GCP tasks
+- Some API and docker configureation to work in cloud
 
 We all contributed to the source code. In week 1 we decided that we would do mob-programming, meaning that one person was writing code
 while the rest were directing and discussing what to write. This gave all of us a good foundation and understanding for the project
