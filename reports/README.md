@@ -84,9 +84,9 @@ will check the repositories and the code to verify your answers.
 * [X] Create a data storage in GCP Bucket for your data and link this with your data version control setup (M21)
 * [X] Create a trigger workflow for automatically building your docker images (M21)
 * [X] Get your model training in GCP using either the Engine or Vertex AI (M21)
-* [ ] Create a FastAPI application that can do inference using your model (M22)
-* [ ] Deploy your model in GCP using either Functions or Run as the backend (M23)
-* [ ] Write API tests for your application and setup continues integration for these (M24)
+* [X] Create a FastAPI application that can do inference using your model (M22)
+* [X] Deploy your model in GCP using either Functions or Run as the backend (M23)
+* [] Write API tests for your application and setup continues integration for these (M24)
 * [ ] Load test your application (M24)
 * [ ] Create a more specialized ML-deployment API using either ONNX or BentoML, or both (M25)
 * [ ] Create a frontend for your API (M26)
@@ -97,7 +97,7 @@ will check the repositories and the code to verify your answers.
 * [ ] Deploy to the cloud a drift detection API (M27)
 * [ ] Instrument your API with a couple of system metrics (M28)
 * [ ] Setup cloud monitoring of your instrumented application (M28)
-* [ ] Create one or more alert systems in GCP to alert you if your app is not behaving correctly (M28)
+* [X] Create one or more alert systems in GCP to alert you if your app is not behaving correctly (M28)
 * [ ] If applicable, optimize the performance of your data loading using distributed data loading (M29)
 * [ ] If applicable, optimize the performance of your training pipeline by using distributed training (M30)
 * [ ] Play around with quantization, compilation and pruning for you trained models to increase inference speed (M31)
@@ -106,10 +106,10 @@ will check the repositories and the code to verify your answers.
 
 * [ ] Write some documentation for your application (M32)
 * [ ] Publish the documentation to GitHub Pages (M32)
-* [ ] Revisit your initial project description. Did the project turn out as you wanted?
-* [ ] Create an architectural diagram over your MLOps pipeline
-* [ ] Make sure all group members have an understanding about all parts of the project
-* [ ] Uploaded all your code to GitHub
+* [X] Revisit your initial project description. Did the project turn out as you wanted?
+* [X] Create an architectural diagram over your MLOps pipeline
+* [X] Make sure all group members have an understanding about all parts of the project
+* [X] Uploaded all your code to GitHub
 
 ## Group information
 
@@ -448,7 +448,7 @@ We used the following services: Engine, bucket, cloud run, artifact registry and
 The cloud engine can be used for managing VM's as well as deploying them.
 Cloud storage can host data in different buckets.
 Cloud run is a "serverless" platform where containers can be run, without the user having to think about the underlying server structure.
-Artifact registry is for maneging container images and other types of software.
+Artifact registry is for managing container images and other types of software.
 Cloud build is for building images and is an essential part of the CI/CD process.
 
 ### Question 18
@@ -507,7 +507,7 @@ We mainly used the VMs for bugfixing the containers, because it is possible to s
 > *was because ...*
 >
 > Answer:
-We maneged to train our model in the cloud through the container running in cloud run. The reason we did it this way was for simplicity. Because the deployment of containers are fully automated it is easy for us to make changes to the code and get the updated container running. This minimized the amount of manual setup and sped up our work process. When the container is running we can train our model through the api.
+We managed to train our model in the cloud through the container running in cloud run. The reason we did it this way was for simplicity. Because the deployment of containers are fully automated it is easy for us to make changes to the code and get the updated container running. This minimized the amount of manual setup and sped up our work process. When the container is running we can train our model through the api.
 
 ## Deployment
 
@@ -675,7 +675,7 @@ So we could iterate locally and then be quite certain that it would work on the 
 > Answer:
 
 Student s224758 was in charge of:
-- Main project setup
+- Main project setups
 - CLI
 - GitHub Actions
 - local Dockerfiles (not the ones used on the cloud)
@@ -683,6 +683,7 @@ Student s224758 was in charge of:
 Student s224775 was in charge of:
 - Initial git setup
 - Unit tests
+- Profiling
 - Code coverage
 
 Student s224762 was in charge of:
@@ -693,6 +694,7 @@ Student s224762 was in charge of:
 
 Student s224773 was in charge of:
 - All of GCP tasks
+- Some API and docker configureation to work in cloud
 
 We all contributed to the source code. In week 1 we decided that we would do mob-programming, meaning that one person was writing code
 while the rest were directing and discussing what to write. This gave all of us a good foundation and understanding for the project
