@@ -683,6 +683,7 @@ Student s224762 was in charge of:
 
 Student s224773 was in charge of:
 - All of GCP tasks
+- Some API and docker configureation to work in cloud
 
 We all contributed to the source code. In week 1 we decided that we would do mob-programming, meaning that one person was writing code
 while the rest were directing and discussing what to write. This gave all of us a good foundation and understanding for the project
