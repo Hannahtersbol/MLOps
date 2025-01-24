@@ -638,7 +638,7 @@ a classification whether it is a cat or a dog on the image.
 >
 > Answer:
 
-the project structure has been described using [this figure](figures/project_structure.png)
+the project structure has been described using ![this figure](figures/project_structure.png)
 In this diagram we have the local properties on the left side and the cloud based components on the right side.
 The starting point is on the local side where we first of all specify which IDE we are using which is visual studio code. For our environment we use anaconda to create it and this is also where we have all our dependencies. For the generel structure and build we use cookiecutter in order to have a consistent and organised project setup across all project members.
 We use Pytorch as our primary framework in ourder to build, train and deploy our models. In pytorch we use pytorch image models timm as our external framework. In timm we use the resNet18 pretrained model which is fast to train and is very good at image recognition. We use Hydra in order to organize our config files and logs all our experiments when training models.
