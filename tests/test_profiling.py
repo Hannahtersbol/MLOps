@@ -1,6 +1,8 @@
 import pytest
 import torch
+
 from src.catdogdetection.profiling import TorchProfiler
+
 
 def test_profiler_initialization_with_cuda():
     """Test initialization of TorchProfiler with CUDA enabled."""
@@ -27,4 +29,3 @@ def test_profiler_initialization_without_cuda():
 
     # Check that CUDA profiling is not included
     assert torch.profiler.ProfilerActivity.CUDA not in profiler.profiler.activities
-
