@@ -86,7 +86,7 @@ will check the repositories and the code to verify your answers.
 * [X] Get your model training in GCP using either the Engine or Vertex AI (M21)
 * [X] Create a FastAPI application that can do inference using your model (M22)
 * [X] Deploy your model in GCP using either Functions or Run as the backend (M23)
-* [] Write API tests for your application and setup continues integration for these (M24)
+* [ ] Write API tests for your application and setup continues integration for these (M24)
 * [ ] Load test your application (M24)
 * [ ] Create a more specialized ML-deployment API using either ONNX or BentoML, or both (M25)
 * [ ] Create a frontend for your API (M26)
@@ -630,7 +630,6 @@ a classification whether it is a cat or a dog on the image.
 >
 > Answer:
 
---- question 29 fill here ---
 the project structure has been described using [this figure](figures/project_structure.png)
 In this diagram we have the local properties on the left side and the cloud based components on the right side.
 The starting point is on the local side where we first of all specify which IDE we are using which is visual studio code. For our environment we use anaconda to create it and this is also where we have all our dependencies. For the generel structure and build we use cookiecutter in order to have a consistent and organised project setup across all project members.
