@@ -251,13 +251,9 @@ We implemented 9 tests across three areas.
 > *code and even if we were then...*
 >
 > Answer:
+The total code coverage of our code is 37%, which includes all our source code. This is, of course, far from 100% coverage. While higher coverage increases the likelihood of detecting bugs, even 100% code coverage does not guarantee the absence of errors. Code coverage merely indicates that the percentage of code that have been executed during testing, but it does not confirm that the code behaves correctly in all scenarios.
 
-In the beginning we didn't use a lot of branches. This was deliberate as all of us were unsure of the project setup.
-Instead we started with mob-programming, where 1 person is coding while the rest are directing them on what to write.
-When we had the main functionality of the framework, models and data sorted, we up our work.
-We used seperate branches when we were working on features that affected already established functionality.
-This relates mainly to our python code, as many members could be working on that simultainiously.
-Features like github actions could still be worked on the main branch as only 1 person was assigned to those features.
+Achieving 100% coverage does not account for untested edge cases, logical errors, or unexpected interactions between components. For example, if a function f(a)=a+a is tested with f(1)=2, the test might pass, but it would fail to detect issues that a more thorough test, like verifying f(a)=2×a, might reveal. Both tests could execute the same lines of code, but only the second one ensures correctness across all inputs. Therefore, reliable software development requires not just high code coverage but also well-designed test cases that evaluate various scenarios and edge cases comprehensively.
 
 ### Question 9
 
